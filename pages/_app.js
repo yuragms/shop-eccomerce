@@ -7,11 +7,20 @@ import { persistStore } from 'redux-persist';
 
 let persistor = persistStore(store);
 
-export default function App({ Component, pageProps }) {
-  return;
-  <Provider store={store}>
-    <PersistGate Loading={null} persistor={persistor}>
-      <Component {...pageProps} />
-    </PersistGate>
-  </Provider>;
+function App({ Component, pageProps }) {
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Component {...pageProps} />
+      </PersistGate>
+    </Provider>
+  );
 }
+
+export default App;
+
+// import '@/styles/globals.scss';
+
+// export default function App({ Component, pageProps }) {
+//   return <Component {...pageProps} />;
+// }
