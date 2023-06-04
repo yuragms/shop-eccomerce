@@ -3,8 +3,11 @@ import { MdSecurity } from 'react-icons/md';
 import { BsSuitHeart } from 'react-icons/bs';
 import { RiAccountPinCircleLine, RiArrowDropDownFill } from 'react-icons/ri';
 import Link from 'next/link';
+import { useState } from 'react';
+import UserMenu from './UserMenu';
 
 export default function Top() {
+  const [loggedIn, setLoggedIn] = useState(false);
   return (
     <div className={styles.top}>
       <div className={styles.top__contaiter}>
@@ -16,8 +19,6 @@ export default function Top() {
               https://www.seekpng.com/png/detail/840-8405398_green-star-images-morocco-flag-star-png.png"
               alt=""
             />
-          </li>
-          <li>
             <span>Morocco / usd</span>
           </li>
           <li>
@@ -37,11 +38,27 @@ export default function Top() {
             </Link>
           </li>
           <li>
-            <div className={styles.flex}>
-              <RiAccountPinCircleLine />
-              <span>Account</span>
-              <RiArrowDropDownFill />
-            </div>
+            {loggedIn ? (
+              <li>
+                <div className={styles.flex}>
+                  <img
+                    src="https://www.pngarts.com/files/5/User-Avatar-PNG-Transparent-Image.png"
+                    alt=""
+                  />
+                  <span>Yurii</span>
+                  <RiArrowDropDownFill />
+                </div>
+              </li>
+            ) : (
+              <li>
+                <div className={styles.flex}>
+                  <RiAccountPinCircleLine />
+                  <span>Account</span>
+                  <RiArrowDropDownFill />
+                </div>
+              </li>
+            )}
+            <UserMenu loggedIn={loggedIn} />
           </li>
         </ul>
       </div>
