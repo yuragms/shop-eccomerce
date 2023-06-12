@@ -85,5 +85,6 @@ const SignInUser = async ({ password, user }) => {
   if (!testPassword) {
     throw new Error('Email or password is wrong');
   }
-  return User;
+
+  return user;
 };
