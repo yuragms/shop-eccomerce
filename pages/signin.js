@@ -9,7 +9,6 @@ import { useState } from 'react';
 import { BiLeftArrowAlt } from 'react-icons/bi';
 import CircledIconBtn from '@/components/buttons/circledIconBtn';
 import { getProviders, signIn } from 'next-auth/react';
-import signup from './api/auth/signup';
 import axios from 'axios';
 
 const initialvalues = {
