@@ -8,6 +8,8 @@ import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useState } from 'react';
 import LoginInput from '@/components/inputs/loginInput';
+import DotLoaderSpinner from '@/components/loaders/dotLoader';
+import axios from 'axios';
 
 export default function forgot() {
   const [email, setEmail] = useState('');
@@ -21,9 +23,25 @@ export default function forgot() {
       )
       .email('Enter a valid email address.'),
   });
-  const forgotHandler = async () => {};
+  const forgotHandler = async () => {
+    try {
+      setError('');
+      setLoading(true);
+      const { data } = await axios.post('/api/auth/forgot', {
+        email,
+      });
+      setSuccess(data.message);
+      setLoading(false);
+      setEmail('');
+    } catch (error) {
+      setSuccess('');
+      setLoading(false);
+      setError(error.response.data.message);
+    }
+  };
   return (
     <>
+      {loading && <DotLoaderSpinner Loading={loading} />}
       <Header country="" />
       <div className={styles.forgot}>
         <div>
@@ -56,8 +74,11 @@ export default function forgot() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
 
-                <CircledIconBtn type="submit" text="Sign in" />
-                {error && <span className={styles.error}>{error}</span>}
+                <CircledIconBtn type="submit" text="Send link" />
+                <div style={{ marginTop: '10px' }}>
+                  {error && <span className={styles.error}>{error}</span>}
+                  {success && <span className={styles.success}>{success}</span>}
+                </div>
               </Form>
             )}
           </Formik>
