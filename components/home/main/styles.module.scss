@@ -8,7 +8,7 @@
   gap: 10px;
   .menu {
     grid-area: menu;
-    height: 560px;
+    height: 580px;
     background: #fff;
     border-radius: 10px;
     box-shadow: $shadow-1;
@@ -28,15 +28,20 @@
     box-shadow: $shadow-1;
   }
   .offers {
+    position: relative;
     grid-area: offers;
+    overflow: hidden;
     background: #fff;
     border-radius: 10px;
     box-shadow: $shadow-1;
-    height: 200px;
+    height: 220px;
+    background-image: url('../../../public/images/flash.webp');
+    background-position: -275px -135px;
+    background-size: cover;
   }
   .user {
     grid-area: user;
-    height: 510px;
+    height: 530px;
     background: #fff;
     border-radius: 10px;
     box-shadow: $shadow-1;
