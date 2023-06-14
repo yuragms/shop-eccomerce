@@ -3,9 +3,9 @@ import { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
+import 'swiper/scss';
+import 'swiper/scss/pagination';
+import 'swiper/scss/navigation';
 
 // import required modules
 import { Pagination, Navigation } from 'swiper';
@@ -24,7 +24,9 @@ export default function MainSwiper() {
         modules={[Pagination, Navigation]}
         className="mainSwiper"
       >
-        <SwiperSlide>Slide 1</SwiperSlide>
+        <SwiperSlide>
+          <img src="../../../images/swiper/1.jpg" alt="" />
+        </SwiperSlide>
         <SwiperSlide>Slide 2</SwiperSlide>
         <SwiperSlide>Slide 3</SwiperSlide>
         <SwiperSlide>Slide 4</SwiperSlide>
