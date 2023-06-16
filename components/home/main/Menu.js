@@ -26,7 +26,7 @@ export default function Menu() {
     <div className={styles.menu}>
       <ul>
         <li>
-          <Link href="" className={styles.menu_header}>
+          <Link href="" className={styles.menu__header}>
             <BiCategory />
             <b>Categories</b>
           </Link>

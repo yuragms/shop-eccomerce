@@ -5,6 +5,9 @@
     'menu header header'
     'menu swiper user'
     'menu offers user';
+  @media (max-width: 1232px) {
+    grid-template-columns: 1fr 3fr;
+  }
   gap: 10px;
   .menu {
     grid-area: menu;
@@ -12,12 +15,24 @@
     background: #fff;
     border-radius: 10px;
     box-shadow: $shadow-1;
+    @media (max-width: 990px) {
+      width: 80px;
+      svg {
+        transform: scale(1.5);
+      }
+    }
     &__header {
       width: 100%;
       height: 35px;
       background: $grey-color;
       border-bottom: 1px solid $grey-color;
       box-shadow: $shadow-2;
+      @media (max-width: 990px) {
+        svg,
+        b {
+          display: none;
+        }
+      }
       svg {
         height: 23px;
         width: 23px;
@@ -44,6 +59,11 @@
           svg {
             fill: #8c8484;
             stroke: #8c8484;
+          }
+          span {
+            @media (max-width: 990px) {
+              display: none;
+            }
           }
         }
       }
@@ -93,6 +113,9 @@
     background: #fff;
     border-radius: 10px;
     box-shadow: $shadow-1;
+    @media (max-width: 1232px) {
+      display: none;
+    }
     &__header {
     }
     &__container {
