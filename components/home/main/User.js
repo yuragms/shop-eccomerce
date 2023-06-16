@@ -21,7 +21,11 @@ export default function User() {
   const { data: session } = useSession();
   return (
     <div className={styles.user}>
-      <img src="../../../images/userHeader.jpg" alt="" />
+      <img
+        src="../../../images/userHeader.jpg"
+        alt=""
+        className={styles.user__header}
+      />
       <div className={styles.user__container}>
         {session ? (
           <div className={styles.user__infos}>
@@ -47,17 +51,17 @@ export default function User() {
             </Link>
           </li>
           <li>
-            <Link href="/profile">
+            <Link href="">
               <HiOutlineClipboardList />
             </Link>
           </li>
           <li>
-            <Link href="/profile">
+            <Link href="">
               <AiOutlineMessage />
             </Link>
           </li>
           <li>
-            <Link href="/profile">
+            <Link href="">
               <BsHeart />
             </Link>
           </li>
@@ -66,10 +70,14 @@ export default function User() {
           <Swiper
             effect={'cards'}
             grabCursor={true}
-            Navigaation={true}
+            navigation={true}
             modules={[EffectCards, Navigation]}
-            className="userMenu__swiper"
-            styles={{ maxWidth: '180px', height: '240px', marginTop: '1rem' }}
+            className="user__swiper"
+            style={{
+              maxWidth: '180px',
+              height: '240px',
+              marginTop: '1rem',
+            }}
           >
             {userSwiperArray.map((item) => (
               <SwiperSlide>
@@ -81,6 +89,11 @@ export default function User() {
           </Swiper>
         </div>
       </div>{' '}
+      <img
+        src="../../../images/userHeader.jpg"
+        alt=""
+        className={styles.user__footer}
+      />
     </div>
   );
 }
