@@ -26,8 +26,8 @@ export default function FlashDeals() {
         <Countdown />
       </div>
       <Swiper
-        slidesPerView={3}
-        spaceBetween={30}
+        slidesPerView={6}
+        spaceBetween={20}
         navigation={true}
         modules={[Navigation]}
         className="flashDeals__swiper"
