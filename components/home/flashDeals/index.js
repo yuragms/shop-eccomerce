@@ -23,7 +23,7 @@ export default function FlashDeals() {
           FLASH SALE
           <MdFlashOn />
         </h1>
-        <Countdown date={new Date(2022, 10, 8)} />
+        <Countdown date={new Date(new Date(2023, 12, 30))} />
       </div>
       <Swiper
         slidesPerView={1}
