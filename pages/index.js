@@ -7,6 +7,8 @@ import axios from 'axios';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import Main from '@/components/home/main';
 import FlashDeals from '@/components/home/flashDeals';
+import Category from '@/components/home/category';
+import { women_dresses } from '@/data/home';
 
 // const inter = Inter({ subsets: ['latin'] })
 // <main className={`${styles.main} ${inter.className}`}></main>
@@ -21,6 +23,9 @@ export default function Home({ country }) {
         <div className={styles.container}>
           <Main />
           <FlashDeals />
+          <div className={styles.home__category}>
+            <Category header="Dresses" products={women_dresses} />
+          </div>
         </div>
       </div>
       <Footer country={country} />
