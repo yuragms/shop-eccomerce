@@ -9,12 +9,15 @@ import Main from '@/components/home/main';
 import FlashDeals from '@/components/home/flashDeals';
 import Category from '@/components/home/category';
 import { women_accessories, women_dresses, women_shoes } from '@/data/home';
+import { useMediaQuery } from 'react-responsive';
 
 // const inter = Inter({ subsets: ['latin'] })
 // <main className={`${styles.main} ${inter.className}`}></main>
 
 export default function Home({ country }) {
   const { data: session } = useSession();
+  const isMedium = useMediaQuery({ query: '(max-width:850px)' });
+  const isMobile = useMediaQuery({ query: '(max-width:550px)' });
   console.log(session);
   return (
     <div>
@@ -29,11 +32,21 @@ export default function Home({ country }) {
               products={women_dresses}
               background="#5a31f4"
             />
-            <Category
-              header="Shoes / High Heels"
-              products={women_shoes}
-              background="#3c811f"
-            />
+            {!isMedium && (
+              <Category
+                header="Shoes / High Heels"
+                products={women_shoes}
+                background="#3c811f"
+              />
+            )}
+            {isMobile && (
+              <Category
+                header="Shoes / High Heels"
+                products={women_shoes}
+                background="#3c811f"
+              />
+            )}
+
             <Category
               header="Accessories"
               products={women_accessories}
