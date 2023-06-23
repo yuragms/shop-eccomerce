@@ -1,5 +1,16 @@
 .wrapper {
   margin-top: 1rem;
+  .header {
+    height: 50px;
+    background: $yellow-color;
+    color: #fff;
+    font-size: 25px;
+    padding: 1rem 10px;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
   .product {
     &__img {
       height: 350px;
