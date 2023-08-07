@@ -91,7 +91,7 @@ export default function Home({ country, products }) {
 export async function getServerSideProps() {
   db.connectDb();
   let products = await Product.find().sort({ createdAt: -1 }).lean();
-  console.log(products);
+  // console.log(products);
   let data = await axios
     .get('https://api.ipregistry.co/?key=m64nzffmbl6qteak')
     .then((res) => {
@@ -100,7 +100,7 @@ export async function getServerSideProps() {
     .catch((err) => {
       console.log(err);
     });
-  console.log(data);
+  // console.log(data);
   return {
     props: {
       products: JSON.parse(JSON.stringify(products)),
