@@ -1,10 +1,31 @@
 import db from '@/utils/db';
 import styles from '../../styles/product.module.scss';
 import Product from '@/models/Product';
+import Category from '@/models/Category';
+import SubCategory from '@/models/SubCategory';
+import Head from 'next/head';
+import Header from '@/components/header';
 
 export default function product({ product }) {
   console.log(product);
-  return <div>[SLUG]</div>;
+  return (
+    <div>
+      <Head>
+        <title>{product.name}</title>
+      </Head>
+      <Header country="" />
+      <div className={styles.product}>
+        <div className={styles.container}>
+          <div className={styles.path}>
+            Home / {product.category.name}
+            {product.subCategories.map((sub) => (
+              <span>/{sub.name}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export async function getServerSideProps(context) {
@@ -15,6 +36,9 @@ export async function getServerSideProps(context) {
 
   console.log(slug, style, size);
   db.connectDb();
+  // let product = await Product.findOne({ slug })
+  //   .populate({ path: 'category', model: Category })
+  //   .lean();
   //---------
   // let product = await Product.findOne({ slug }, function (err, result) {
   //   if (err) throw err;
@@ -22,7 +46,11 @@ export async function getServerSideProps(context) {
   // }).lean();
 
   // console.log(product);
-  let products = await Product.find().sort({ createdAt: -1 }).lean();
+  let products = await Product.find()
+    .sort({ createdAt: -1 })
+    .populate({ path: 'category', model: Category })
+    .populate({ path: 'subCategories', model: SubCategory })
+    .lean();
 
   let product = null;
   let index = -1;
