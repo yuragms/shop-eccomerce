@@ -5,9 +5,12 @@ import Category from '@/models/Category';
 import SubCategory from '@/models/SubCategory';
 import Head from 'next/head';
 import Header from '@/components/header';
+import MainSwiper from '@/components/productPage/mainSwiper';
+import { useState } from 'react';
 
 export default function product({ product }) {
-  console.log(product);
+  // console.log(product);
+  const [activeImg, setActiveImg] = useState('');
   return (
     <div>
       <Head>
@@ -21,6 +24,10 @@ export default function product({ product }) {
             {product.subCategories.map((sub) => (
               <span>/{sub.name}</span>
             ))}
+          </div>
+          <div className={styles.product__main}>
+            <MainSwiper images={product.images} activeImg={activeImg} />
+            <div></div>
           </div>
         </div>
       </div>
