@@ -7,6 +7,7 @@ import Head from 'next/head';
 import Header from '@/components/header';
 import MainSwiper from '@/components/productPage/mainSwiper';
 import { useState } from 'react';
+import Infos from '@/components/productPage/infos';
 
 export default function product({ product }) {
   // console.log(product);
@@ -27,7 +28,7 @@ export default function product({ product }) {
           </div>
           <div className={styles.product__main}>
             <MainSwiper images={product.images} activeImg={activeImg} />
-            <div></div>
+            <Infos product={product} setActiveImg={setActiveImg} />
           </div>
         </div>
       </div>
