@@ -1,7 +1,12 @@
 import { Rating } from '@mui/material';
 import styles from './styles.module.scss';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import Link from 'next/link';
 
 export default function Infos({ product }) {
+  const router = useRouter();
+  const [size, setSize] = useState(router.query.size);
   return (
     <div className={styles.infos}>
       <div className={styles.infos__container}>
@@ -32,6 +37,29 @@ export default function Infos({ product }) {
           ) : (
             ''
           )}
+        </div>
+        <span className={styles.infos__shipping}>
+          {product.shipping
+            ? `+${product.shipping}$ Shipping fee`
+            : 'Free Shipping'}
+        </span>
+        <span>
+          {size
+            ? product.quantity
+            : product.sizes.reduce((start, next) => start + next.qty, 0)}{' '}
+          pieces available.
+        </span>
+        <div className={styles.infos__size}>
+          <h4>Select a Size :</h4>
+          <div className={styles.infos__sizes_wrap}>
+            {product.sizes.map((size, i) => (
+              <Link
+                href={`/product/${product.slug}?style${router.query.style}&size${i}`}
+              >
+                <div>{size.size}</div>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </div>
