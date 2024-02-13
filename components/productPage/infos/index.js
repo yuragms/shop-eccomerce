@@ -1,13 +1,24 @@
 import { Rating } from '@mui/material';
 import styles from './styles.module.scss';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { TbPlus, TbMinus } from 'react-icons/tb';
 
-export default function Infos({ product }) {
+export default function Infos({ product, setActiveImg }) {
   console.log(product);
   const router = useRouter();
   const [size, setSize] = useState(router.query.size);
+  const [qty, setQty] = useState(1);
+  useEffect(() => {
+    setSize('');
+    setQty(1);
+  }, [router.query.style]);
+  useEffect(() => {
+    if (qty > product.quantity) {
+      setQty(product.quantity);
+    }
+  }, [router.query.size]);
   return (
     <div className={styles.infos}>
       <div className={styles.infos__container}>
@@ -64,6 +75,33 @@ export default function Infos({ product }) {
               </Link>
             ))}
           </div>
+        </div>
+        <div className={styles.infos__colors}>
+          {product.colors &&
+            product.colors.map((color, i) => (
+              <span
+                className={i == router.query.style ? styles.active_color : ''}
+                onMouseOver={() =>
+                  setActiveImg(product.subProducts[i].images[0].url)
+                }
+                onMouseLeave={() => setActiveImg('')}
+              >
+                <Link href={`/product/${product.slug}?style=${i}`}>
+                  <img src={color.image} alt="" />
+                </Link>
+              </span>
+            ))}
+        </div>
+        <div className={styles.infos__qty}>
+          <button onClick={() => qty > 1 && setQty((prev) => prev - 1)}>
+            <TbMinus />
+          </button>
+          <span>{qty}</span>
+          <button
+            onClick={() => qty < product.quantity && setQty((prev) => prev + 1)}
+          >
+            <TbPlus />
+          </button>
         </div>
       </div>
     </div>
