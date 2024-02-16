@@ -284,3 +284,20 @@ $cubic-bezier: cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
   }
 }
+.simillar_swiper {
+  max-width: 550px;
+  padding-left: 0 !important;
+  .swiper-pagination {
+    display: none !important;
+  }
+  img {
+    width: 100px;
+    height: 160px;
+    object-fit: cover;
+    cursor: pointer;
+    @media (min-width: 461px) {
+      width: 150px;
+      height: 200px;
+    }
+  }
+}
