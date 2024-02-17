@@ -8,6 +8,7 @@ import Header from '@/components/header';
 import MainSwiper from '@/components/productPage/mainSwiper';
 import { useState } from 'react';
 import Infos from '@/components/productPage/infos';
+import Reviews from '@/components/productPage/infos/reviews';
 
 export default function product({ product }) {
   // console.log(product);
@@ -30,6 +31,7 @@ export default function product({ product }) {
             <MainSwiper images={product.images} activeImg={activeImg} />
             <Infos product={product} setActiveImg={setActiveImg} />
           </div>
+          <Reviews product={product} />
         </div>
       </div>
     </div>
