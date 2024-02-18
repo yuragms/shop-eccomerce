@@ -5,7 +5,7 @@ import { FaOpencart } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 
 export default function Main() {
-  const { cart } = useSelector((state) => ({ ...state }));
+  // const { cart } = useSelector((state) => ({ ...state }));
   return (
     <div className={styles.main}>
       <div className={styles.main__container}>

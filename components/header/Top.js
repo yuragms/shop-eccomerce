@@ -41,28 +41,32 @@ export default function Top({ country }) {
             onMouseLeave={() => setVisible(false)}
           >
             {session ? (
-              <li>
-                <div className={styles.flex}>
-                  <img
-                    src={
-                      session.user.image
-                        ? session.user.image
-                        : 'https://www.pngarts.com/files/5/User-Avatar-PNG-Transparent-Image.png'
-                    }
-                    alt=""
-                  />
-                  <span>{session.user.name}</span>
-                  <RiArrowDropDownFill />
-                </div>
-              </li>
+              <ul>
+                <li>
+                  <div className={styles.flex}>
+                    <img
+                      src={
+                        session.user.image
+                          ? session.user.image
+                          : 'https://www.pngarts.com/files/5/User-Avatar-PNG-Transparent-Image.png'
+                      }
+                      alt=""
+                    />
+                    <span>{session.user.name}</span>
+                    <RiArrowDropDownFill />
+                  </div>
+                </li>
+              </ul>
             ) : (
-              <li>
-                <div className={styles.flex}>
-                  <RiAccountPinCircleLine />
-                  <span>Account</span>
-                  <RiArrowDropDownFill />
-                </div>
-              </li>
+              <ul>
+                <li>
+                  <div className={styles.flex}>
+                    <RiAccountPinCircleLine />
+                    <span>Account</span>
+                    <RiArrowDropDownFill />
+                  </div>
+                </li>
+              </ul>
             )}
             {visible && <UserMenu session={session} />}
           </li>

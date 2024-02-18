@@ -27,7 +27,7 @@ export default function Infos({ product, setActiveImg }) {
     <div className={styles.infos}>
       <div className={styles.infos__container}>
         <h1 className={styles.infos__name}>{product.name}</h1>
-        <h2 className={styles.infos__sku}>{product.sku}</h2>
+        <h2 className={styles.infos__sku}>{product._id}</h2>
         <div className={styles.infos__rating}>
           <Rating
             name="half-rating-read"
@@ -66,6 +66,7 @@ export default function Infos({ product, setActiveImg }) {
           <div className={styles.infos__sizes_wrap}>
             {product.sizes.map((size, i) => (
               <Link
+                key={i}
                 href={`/product/${product.slug}?style=${router.query.style}&size=${i}`}
               >
                 <div
@@ -84,6 +85,7 @@ export default function Infos({ product, setActiveImg }) {
           {product.colors &&
             product.colors.map((color, i) => (
               <span
+                key={i}
                 className={i == router.query.style ? styles.active_color : ''}
                 onMouseOver={() =>
                   setActiveImg(product.subProducts[i].images[0].url)
