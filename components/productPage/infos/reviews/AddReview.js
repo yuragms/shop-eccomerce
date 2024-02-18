@@ -9,7 +9,7 @@ export default function AddReview({ product }) {
       <div className="flex wrap">
         <div className="flex" style={{ gap: '10px' }}>
           Size:
-          <Select />
+          <Select property={size} text="Size" />
         </div>
       </div>
     </div>
