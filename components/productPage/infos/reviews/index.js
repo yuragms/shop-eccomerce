@@ -94,11 +94,13 @@ export default function Reviews({ product }) {
           </div>
         </div>
         {session ? (
-          <AddReview product={product} setReviews={setReviews} />
+          // <AddReview product={product} setReviews={setReviews} />
+          'review form'
         ) : (
           <button onClick={() => signIn()} className={styles.login_btn}>
             Login to add review
           </button>
+          //email stroytrad@gmail.com pa stroytrad
         )}
         {/* <Table
           reviews={reviews}
