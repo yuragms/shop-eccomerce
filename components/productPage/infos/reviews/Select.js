@@ -6,16 +6,30 @@ export default function Select({ property, text, data, handleChange }) {
   const [visible, setVisible] = useState(true);
   return (
     <div className={styles.select}>
+      {text}:
       <div
         className={styles.select__header}
         onMouseOver={() => setVisible(true)}
         onMouseLeave={() => setVisible(false)}
+        style={{
+          background: `${
+            text == 'Style' && property.color && `${property.color}`
+          }`,
+        }}
       >
         <span
-          className={`flex ${styles.select__header_wrap}`}
-          style={{ padding: '0 5px' }}
+          className={`${styles.flex} ${styles.select__header_wrap}`}
+          style={{
+            padding: '0 5px',
+          }}
         >
-          {property || `Select ${text}`}
+          {text == 'Size' ? (
+            property || `Select ${text}`
+          ) : text == 'Style' && property.image ? (
+            <img src={property.image} alt="" />
+          ) : (
+            'Select Style'
+          )}
           <IoArrowDown />
         </span>
         {visible && (
@@ -29,6 +43,19 @@ export default function Select({ property, text, data, handleChange }) {
                 return (
                   <li key={i} onClick={() => handleChange(item.size)}>
                     <span>{item.size}</span>
+                  </li>
+                );
+              }
+              if (text == 'Style') {
+                return (
+                  <li
+                    key={i}
+                    onClick={() => handleChange(item)}
+                    style={{ backgroundColor: `${item.color}` }}
+                  >
+                    <span>
+                      <img src={item.image} alt="" />
+                    </span>
                   </li>
                 );
               }
