@@ -50,7 +50,7 @@ import { useState } from 'react';
 import AddReview from './AddReview';
 // import Select from './Select';
 import styles from './styles.module.scss';
-// import Table from './Table';
+import Table from './Table';
 export default function Reviews({ product }) {
   const { data: session } = useSession();
   const [rating, setRating] = useState('');
@@ -104,12 +104,15 @@ export default function Reviews({ product }) {
             //email stroytrad@gmail.com pa stroytrad
           )
         }
-        {/* <Table
+
+        <Table
           reviews={reviews}
           allSizes={product.allSizes}
           colors={product.colors}
-        /> */}
+        />
       </div>
     </div>
   );
 }
+
+const ratings = ['5', '4', '3', '2', '1'];

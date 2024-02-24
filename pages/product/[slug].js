@@ -3,6 +3,7 @@ import styles from '../../styles/product.module.scss';
 import Product from '@/models/Product';
 import Category from '@/models/Category';
 import SubCategory from '@/models/SubCategory';
+import User from '../../models/User';
 import Head from 'next/head';
 import Header from '@/components/header';
 import MainSwiper from '@/components/productPage/mainSwiper';
@@ -60,6 +61,7 @@ export async function getServerSideProps(context) {
     .sort({ createdAt: -1 })
     .populate({ path: 'category', model: Category })
     .populate({ path: 'subCategories', model: SubCategory })
+    .populate({ path: 'reviews.reviewBy', model: User })
     .lean();
 
   let product = null;
