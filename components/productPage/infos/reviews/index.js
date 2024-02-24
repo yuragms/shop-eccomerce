@@ -79,8 +79,7 @@ export default function Reviews({ product }) {
                 <Rating
                   name="half-rating-read"
                   defaultValue={5 - i}
-                  readOnly
-                  style={{ color: '#FACF19' }}
+                  readOnlystyle={{ color: '#facf19' }}
                 />
                 <div className={styles.bar}>
                   <div
@@ -93,17 +92,14 @@ export default function Reviews({ product }) {
             ))}
           </div>
         </div>
-        {
-          // session
-          5 ? (
-            <AddReview product={product} setReviews={setReviews} />
-          ) : (
-            <button onClick={() => signIn()} className={styles.login_btn}>
-              Login to add review
-            </button>
-            //email stroytrad@gmail.com pa stroytrad
-          )
-        }
+        {session ? (
+          <AddReview product={product} setReviews={setReviews} />
+        ) : (
+          <button onClick={() => signIn()} className={styles.login_btn}>
+            Login to add review
+          </button>
+          //email stroytrad@gmail.com pa stroytrad
+        )}
 
         <Table
           reviews={reviews}

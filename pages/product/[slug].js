@@ -12,7 +12,7 @@ import Infos from '@/components/productPage/infos';
 import Reviews from '@/components/productPage/infos/reviews';
 
 export default function product({ product }) {
-  // console.log(product);
+  console.log('reviews', product.reviews);
   const [activeImg, setActiveImg] = useState('');
   return (
     <div>
