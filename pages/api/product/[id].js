@@ -29,6 +29,7 @@ router.get(async (req, res) => {
       shipping: product.brand,
       images: product.subProducts[style].images,
       color: product.subProducts[style].color,
+      size: product.subProducts[style].sizes[size].size,
       price,
       priceBefore,
       quantity: product.subProducts[style].sizes[size].qty,
