@@ -10,6 +10,11 @@ export default function PaymentMethods() {
         <img src="../../../images/payment/paypal.webp" alt="" />
       </div>
       <h2 className={styles.header}>Buyer Protection</h2>
+      <div className={styles.protection}>
+        <img src="../../../images/protection.png" alt="" />
+        Get full refund if the item is not as described or if it's not
+        delievered.
+      </div>
     </div>
   );
 }

@@ -8,6 +8,8 @@ import CartHeader from '@/components/cart/cartHeader';
 import Checkout from '@/components/cart/checkout';
 import { updateCart } from '@/store/cartSlice';
 import PaymentMethods from '@/components/cart/paymentMethods';
+import ProductsSwiper from '@/components/productsSwiper';
+import { women_swiper } from '@/data/home';
 
 export default function cart() {
   const [selected, setSelected] = useState([]);
@@ -62,6 +64,7 @@ export default function cart() {
         ) : (
           <Empty />
         )}
+        <ProductsSwiper products={women_swiper} />
       </div>
     </>
   );
