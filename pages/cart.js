@@ -5,6 +5,7 @@ import Empty from '@/components/cart/empty';
 import { useSelector } from 'react-redux';
 import Product from '@/components/cart/product';
 import CartHeader from '@/components/cart/cartHeader';
+import Checkout from '@/components/cart/checkout';
 
 export default function cart() {
   const { cart } = useSelector((state) => ({ ...state }));
@@ -20,6 +21,12 @@ export default function cart() {
                 <Product product={product} key={product._uid} />
               ))}
             </div>
+            <Checkout
+              subtotal="5458"
+              shippingFee={0}
+              total="5458"
+              selected={[]}
+            />
           </div>
         ) : (
           <Empty />
