@@ -2,12 +2,16 @@ import { BsHeart } from 'react-icons/bs';
 import styles from './styles.module.scss';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCart } from '@/store/cartSlice';
 
-export default function Product({ product }) {
+export default function Product({ product, selected, setSelected }) {
   const [active, setActive] = useState();
+  useEffect(() => {
+    const check = selected.find((p) => p._uid == product._uid);
+    setActive(check);
+  }, [selected]);
   const { cart } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
   const updateQty = (type) => {
@@ -27,6 +31,14 @@ export default function Product({ product }) {
       return p._uid != id;
     });
     dispatch(updateCart(newCart));
+  };
+  const handleSelect = () => {
+    const check = selected.find((p) => p._uid == product._uid);
+    if (active) {
+      setSelected(selected.filter((p) => p._uid !== product._uid));
+    } else {
+      setSelected([...selected, product]);
+    }
   };
   return (
     <div className={`${styles.card} ${styles.product}`}>
