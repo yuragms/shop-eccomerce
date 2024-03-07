@@ -7,6 +7,7 @@ import Product from '@/components/cart/product';
 import CartHeader from '@/components/cart/cartHeader';
 import Checkout from '@/components/cart/checkout';
 import { updateCart } from '@/store/cartSlice';
+import PaymentMethods from '@/components/cart/paymentMethods';
 
 export default function cart() {
   const [selected, setSelected] = useState([]);
@@ -56,6 +57,7 @@ export default function cart() {
               total={total}
               selected={selected}
             />
+            <PaymentMethods />
           </div>
         ) : (
           <Empty />
