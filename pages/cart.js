@@ -1,15 +1,34 @@
 import Header from '@/components/cart/header';
 import styles from '../styles/cart.module.scss';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Empty from '@/components/cart/empty';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Product from '@/components/cart/product';
 import CartHeader from '@/components/cart/cartHeader';
 import Checkout from '@/components/cart/checkout';
+import { updateCart } from '@/store/cartSlice';
 
 export default function cart() {
   const [selected, setSelected] = useState([]);
   const { cart } = useSelector((state) => ({ ...state }));
+  const dispatch = useDispatch();
+
+  //------------------------
+  const [shippingFee, setShippingFee] = useState(0);
+  const [subtotal, setSubtotal] = useState(0);
+  const [total, setTotal] = useState(0);
+  useEffect(() => {
+    setShippingFee(
+      selected.reduce((a, c) => a + Number(c.shipping), 0).toFixed(2)
+    );
+    setSubtotal(selected.reduce((a, c) => a + c.price * c.qty, 0).toFixed(2));
+    setTotal(
+      (
+        selected.reduce((a, c) => a + c.price * c.qty, 0) + Number(shippingFee)
+      ).toFixed(2)
+    );
+  }, [selected]);
+  //------------------------
   return (
     <>
       <Header />
@@ -32,17 +51,16 @@ export default function cart() {
               ))}
             </div>
             <Checkout
-              subtotal="5458"
-              shippingFee={0}
-              total="5458"
-              selected={[]}
+              subtotal={subtotal}
+              shippingFee={shippingFee}
+              total={total}
+              selected={selected}
             />
           </div>
         ) : (
           <Empty />
         )}
       </div>
-      cart
     </>
   );
 }
