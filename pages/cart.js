@@ -10,8 +10,12 @@ import { updateCart } from '@/store/cartSlice';
 import PaymentMethods from '@/components/cart/paymentMethods';
 import ProductsSwiper from '@/components/productsSwiper';
 import { women_swiper } from '@/data/home';
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 export default function cart() {
+  const Router = useRouter();
+  const { data: session } = useSession();
   const [selected, setSelected] = useState([]);
   const { cart } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
@@ -32,6 +36,15 @@ export default function cart() {
     );
   }, [selected]);
   //------------------------
+  const saveCartToDbHandler = async () => {
+    // Router.push('/checkout');
+    if (session) {
+      const res = saveCart(selected, session.user.id);
+      Router.push('/checkout');
+    } else {
+      signIn();
+    }
+  };
   return (
     <>
       <Header />
@@ -58,6 +71,7 @@ export default function cart() {
               shippingFee={shippingFee}
               total={total}
               selected={selected}
+              saveCartToDbHandler={saveCartToDbHandler}
             />
             <PaymentMethods />
           </div>
