@@ -9,16 +9,21 @@ import Cart from '@/models/Cart';
 const router = createRouter();
 
 // handler.get(async (req, res) => {
-router.get(async (req, res) => {
+router.post(async (req, res) => {
+  console.log('work2');
   try {
     db.connectDb();
     const { cart, user_id } = req.body;
     let products = [];
+    // let user = await User.findById(req.user);
     let user = await User.findById(user_id);
+    console.log('user', user._id);
     let existing_cart = await Cart.findOne({ user: user._id });
     if (existing_cart) {
       await existing_cart.remove();
+      //   await Cart.deleteOne({ user: user._id });
     }
+    console.log('cart-user', cart);
     for (var i = 0; i < cart.length; i++) {
       let dbProduct = await Product.findById(cart[i]._id).lean();
       let subProduct = dbProduct.subProducts[cart[i].style];
@@ -32,7 +37,24 @@ router.get(async (req, res) => {
       tempProduct.image = subProduct.images[0].url;
       tempProduct.qty = Number(cart[i].qty);
       tempProduct.size = cart[i].size;
+      let price = Number(
+        subProduct.sizes.find((p) => p.size == cart[i].size).price
+      );
+      tempProduct.price =
+        subProduct.discount > 0
+          ? (price - price / Number(subProduct.discount)).toFixed(2)
+          : price.toFixed(2);
+      products.push(tempProduct);
     }
+    let cartTotal = 0;
+    for (let i = 0; i < products.length; i++) {
+      cartTotal = cartTotal + products[i].price * products[i].qty;
+    }
+    await new Cart({
+      products,
+      cartTotal: cartTotal.toFixed(2),
+      user: user._id,
+    }).save();
     db.disconnectDb();
   } catch (error) {
     return res.status(500).json({ message: error.message });

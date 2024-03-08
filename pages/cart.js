@@ -12,6 +12,7 @@ import ProductsSwiper from '@/components/productsSwiper';
 import { women_swiper } from '@/data/home';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { saveCart } from '@/requests/user';
 
 export default function cart() {
   const Router = useRouter();
@@ -40,7 +41,8 @@ export default function cart() {
     // Router.push('/checkout');
     if (session) {
       const res = saveCart(selected, session.user.id);
-      Router.push('/checkout');
+      // Router.push('/checkout');
+      Router.push('/');
     } else {
       signIn();
     }

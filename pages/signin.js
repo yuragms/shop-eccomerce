@@ -276,7 +276,7 @@ export async function getServerSideProps(context) {
   const session = await getSession({ req });
   const { callbackUrl } = query;
 
-  console.log(callbackUrl);
+  // console.log(callbackUrl);
 
   if (session) {
     return {

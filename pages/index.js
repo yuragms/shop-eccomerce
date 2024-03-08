@@ -26,11 +26,11 @@ import ProductCard from '@/components/productCard';
 // <main className={`${styles.main} ${inter.className}`}></main>
 
 export default function Home({ country, products }) {
-  console.log('products', products);
+  // console.log('products', products);
   const { data: session } = useSession();
   const isMedium = useMediaQuery({ query: '(max-width:850px)' });
   const isMobile = useMediaQuery({ query: '(max-width:550px)' });
-  console.log(session);
+  // console.log(session);
   return (
     <div>
       <Header country={country} />
