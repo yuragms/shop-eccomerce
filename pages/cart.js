@@ -6,13 +6,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import Product from '@/components/cart/product';
 import CartHeader from '@/components/cart/cartHeader';
 import Checkout from '@/components/cart/checkout';
-import { updateCart } from '@/store/cartSlice';
+import { updateCart, emptyCart } from '@/store/cartSlice';
 import PaymentMethods from '@/components/cart/paymentMethods';
 import ProductsSwiper from '@/components/productsSwiper';
 import { women_swiper } from '@/data/home';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { saveCart } from '@/requests/user';
+import axios from 'axios';
 
 export default function cart() {
   const Router = useRouter();
@@ -25,6 +26,18 @@ export default function cart() {
   const [shippingFee, setShippingFee] = useState(0);
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
+  // useEffect(() => {
+  //   const update = async () => {
+  //     const { data } = await axios.post('/api/updateCart', {
+  //       products: cart.cartItems,
+  //     });
+  //     dispatch(updateCart(data));
+  //   };
+  //   if (cart.cartItems.length > 0) {
+  //     update();
+  //   }
+  // }, []);
+  // lesson100
   useEffect(() => {
     setShippingFee(
       selected.reduce((a, c) => a + Number(c.shipping), 0).toFixed(2)
