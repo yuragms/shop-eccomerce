@@ -4,8 +4,10 @@ import db from '@/utils/db';
 import Product from '@/models/Product';
 import User from '@/models/User';
 import Cart from '@/models/Cart';
+// import auth from '../../../middleware/auth';
 
 // const handler = nc();
+// const router = createRouter().use(auth);
 const router = createRouter();
 
 // handler.get(async (req, res) => {
@@ -17,14 +19,14 @@ router.post(async (req, res) => {
     let products = [];
     // let user = await User.findById(req.user);
     let user = await User.findById(user_id);
-    console.log('user', user._id);
+    // console.log('user', user._id);
     let existing_cart = await Cart.findOne({ user: user._id });
     if (existing_cart) {
       await existing_cart.remove();
       //   await Cart.deleteOne({ user: user._id });
     }
-    console.log('cart-user', cart);
-    for (var i = 0; i < cart.length; i++) {
+    // console.log('cart-user');
+    for (let i = 0; i < cart.length; i++) {
       let dbProduct = await Product.findById(cart[i]._id).lean();
       let subProduct = dbProduct.subProducts[cart[i].style];
       let tempProduct = {};
@@ -40,12 +42,18 @@ router.post(async (req, res) => {
       let price = Number(
         subProduct.sizes.find((p) => p.size == cart[i].size).price
       );
+      console.log('typeof1', typeof price);
       tempProduct.price =
         subProduct.discount > 0
-          ? (price - price / Number(subProduct.discount)).toFixed(2)
-          : price.toFixed(2);
+          ? Number((price - price / Number(subProduct.discount)).toFixed(2))
+          : Number(price.toFixed(2));
       products.push(tempProduct);
+      // console.log('push', tempProduct);
+      // console.log('product.price', tempProduct.price);
+      // console.log('typeof2', typeof tempProduct.price);
     }
+    // console.log('products', products);
+
     let cartTotal = 0;
     for (let i = 0; i < products.length; i++) {
       cartTotal = cartTotal + products[i].price * products[i].qty;
