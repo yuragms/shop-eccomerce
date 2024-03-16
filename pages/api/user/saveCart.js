@@ -17,15 +17,19 @@ router.post(async (req, res) => {
     db.connectDb();
     const { cart, user_id } = req.body;
     let products = [];
+
     // let user = await User.findById(req.user);
     let user = await User.findById(user_id);
-    // console.log('user', user._id);
+    console.log('user', user._id);
     let existing_cart = await Cart.findOne({ user: user._id });
+    // console.log('existing_cart', existing_cart);
     if (existing_cart) {
-      await existing_cart.remove();
+      // await existing_cart.remove();
+      await Cart.deleteOne({ user: user._id });
+      console.log('work3', existing_cart);
       //   await Cart.deleteOne({ user: user._id });
     }
-    // console.log('cart-user');
+    console.log('cart-user');
     for (let i = 0; i < cart.length; i++) {
       let dbProduct = await Product.findById(cart[i]._id).lean();
       let subProduct = dbProduct.subProducts[cart[i].style];
