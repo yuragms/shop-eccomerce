@@ -31,6 +31,7 @@ export default function cart() {
   //     const { data } = await axios.post('/api/updateCart', {
   //       products: cart.cartItems,
   //     });
+
   //     dispatch(updateCart(data));
   //   };
   //   if (cart.cartItems.length > 0) {
