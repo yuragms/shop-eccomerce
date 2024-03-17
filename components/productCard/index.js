@@ -66,8 +66,10 @@ export default function ProductCard({ product }) {
               styless.map((style, i) =>
                 style.image ? (
                   <img
+                    key={i}
                     src={style.image}
-                    className={i == active && styles.active}
+                    // className={i == active && styles.active}
+                    className={i == active ? styles.active : undefined}
                     onMouseOver={() => {
                       setImages(product.subProducts[i].images);
                       setActive(i);
