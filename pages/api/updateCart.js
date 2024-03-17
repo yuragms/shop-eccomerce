@@ -13,16 +13,15 @@ router.post(async (req, res) => {
     const promises = req.body.products.map(async (p) => {
       let dbProduct = await Product.findById(p._id).lean();
       // console.log('dbProduct', dbProduct);
-      let originalPrice = dbProduct.subPoducts[p.style].sizes.find(
+      let originalPrice = dbProduct.subProducts[p.style].sizes.find(
         (x) => x.size == p.size
       ).price;
-      // ошибка здесь [p.style]
       console.log('originalPrice', originalPrice);
-      let quantity = dbProduct.subPoducts[p.style].sizes.find(
+      let quantity = dbProduct.subProducts[p.style].sizes.find(
         (x) => x.size == p.size
       ).qty;
       // console.log('quantity', quantity);
-      let discount = dbProduct.subPoducts[p.style].discount;
+      let discount = dbProduct.subProducts[p.style].discount;
       // console.log('discount', discount);
       return {
         ...p,

@@ -26,18 +26,18 @@ export default function cart() {
   const [shippingFee, setShippingFee] = useState(0);
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
-  // useEffect(() => {
-  //   const update = async () => {
-  //     const { data } = await axios.post('/api/updateCart', {
-  //       products: cart.cartItems,
-  //     });
+  useEffect(() => {
+    const update = async () => {
+      const { data } = await axios.post('/api/updateCart', {
+        products: cart.cartItems,
+      });
 
-  //     dispatch(updateCart(data));
-  //   };
-  //   if (cart.cartItems.length > 0) {
-  //     update();
-  //   }
-  // }, []);
+      dispatch(updateCart(data));
+    };
+    if (cart.cartItems.length > 0) {
+      update();
+    }
+  }, []);
   // lesson100
   useEffect(() => {
     setShippingFee(
