@@ -1,20 +1,52 @@
 import { getSession } from 'next-auth/react';
 import styles from '../styles/checkout.module.scss';
-import { Context } from 'react-responsive';
+import { context } from 'react-responsive';
 import User from '@/models/User';
 import Cart from '@/models/Cart';
+import db from '@/utils/db';
+import Header from '@/components/header';
+import Shipping from '@/components/checkout/shipping';
+import { useState } from 'react';
 
-export default function checkout() {
-  return <div>checkout</div>;
+export default function checkout({ cart, user }) {
+  const [selectedAddress, setSelectedAddress] = useState();
+  return (
+    <>
+      <Header />
+      <div className={styles.checkout}>
+        <div className={styles.checkout__side}>
+          <Shipping
+            selectedAddress={selectedAddress}
+            setSelectedAddress={setSelectedAddress}
+            user={user}
+          />
+        </div>
+        <div className={styles.checkout__side}></div>
+      </div>
+    </>
+  );
 }
 
-export async function getServerSideProps(Context) {
+export async function getServerSideProps(context) {
   // console.log(Context);
-  const session = await getSession(Context);
+  db.connectDb();
+  const session = await getSession(context);
   const user = await User.findById(session.user.id);
   const cart = await Cart.findOne({ user: user._id });
-  console.log(cart);
+  db.disconnectDb();
+
+  if (!cart) {
+    return {
+      redirect: {
+        destination: '/cart',
+      },
+    };
+  }
+
   return {
-    props: {},
+    props: {
+      cart: JSON.parse(JSON.stringify(cart)),
+      user: JSON.parse(JSON.stringify(user)),
+    },
   };
 }

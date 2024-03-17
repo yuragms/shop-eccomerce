@@ -55,8 +55,10 @@ export default function cart() {
     // Router.push('/checkout');
     if (session) {
       const res = saveCart(selected, session.user.id);
-      Router.push('/checkout');
-      // Router.push('/');
+      setTimeout(() => {
+        Router.push('/checkout');
+      }, 300);
+      // Router.push('/checkout');
     } else {
       signIn();
     }
