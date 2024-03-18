@@ -2,7 +2,8 @@ import { useState } from 'react';
 import styles from './styles.module.scss';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import 'yup-phone';
+import 'yup-phone-lite';
+import ShippingInput from '@/components/inputs/shippingInput';
 
 const initialValues = {
   firstName: '',
@@ -69,6 +70,11 @@ export default function Shipping({
       .max(100, 'Address Line 2 should contain 5-100 characters.'),
     country: Yup.string().required('Country name is required.'),
   });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setShipping({ ...shipping, [name]: value });
+  };
   return (
     <div className={styles.shipping}>
       <Formik
@@ -88,7 +94,11 @@ export default function Shipping({
       >
         {(formik) => (
           <Form>
-            <input type="text" name="" id="" />
+            <ShippingInput
+              name="firstName"
+              placeholder="First Name"
+              onChange={handleChange}
+            />
           </Form>
         )}
       </Formik>
