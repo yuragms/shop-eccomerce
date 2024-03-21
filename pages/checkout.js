@@ -9,7 +9,7 @@ import Shipping from '@/components/checkout/shipping';
 import { useState } from 'react';
 
 export default function checkout({ cart, user }) {
-  const [selectedAddress, setSelectedAddress] = useState();
+  const [selectedAddress, setSelectedAddress] = useState(user?.address[0]);
   return (
     <>
       <Header />

@@ -22,8 +22,8 @@ export default function SingularSelect({
           meta.touched && meta.error && styles.error__select
         }`}
       >
-        {data.map((option) => (
-          <MenuItem key={option._id} value={option.name}>
+        {data.map((option, i) => (
+          <MenuItem key={i} value={option.name}>
             {option.name}
           </MenuItem>
         ))}
