@@ -6,6 +6,7 @@ import 'yup-phone-lite';
 import ShippingInput from '@/components/inputs/shippingInput';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { countries } from '@/data/countries';
+import SingularSelect from '@/components/selects/SingularSelect';
 
 const initialValues = {
   firstName: '',
@@ -96,7 +97,7 @@ export default function Shipping({
       >
         {(formik) => (
           <Form>
-            <FormControl className={styles.select}>
+            {/* <FormControl className={styles.select}>
               <InputLabel id="demo-simple-select-helper-label">
                 Country
               </InputLabel>
@@ -113,7 +114,14 @@ export default function Shipping({
                   </MenuItem>
                 ))}
               </Select>
-            </FormControl>
+            </FormControl> */}
+            <SingularSelect
+              name="country"
+              value={country}
+              placeholder="*Country"
+              handleChange={handleChange}
+              data={countries}
+            />
             <div className={styles.col}>
               <ShippingInput
                 name="firstName"
