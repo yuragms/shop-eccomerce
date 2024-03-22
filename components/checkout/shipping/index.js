@@ -7,7 +7,7 @@ import ShippingInput from '@/components/inputs/shippingInput';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { countries } from '@/data/countries';
 import SingularSelect from '@/components/selects/SingularSelect';
-import { saveAddress } from '@/requests/user';
+import { changeActiveAddress, saveAddress } from '@/requests/user';
 import { FaIdCard, FaMapMarkerAlt } from 'react-icons/fa';
 import { GiPhone } from 'react-icons/gi';
 import { AiOutlinePlus } from 'react-icons/ai';
@@ -29,8 +29,10 @@ export default function Shipping({
   selectedAddress,
   setSelectedAddress,
   user,
+  addresses,
+  setAddresses,
 }) {
-  const [addresses, setAddresses] = useState(user?.address || []);
+  // const [addresses, setAddresses] = useState(user?.address || []);
   const [shipping, setShipping] = useState(initialValues);
   const [visible, setVisible] = useState(user?.address.lenght ? false : true);
   const {
@@ -87,16 +89,23 @@ export default function Shipping({
   const saveShippingHandler = async () => {
     const res = await saveAddress(shipping);
     console.log(res);
-    setAddresses([...addresses, res]);
-    setSelectedAddress(res);
+    setAddresses(res.addresses);
+    // setSelectedAddress(res);
+  };
+  const changeActiveHandler = async (id) => {
+    const res = await changeActiveAddress(id);
+    setAddresses(res.addresses);
+    // setSelectedAddress(res);
   };
   return (
     <div className={styles.shipping}>
       <div className={styles.addresses}>
         {addresses.map((address) => (
+          // {console.log("address",address)}
           <div
             className={`${styles.address} ${address.active && styles.active}`}
             key={address._id}
+            onClick={() => changeActiveHandler(address._id)}
           >
             <div className={styles.address__side}>
               <img src={user.image} alt="" />
@@ -104,6 +113,7 @@ export default function Shipping({
             <div className={styles.address__col}>
               <span>
                 <FaIdCard />
+                console.log(address)
                 {address.firstName.toUpperCase()}{' '}
                 {address.lastName.toUpperCase()}
               </span>
@@ -125,7 +135,9 @@ export default function Shipping({
             </div>
             <span
               className={styles.active__text}
-              style={{ display: `${!address.active && 'none'}` }}
+              style={{
+                display: `${!address.active && 'none'}`,
+              }}
             >
               Active
             </span>
