@@ -4,22 +4,23 @@ import db from '@/utils/db';
 import Product from '@/models/Product';
 import User from '@/models/User';
 import Cart from '@/models/Cart';
+import auth from '@/middware/auth';
 // import auth from '../../../middleware/auth';
 
 // const handler = nc();
 // const router = createRouter().use(auth);
-const router = createRouter();
+const router = createRouter().use(auth);
 
 // handler.get(async (req, res) => {
 router.post(async (req, res) => {
-  console.log('work2');
+  // console.log('user id', req.user);
   try {
     db.connectDb();
-    const { cart, user_id } = req.body;
+    const { cart } = req.body;
     let products = [];
 
     // let user = await User.findById(req.user);
-    let user = await User.findById(user_id);
+    let user = await User.findById(req.user);
     console.log('user', user._id);
     let existing_cart = await Cart.findOne({ user: user._id });
     // console.log('existing_cart', existing_cart);

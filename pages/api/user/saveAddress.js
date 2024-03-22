@@ -8,15 +8,15 @@ import Cart from '@/models/Cart';
 
 // const handler = nc();
 // const router = createRouter().use(auth);
-const router = createRouter();
+const router = createRouter().use(auth);
 
 // handler.get(async (req, res) => {
 router.post(async (req, res) => {
   console.log('work2');
   try {
     db.connectDb();
-    const { address, user_id } = req.body;
-    const user = User.findById(user_id);
+    const { address } = req.body;
+    const user = User.findById(req.user);
     await user.updateOne({
       $push: {
         address: address,

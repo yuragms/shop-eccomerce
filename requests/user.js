@@ -1,11 +1,10 @@
 import axios from 'axios';
 
-export const saveCart = async (cart, user_id) => {
+export const saveCart = async (cart) => {
   console.log('work');
   try {
     const { data } = await axios.post('/api/user/saveCart', {
       cart,
-      user_id,
     });
     console.log('axioswork', data);
     return data;
@@ -15,11 +14,10 @@ export const saveCart = async (cart, user_id) => {
   }
 };
 
-export const saveAddress = async (address, user_id) => {
+export const saveAddress = async (address) => {
   try {
     const { data } = await axios.post('/api/user/saveAddress', {
       address,
-      user_id,
     });
     console.log('axioswork', data);
     return data;
