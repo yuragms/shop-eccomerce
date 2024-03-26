@@ -7,6 +7,7 @@ import db from '@/utils/db';
 import Header from '@/components/header';
 import Shipping from '@/components/checkout/shipping';
 import { useEffect, useState } from 'react';
+import Products from '@/components/checkout/products';
 
 export default function checkout({ cart, user }) {
   // const [selectedAddress, setSelectedAddress] = useState(user?.address[0]);
@@ -30,6 +31,7 @@ export default function checkout({ cart, user }) {
             addresses={addresses}
             setAddresses={setAddresses}
           />
+          <Products cart={cart} />
         </div>
         <div className={styles.checkout__side}></div>
       </div>
