@@ -45,4 +45,23 @@ router.put(async (req, res) => {
   }
 });
 
+router.delete(async (req, res) => {
+  console.log('work delAddress');
+  try {
+    db.connectDb();
+    const { id } = req.query;
+    const user = await User.findById(req.user);
+    await user.updateOne(
+      {
+        $pull: { address: { _id: id } },
+      },
+      { new: true }
+    );
+    db.disconnectDb();
+    return res.json({ addresses: user.address.filter((a) => a._id != id) });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
+
 export default router.handler();

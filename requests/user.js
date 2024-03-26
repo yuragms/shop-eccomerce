@@ -38,3 +38,14 @@ export const changeActiveAddress = async (id) => {
     error.message;
   }
 };
+export const deleteAddress = async (id) => {
+  try {
+    const { data } = await axios.delete('/api/user/manageAddress', {
+      params: { id },
+    });
+    console.log('axioswork-deleteAddress', data);
+    return data;
+  } catch (error) {
+    error.message;
+  }
+};

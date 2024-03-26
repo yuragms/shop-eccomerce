@@ -7,11 +7,18 @@ import ShippingInput from '@/components/inputs/shippingInput';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { countries } from '@/data/countries';
 import SingularSelect from '@/components/selects/SingularSelect';
-import { changeActiveAddress, saveAddress } from '@/requests/user';
+import {
+  changeActiveAddress,
+  deleteAddress,
+  saveAddress,
+} from '@/requests/user';
 import { FaIdCard, FaMapMarkerAlt } from 'react-icons/fa';
 import { GiPhone } from 'react-icons/gi';
 import { AiOutlinePlus } from 'react-icons/ai';
-import { IoMdArrowDropupCircle } from 'react-icons/io';
+import {
+  IoMdArrowDropupCircle,
+  IoIosRemoveCircleOutline,
+} from 'react-icons/io';
 
 const initialValues = {
   firstName: '',
@@ -98,50 +105,66 @@ export default function Shipping({
     setAddresses(res.addresses);
     // setSelectedAddress(res);
   };
+  const deleteHandler = async (id) => {
+    const res = await deleteAddress(id);
+    console.log('deleteHandler', id);
+    setAddresses(res.addresses);
+  };
   return (
     <div className={styles.shipping}>
+      <div className={styles.header}>
+        <h2>Shipping Informations</h2>
+      </div>
       <div className={styles.addresses}>
         {addresses.map((address) => (
           // {console.log("address",address)}
-          <div
-            className={`${styles.address} ${address.active && styles.active}`}
-            key={address._id}
-            onClick={() => changeActiveHandler(address._id)}
-          >
-            <div className={styles.address__side}>
-              <img src={user.image} alt="" />
-            </div>
-            <div className={styles.address__col}>
-              <span>
-                <FaIdCard />
-                {console.log(address)}
-                {/* {address.firstName.toUpperCase()}{' '} */}
-                {address.lastName.toUpperCase()}
-              </span>
-              <span>
-                <GiPhone />
-                {address.phoneNumber}
-              </span>
-            </div>
-            <div className={styles.address__col}>
-              <span>
-                <FaMapMarkerAlt />
-                {address.address1}
-              </span>
-              <span>{address.address2}</span>
-              <span>
-                {address.city},{address.state},{address.country}
-              </span>
-              <span>{address.zipCode}</span>
-            </div>
-            <span
-              className={styles.active__text}
-              style={{
-                display: `${!address.active && 'none'}`,
-              }}
+          <div style={{ position: 'relative' }}>
+            <div
+              className={styles.address__delete}
+              onClick={() => deleteHandler(address._id)}
             >
-              Active
-            </span>
+              <IoIosRemoveCircleOutline />
+            </div>
+            <div
+              className={`${styles.address} ${address.active && styles.active}`}
+              key={address._id}
+              onClick={() => changeActiveHandler(address._id)}
+            >
+              <div className={styles.address__side}>
+                <img src={user.image} alt="" />
+              </div>
+              <div className={styles.address__col}>
+                <span>
+                  <FaIdCard />
+                  {console.log(address)}
+                  {address.firstName.toUpperCase()}{' '}
+                  {address.lastName.toUpperCase()}
+                </span>
+                <span>
+                  <GiPhone />
+                  {address.phoneNumber}
+                </span>
+              </div>
+              <div className={styles.address__col}>
+                <span>
+                  <FaMapMarkerAlt />
+                  {address.address1}
+                </span>
+                <span>{address.address2}</span>
+                <span>
+                  {address.city},{address.state},{address.country}
+                </span>
+                <span>{address.zipCode}</span>
+              </div>
+              <span
+                className={styles.active__text}
+                style={{
+                  display: `${!address.active && 'none'}`,
+                }}
+              >
+                Active
+              </span>
+            </div>
           </div>
         ))}
       </div>
