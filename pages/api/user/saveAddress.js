@@ -17,7 +17,7 @@ router.post(async (req, res) => {
   try {
     db.connectDb();
     const { address } = req.body;
-    const user = User.findById(req.user);
+    const user = await User.findById(req.user);
     await user.updateOne(
       {
         $push: {

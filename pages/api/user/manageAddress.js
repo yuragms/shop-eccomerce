@@ -7,11 +7,12 @@ import auth from '@/middware/auth';
 const router = createRouter().use(auth);
 
 router.put(async (req, res) => {
-  console.log('work2');
+  console.log('work manageAddress');
   try {
+    console.log('work manageAddress');
     db.connectDb();
     const { id } = req.body;
-    const user = User.findById(req.user);
+    const user = await User.findById(req.user);
     let user_addresses = user.address;
     let addresses = [];
     for (let i = 0; i < user_addresses.length; i++) {
@@ -44,5 +45,4 @@ router.put(async (req, res) => {
   }
 });
 
-// export default handler;
 export default router.handler();
