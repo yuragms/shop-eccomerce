@@ -113,7 +113,7 @@ export default function Shipping({
   return (
     <div className={styles.shipping}>
       <div className={styles.header}>
-        <h2>Shipping Informations</h2>
+        <h3>Shipping Informations</h3>
       </div>
       <div className={styles.addresses}>
         {addresses.map((address) => (
