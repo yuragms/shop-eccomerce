@@ -11,9 +11,9 @@ const couponSchema = new mongoose.Schema(
       uppercase: true,
       required: true,
       minLength: 4,
-      minLength: 10,
+      maxLength: 10,
     },
-    startData: {
+    startDate: {
       type: String,
       required: true,
     },
