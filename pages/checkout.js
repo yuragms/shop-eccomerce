@@ -10,18 +10,21 @@ import { useEffect, useState } from 'react';
 import Products from '@/components/checkout/products';
 import { paymentMethods } from '@/data/paymentMethods';
 import Payment from '@/components/checkout/payment';
+import Summary from '@/components/checkout/summary';
 
 export default function checkout({ cart, user }) {
   // const [selectedAddress, setSelectedAddress] = useState(user?.address[0]);
   const [addresses, setAddresses] = useState(user?.address || []);
   const [paymentMethod, setPaymentMethod] = useState('');
-  // const [selectedAddress, setSelectedAddress] = useState();
-  // useEffect(() => {
-  //   let check = addresses.find((address) => address.active == true);
-  //   if (check) {
-  //     setSelectedAddress(check);
-  //   }
-  // }, [addresses]);
+  const [totalAfterDiscount, setTotalAfterDiscount] = useState('');
+  const [selectedAddress, setSelectedAddress] = useState('');
+  useEffect(() => {
+    let check = addresses.find((address) => address.active == true);
+    if (check) {
+      setSelectedAddress(check);
+    }
+  }, [addresses]);
+  console.log('selectedAddress', selectedAddress);
   return (
     <>
       <Header />
@@ -40,6 +43,14 @@ export default function checkout({ cart, user }) {
           <Payment
             paymentMethod={paymentMethod}
             setPaymentMethod={setPaymentMethod}
+          />
+          <Summary
+            totalAfterDiscount={totalAfterDiscount}
+            setTotalAfterDiscount={setTotalAfterDiscount}
+            user={user}
+            cart={cart}
+            paymentMethod={paymentMethod}
+            selectedAddress={selectedAddress}
           />
         </div>
       </div>
