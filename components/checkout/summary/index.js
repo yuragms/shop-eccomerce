@@ -4,6 +4,8 @@ import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
 import ShippingInput from '@/components/inputs/shippingInput';
 import { applyCoupon } from '@/requests/user';
+import axios from 'axios';
+import Router from 'next/router';
 
 export default function Summary({
   totalAfterDiscount,
@@ -16,6 +18,7 @@ export default function Summary({
   const [coupon, setCoupon] = useState('');
   const [discount, setDiscount] = useState('');
   const [error, setError] = useState('');
+  const [order_error, setOrder_Error] = useState('');
   const validateCoupon = Yup.object({
     coupon: Yup.string().required('Pleace enter a coupon first'),
   });
@@ -29,7 +32,28 @@ export default function Summary({
       setError('');
     }
   };
-  const placeOrderHandler = async () => {};
+  const placeOrderHandler = async () => {
+    try {
+      if (paymentMethod == '') {
+        setOrder_Error('Please choose a payment method.');
+        return;
+      } else if (!selectedAddress) {
+        setOrder_Error('Please choose a shipping address.');
+        return;
+      }
+      const { data } = await axios.post('/api/order/create', {
+        products: cart.products,
+        shippingAddress: selectedAddress,
+        paymentMethod,
+        total: totalAfterDiscount !== '' ? totalAfterDiscount : cart.cartTotal,
+      });
+      console.log('data::', data);
+      Router.push(`/order/${data.order_id}`);
+    } catch (error) {
+      console.log(error);
+      setOrder_Error(error.response.data.message);
+    }
+  };
   return (
     <div className={styles.summary}>
       <div className={styles.header}>
@@ -76,6 +100,7 @@ export default function Summary({
       <button className={styles.submit_btn} onClick={() => placeOrderHandler()}>
         Place Order
       </button>
+      {order_error && <span className={styles.error}>{order_error}</span>}
     </div>
   );
 }

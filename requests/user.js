@@ -23,7 +23,8 @@ export const saveAddress = async (address) => {
     return data;
   } catch (error) {
     // return response.data.error.message;
-    error.message;
+    // error.message;
+    return error.response.data.message;
   }
 };
 
@@ -46,7 +47,8 @@ export const deleteAddress = async (id) => {
     console.log('axioswork-deleteAddress', data);
     return data;
   } catch (error) {
-    error.message;
+    // error.message;
+    return error.response.data.message;
   }
 };
 // export const applyCoupon = async (coupon) => {
