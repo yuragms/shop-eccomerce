@@ -4,6 +4,8 @@ import Order from '@/models/Order';
 import { IoIosArrowForward } from 'react-icons/io';
 import db from '@/utils/db';
 import User from '@/models/User';
+import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
+import { useEffect, useReducer } from 'react';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -19,6 +21,36 @@ function reducer(state, action) {
 }
 
 export default function order({ orderData, paypal_client_id }) {
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+  const [{ loading, error, success }, dispatch] = useReducer(reducer, {
+    loading: true,
+    order: {},
+    error: '',
+  });
+  useEffect(() => {
+    if (!orderData._id || success) {
+      if (success) {
+        dispatch({
+          type: 'PAY_RESET',
+        });
+      }
+    } else {
+      paypalDispatch({
+        type: 'resetOptions',
+        value: {
+          'client-id': paypal_client_id,
+          currency: 'USD',
+        },
+      });
+      paypalDispatch({
+        type: 'setLoadingStatus',
+        value: 'pending',
+      });
+    }
+  }, []);
+  function createOrderHandler() {}
+  function onApproveHandler() {}
+  function onErrorHandler() {}
   return (
     <>
       <Header country="country" />
@@ -172,6 +204,21 @@ export default function order({ orderData, paypal_client_id }) {
                 <span>{orderData.shippingAddress.zipCode}</span>
                 <span>{orderData.shippingAddress.country}</span>
               </div>
+            </div>
+            <div className={styles.order__payment}>
+              {orderData.paymentMethod == 'paypal' && (
+                <div>
+                  {isPending ? (
+                    <span>loading...</span>
+                  ) : (
+                    <PayPalButtons
+                      createOrder={createOrderHandler}
+                      onApprove={onApproveHandler}
+                      onError={onErrorHandler}
+                    ></PayPalButtons>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
