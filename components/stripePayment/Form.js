@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import axios from 'axios';
 import styles from './styles.module.scss';
 const CARD_OPTIONS = {
   iconStyle: 'solid',
@@ -19,11 +20,34 @@ const CARD_OPTIONS = {
   },
 };
 
-export default function Form() {
-  const [error, seterror] = useState('');
+export default function Form({ total, order_id }) {
+  const [error, setError] = useState('');
   const stripe = useStripe();
   const elements = useElements();
-  const handleSubmit = async (e) => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: 'card',
+      card: elements.getElement(CardElement),
+    });
+    if (!error) {
+      try {
+        const { id } = paymentMethod;
+        const res = await axios.post(`/api/order/${order_id}/payWithStripe`, {
+          amount: total,
+          id,
+        });
+        console.log('formres:', res);
+        if (res.data.success) {
+          window.location.reload(false);
+        }
+      } catch (error) {
+        setError(error);
+      }
+    } else {
+      setError(error.message);
+    }
+  };
   return (
     <div className={styles.stripe}>
       <form onSubmit={handleSubmit}>
@@ -33,5 +57,4 @@ export default function Form() {
       </form>
     </div>
   );
-  return <div>Form</div>;
 }

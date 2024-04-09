@@ -210,7 +210,31 @@ export default function order({
                 <span>{orderData.shippingAddress.country}</span>
               </div>
             </div>
-            <div className={styles.order__payment}>
+            {!orderData.isPaid && (
+              <div className={styles.order__payment}>
+                {orderData.paymentMethod == 'paypal' && (
+                  <div>
+                    {isPending ? (
+                      <span>loading...</span>
+                    ) : (
+                      <PayPalButtons
+                        createOrder={createOrderHandler}
+                        onApprove={onApproveHandler}
+                        onError={onErrorHandler}
+                      ></PayPalButtons>
+                    )}
+                  </div>
+                )}
+                {orderData.paymentMethod == 'credit_card' && (
+                  <StripePayment
+                    total={orderData.total}
+                    order_id={orderData._id}
+                    stripe_public_key={stripe_public_key}
+                  />
+                )}
+              </div>
+            )}
+            {/* <div className={styles.order__payment}>
               {orderData.paymentMethod == 'paypal' && (
                 <div>
                   {isPending ? (
@@ -231,7 +255,7 @@ export default function order({
                   stripe_public_key={stripe_public_key}
                 />
               )}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

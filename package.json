@@ -47,6 +47,7 @@
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.2",
     "sass": "^1.62.1",
+    "stripe": "^14.24.0",
     "styled-components": "^6.1.8",
     "swiper": "^9.4.1",
     "yup": "^1.4.0",
