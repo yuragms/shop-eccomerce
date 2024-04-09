@@ -14,9 +14,9 @@ function reducer(state, action) {
       return { ...state, loading: true };
     case 'PAY_SUCCESS':
       return { ...state, loading: false, success: true };
-    case 'PAY_FAIL':
+    case 'PAY_ERROR':
       return { ...state, loading: false, error: action.payload };
-    case 'PAY_REQUEST':
+    case 'PAY_RESET':
       return { ...state, loading: false, success: false, error: false };
   }
 }
@@ -27,18 +27,17 @@ export default function order({
   stripe_public_key,
 }) {
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
-  const [{ loading, error, success }, dispatch] = useReducer(reducer, {
+  const [{ loading, error, order, success }, dispatch] = useReducer(reducer, {
     loading: true,
     order: {},
     error: '',
+    success: '',
   });
   useEffect(() => {
-    if (!orderData._id || success) {
-      if (success) {
-        dispatch({
-          type: 'PAY_RESET',
-        });
-      }
+    if (!orderData._id) {
+      dispatch({
+        type: 'PAY_RESET',
+      });
     } else {
       paypalDispatch({
         type: 'resetOptions',
@@ -52,10 +51,69 @@ export default function order({
         value: 'pending',
       });
     }
-  }, []);
-  function createOrderHandler() {}
-  function onApproveHandler() {}
-  function onErrorHandler() {}
+  }, [order]);
+  // const [{ loading, error, success }, dispatch] = useReducer(reducer, {
+  //   loading: true,
+  //   order: {},
+  //   error: '',
+  // });
+  // useEffect(() => {
+  //   if (!orderData._id || success) {
+  //     if (success) {
+  //       dispatch({
+  //         type: 'PAY_RESET',
+  //       });
+  //     }
+  //   } else {
+  //     paypalDispatch({
+  //       type: 'resetOptions',
+  //       value: {
+  //         'client-id': paypal_client_id,
+  //         currency: 'USD',
+  //       },
+  //     });
+  //     paypalDispatch({
+  //       type: 'setLoadingStatus',
+  //       value: 'pending',
+  //     });
+  //   }
+  // }, []);
+  function createOrderHandler(data, actions) {
+    return actions.order
+      .create({
+        purchase_units: [
+          {
+            amount: {
+              value: orderData.total,
+            },
+          },
+        ],
+      })
+      .then((order_id) => {
+        return order_id;
+      });
+  }
+  function onApproveHandler(data, actions) {
+    console.log('work3');
+    return actions.order.capture().then(async function (details) {
+      try {
+        console.log('work4');
+        dispatch({ type: 'PAY_REQUEST' });
+        console.log('work5');
+        const { data } = await axios.put(`/api/order/${orderData._id}/pay`, {
+          details,
+          order_id: orderData._id,
+        });
+        console.log('onApproveHandler-data:', data);
+        dispatch({ type: 'PAY_SUCCESS', payload: data });
+      } catch (error) {
+        dispatch({ type: 'PAY_ERROR', payload: error });
+      }
+    });
+  }
+  function onErrorHandler(error) {
+    console.log(error);
+  }
   return (
     <>
       <Header country="country" />
