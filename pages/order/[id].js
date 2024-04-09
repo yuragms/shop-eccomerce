@@ -6,6 +6,7 @@ import db from '@/utils/db';
 import User from '@/models/User';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { useEffect, useReducer } from 'react';
+import StripePayment from '@/components/stripePayment';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -20,7 +21,11 @@ function reducer(state, action) {
   }
 }
 
-export default function order({ orderData, paypal_client_id }) {
+export default function order({
+  orderData,
+  paypal_client_id,
+  stripe_public_key,
+}) {
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
   const [{ loading, error, success }, dispatch] = useReducer(reducer, {
     loading: true,
@@ -219,6 +224,13 @@ export default function order({ orderData, paypal_client_id }) {
                   )}
                 </div>
               )}
+              {orderData.paymentMethod == 'credit_card' && (
+                <StripePayment
+                  total={orderData.total}
+                  order_id={orderData._id}
+                  stripe_public_key={stripe_public_key}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -235,6 +247,7 @@ export async function getServerSideProps(context) {
     .populate({ path: 'user', model: User })
     .lean();
   let paypal_client_id = process.env.PAYPAL_CLIENT_ID;
+  let stripe_public_key = process.env.STRIPE_PUBLIC_KEY;
   console.log('order', order);
   console.log('paypal_client_id', paypal_client_id);
   db.disconnectDb();
@@ -242,6 +255,7 @@ export async function getServerSideProps(context) {
     props: {
       orderData: JSON.parse(JSON.stringify(order)),
       paypal_client_id,
+      stripe_public_key,
     },
   };
 }
