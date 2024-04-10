@@ -7,6 +7,7 @@ import User from '@/models/User';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { useEffect, useReducer } from 'react';
 import StripePayment from '@/components/stripePayment';
+import axios from 'axios';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -100,10 +101,15 @@ export default function order({
         console.log('work4');
         dispatch({ type: 'PAY_REQUEST' });
         console.log('work5');
-        const { data } = await axios.put(`/api/order/${orderData._id}/pay`, {
-          details,
-          order_id: orderData._id,
-        });
+        console.log('details', details);
+        const { data } = await axios.put(
+          `/api/order/${orderData._id}/pay`,
+          details
+        );
+        if (data.order.isPaid) {
+          window.location.reload(false);
+          console.log('reload');
+        }
         console.log('onApproveHandler-data:', data);
         dispatch({ type: 'PAY_SUCCESS', payload: data });
       } catch (error) {
