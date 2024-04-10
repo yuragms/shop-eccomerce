@@ -31,7 +31,7 @@ router.post(async (req, res) => {
       order.paidAt = Date.now();
       order.paymentResult = {
         id: payment.id,
-        status: payment.email_address,
+        status: payment.status,
         email_address: payment.email_address,
       };
       await order.save();

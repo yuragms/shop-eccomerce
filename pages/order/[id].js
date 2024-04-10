@@ -156,7 +156,7 @@ export default function order({
                       : ''
                   }
                 >
-                  {orderData.status}
+                  {orderData.paymentResult.status || orderData.status}
                 </span>
               </div>
             </div>
