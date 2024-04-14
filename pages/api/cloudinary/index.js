@@ -3,6 +3,7 @@ import cloudinary from 'cloudinary';
 import bodyParser from 'body-parser';
 import fileUpload from 'express-fileupload';
 import db from '@/utils/db';
+import { imgMiddleware } from '@/middware/imgMiddleware';
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -10,7 +11,9 @@ cloudinary.config({
   cloud_secret: process.env.CLOUDINARY_SECRET,
 });
 
-const router = createRouter().use(fileUpload({ useTempFiles: true }));
+const router = createRouter()
+  .use(fileUpload({ useTempFiles: true }))
+  .use(imgMiddleware);
 export const config = {
   api: {
     bodyParser: false,
