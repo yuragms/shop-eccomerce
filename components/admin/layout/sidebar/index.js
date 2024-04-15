@@ -8,12 +8,16 @@ import {
   MdSpaceDashboard,
 } from 'react-icons/md';
 import { FcSalesPerformance } from 'react-icons/fc';
-import { IoListCircleSharp } from 'react-icons/io5';
+import { IoListCircleSharp, IoNotificationsSharp } from 'react-icons/io5';
 import { ImUsers } from 'react-icons/im';
 import { AiFillMessage } from 'react-icons/ai';
 import { FaThList } from 'react-icons/fa';
 import { BsPatchPlus } from 'react-icons/bs';
-import { RiCoupon3Fill } from 'react-icons/ri';
+import {
+  RiCoupon3Fill,
+  RiLogoutCircleFill,
+  RiSettingsLine,
+} from 'react-icons/ri';
 //---------------------------------------------------------------
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
@@ -132,7 +136,7 @@ export default function Sidebar() {
         </div>
         <div className={styles.sidebar__dropdown}>
           <div className={styles.sidebar__dropdown_heading}>
-            <div className={styles.show}>Categories / Subs</div>
+            <div className={styles.show}>Coupons</div>
           </div>
           <ul className={styles.sidebar__list}>
             <li className={route == 'coupons' ? styles.active : ''}>
@@ -143,6 +147,34 @@ export default function Sidebar() {
             </li>
           </ul>
         </div>
+        <nav>
+          <ul
+            className={`${styles.sidebar__list} ${
+              expand ? styles.nav_flex : ''
+            }`}
+          >
+            <li>
+              <Link href="">
+                <RiSettingsLine />
+              </Link>
+            </li>
+            <li>
+              <Link href="">
+                <IoNotificationsSharp />
+              </Link>
+            </li>
+            <li>
+              <Link href="">
+                <AiFillMessage />
+              </Link>
+            </li>
+            <li>
+              <Link href="">
+                <RiLogoutCircleFill />
+              </Link>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   );
