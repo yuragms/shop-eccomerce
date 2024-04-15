@@ -8,7 +8,7 @@ export async function middleware(req) {
     secret: process.env.JWT_SECRET,
     secureCookie: process.env.NODE_ENV === 'production',
   });
-  console.log(session);
+  console.log('session:', session);
 
   if (pathname == '/checkout') {
     // if (session.role !== 'admin') return NextResponse.redirect(`${origin}`);
@@ -22,6 +22,7 @@ export async function middleware(req) {
   }
   if (pathname.startsWith('/admin')) {
     if (!session) return NextResponse.redirect(`${origin}`);
+    console.log('/adminRoleChecked', session.role);
     if (session.role !== 'admin') return NextResponse.redirect(`${origin}`);
   }
 }
