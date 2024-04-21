@@ -26,6 +26,7 @@ import { useRouter } from 'next/router';
 export default function Sidebar() {
   const router = useRouter();
   const route = router.pathname.split('/admin/dashboard')[1];
+  console.log(route);
   const { data: session } = useSession({ required: true });
 
   const dispatch = useDispatch();
@@ -67,25 +68,25 @@ export default function Sidebar() {
               <span className={styles.show}>Dashboard</span>
             </Link>
           </li>
-          <li className={route == 'sales' ? styles.active : ''}>
+          <li className={route == '/sales' ? styles.active : ''}>
             <Link href="/admin/dashboard/sales">
               <FcSalesPerformance />
               <span className={styles.show}>Sales</span>
             </Link>
           </li>
-          <li className={route == 'orders' ? styles.active : ''}>
+          <li className={route == '/orders' ? styles.active : ''}>
             <Link href="/admin/dashboard/orders">
               <IoListCircleSharp />
               <span className={styles.show}>Orders</span>
             </Link>
           </li>
-          <li className={route == 'users' ? styles.active : ''}>
+          <li className={route == '/users' ? styles.active : ''}>
             <Link href="/admin/dashboard/users">
               <ImUsers />
               <span className={styles.show}>Users</span>
             </Link>
           </li>
-          <li className={route == 'messages' ? styles.active : ''}>
+          <li className={route == '/messages' ? styles.active : ''}>
             <Link href="/admin/dashboard">
               <AiFillMessage />
               <span className={styles.show}>Messages</span>
@@ -116,13 +117,13 @@ export default function Sidebar() {
             <div className={styles.show}>Categories / Subs</div>
           </div>
           <ul className={styles.sidebar__list}>
-            <li className={route == 'categories' ? styles.active : ''}>
+            <li className={route == '/categories' ? styles.active : ''}>
               <Link href="/admin/dashboard/categories">
                 <MdOutlineCategory />
                 <span className={styles.show}>Categories</span>
               </Link>
             </li>
-            <li className={route == 'subCategories' ? styles.active : ''}>
+            <li className={route == '/subCategories' ? styles.active : ''}>
               <Link href="/admin/dashboard/subCategories">
                 <div style={{ transform: 'rotate(180deg)' }}>
                   {' '}
@@ -139,7 +140,7 @@ export default function Sidebar() {
             <div className={styles.show}>Coupons</div>
           </div>
           <ul className={styles.sidebar__list}>
-            <li className={route == 'coupons' ? styles.active : ''}>
+            <li className={route == '/coupons' ? styles.active : ''}>
               <Link href="/admin/dashboard/coupons">
                 <RiCoupon3Fill />
                 <span className={styles.show}>Coupons</span>

@@ -10,7 +10,7 @@ export default function Layout({ children }) {
     <div className={styles.layout}>
       <Sidebar />
       <div
-        style={{ marginLeft: `${showSidebar ? '280px' : '80px'}` }}
+        style={{ marginLeft: `${showSidebar ? '80px' : '280px'}` }}
         className={styles.layout__main}
       >
         {children}
