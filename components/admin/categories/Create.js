@@ -22,6 +22,7 @@ export default function Create({ setCategories }) {
     try {
       const { data } = await axios.post('/api/admin/category', { name });
       setCategories(data.categories);
+      setName('');
       toast.success(data.message);
       console.log(data.categories);
     } catch (error) {
