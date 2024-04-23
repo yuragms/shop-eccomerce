@@ -28,4 +28,21 @@ router.post(async (req, res) => {
   }
 });
 
+router.delete(async (req, res) => {
+  console.log('eeee');
+  try {
+    const { id } = req.query;
+    db.connectDb();
+    await Category.findByIdAndRemove(id);
+    db.disconnectDb();
+    res.json({
+      message: 'Category has been deleted successfully.',
+      categories: await Category.find({}).sort({ updatedAt: -1 }),
+    });
+  } catch (error) {
+    db.disconnectDb();
+    res.status(500).json({ message: error.message });
+  }
+});
+
 export default router.handler();
