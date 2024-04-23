@@ -45,4 +45,20 @@ router.delete(async (req, res) => {
   }
 });
 
+router.put(async (req, res) => {
+  try {
+    const { id, name } = req.body;
+    db.connectDb();
+    await Category.findByIdAndUpdate(id, { name });
+    db.disconnectDb();
+    res.json({
+      message: 'Category has been updated successfully.',
+      categories: await Category.find({}).sort({ createdAt: -1 }),
+    });
+  } catch (error) {
+    db.disconnectDb();
+    res.status(500).json({ message: error.message });
+  }
+});
+
 export default router.handler();
