@@ -9,3 +9,8 @@
   color: $error-color;
   font-size: 13px;
 }
+.flex {
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+}

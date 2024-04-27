@@ -9,6 +9,7 @@ export default function SingularSelect({
   ...rest
 }) {
   const [field, meta] = useField(rest);
+  console.log(data);
   return (
     <div style={{ marginBottom: '1rem' }}>
       <TextField
@@ -22,15 +23,26 @@ export default function SingularSelect({
           meta.touched && meta.error && styles.error__select
         }`}
       >
-        {data.map((option, i) => (
-          <MenuItem key={i} value={option.name}>
+        <MenuItem key={''} value={''}>
+          No Selected / Or Empty
+        </MenuItem>
+        {data.map((option) => (
+          <MenuItem key={option._id} value={option._id || option.name}>
             {option.name}
           </MenuItem>
         ))}
+        {/* {data.map((option, i) => (
+          <MenuItem key={i} value={option.name}>
+            {option.name}
+          </MenuItem>
+        ))} */}
       </TextField>
       {meta.touched && meta.error && (
         <p className={styles.error__msg}>
-          <ErrorMessage name={field.name} />
+          <ErrorMessage name={field.name} component="div">
+            {' '}
+            {(errorMessage) => <div>{errorMessage}</div>}
+          </ErrorMessage>
         </p>
       )}
     </div>
