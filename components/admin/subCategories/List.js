@@ -1,14 +1,16 @@
 import styles from './styles.module.scss';
 import ListItem from './ListItem';
 
-export default function List({ categories, setCategories }) {
+export default function List({ categories, subCategories, setSubCategories }) {
+  console.log('list data', subCategories);
   return (
     <ul className={styles.list}>
-      {categories.map((category) => (
+      {subCategories.map((sub) => (
         <ListItem
-          category={category}
-          key={category._id}
-          setCategories={setCategories}
+          subCategory={sub}
+          key={sub._id}
+          setSubCategories={setSubCategories}
+          categories={categories}
         />
       ))}
     </ul>

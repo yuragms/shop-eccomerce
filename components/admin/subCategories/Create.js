@@ -31,7 +31,7 @@ export default function Create({ categories, setSubCategories }) {
       setName('');
       setParent('');
       toast.success(data.message);
-      console.log(data.categories);
+      console.log('data after create', data.subCategories);
     } catch (error) {
       toast.error(error.response.data.message);
     }

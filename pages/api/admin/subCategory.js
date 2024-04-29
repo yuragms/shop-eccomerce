@@ -34,11 +34,11 @@ router.delete(async (req, res) => {
   try {
     const { id } = req.query;
     db.connectDb();
-    await Category.findByIdAndRemove(id);
+    await SubCategory.findByIdAndRemove(id);
     db.disconnectDb();
     res.json({
-      message: 'Category has been deleted successfully.',
-      categories: await Category.find({}).sort({ updatedAt: -1 }),
+      message: 'SubCategory has been deleted successfully.',
+      subCategories: await SubCategory.find({}).sort({ updatedAt: -1 }),
     });
   } catch (error) {
     db.disconnectDb();
@@ -48,16 +48,37 @@ router.delete(async (req, res) => {
 
 router.put(async (req, res) => {
   try {
-    const { id, name } = req.body;
+    const { id, name, parent } = req.body;
     db.connectDb();
-    await Category.findByIdAndUpdate(id, { name });
+    await SubCategory.findByIdAndUpdate(id, {
+      name,
+      parent,
+      slug: slugify(name),
+    });
     db.disconnectDb();
     res.json({
-      message: 'Category has been updated successfully.',
-      categories: await Category.find({}).sort({ createdAt: -1 }),
+      message: 'SubCategory has been updated successfully.',
+      subCategories: await SubCategory.find({}).sort({ createdAt: -1 }),
     });
   } catch (error) {
     db.disconnectDb();
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.get(async (req, res) => {
+  try {
+    const { category } = req.query;
+    console.log(category);
+    if (!category) {
+      return res.json([]);
+    }
+    db.connectDb();
+    const results = await SubCategory.find({ parent: category }).select('name');
+    console.log(results);
+    db.disconnectDb();
+    return res.json(results);
+  } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });

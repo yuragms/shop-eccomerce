@@ -10,11 +10,16 @@ import { useState } from 'react';
 
 export default function subCategories({ categories, subCategories }) {
   const [data, setData] = useState(subCategories);
+  console.log('subCategory page data:', data);
   return (
     <Layout>
       <div>
         <Create setSubCategories={setData} categories={categories} />
-        {/* <List subCategories={data} setSubCategories={setData} /> */}
+        <List
+          categories={categories}
+          subCategories={data}
+          setSubCategories={setData}
+        />
       </div>
     </Layout>
   );
@@ -23,6 +28,7 @@ export async function getServerSideProps(context) {
   db.connectDb();
   const categories = await Category.find({}).sort({ updatedAt: -1 }).lean();
   const subCategories = await SubCategory.find({})
+    .populate({ path: 'parent', model: Category })
     .sort({ updatedAt: -1 })
     .lean();
   return {
