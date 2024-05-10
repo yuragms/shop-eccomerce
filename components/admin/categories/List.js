@@ -1,15 +1,11 @@
 import styles from './styles.module.scss';
 import ListItem from './ListItem';
 
-export default function List({ categories, setCategories }) {
+export default function List({ coupons, setCoupons }) {
   return (
     <ul className={styles.list}>
-      {categories.map((category) => (
-        <ListItem
-          category={category}
-          key={category._id}
-          setCategories={setCategories}
-        />
+      {coupons.map((coupon) => (
+        <ListItem coupon={coupon} key={coupon._id} setCoupons={setCoupons} />
       ))}
     </ul>
   );
