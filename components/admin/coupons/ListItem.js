@@ -4,16 +4,17 @@ import { AiFillDelete, AiTwotoneEdit } from 'react-icons/ai';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-export default function ListItem({ category, setCategories }) {
+export default function ListItem({ coupon, setCoupons }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState('');
+  const [discount, setDiscount] = useState('');
   const input = useRef(null);
   const handleRemove = async (id) => {
     try {
-      const { data } = await axios.delete('/api/admin/category', {
+      const { data } = await axios.delete('/api/admin/coupon', {
         params: { id },
       });
-      setCategories(data.categories);
+      setCoupons(data.coupons);
       toast.success(data.message);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -21,11 +22,11 @@ export default function ListItem({ category, setCategories }) {
   };
   const handleUpdate = async (id) => {
     try {
-      const { data } = await axios.put('/api/admin/category', {
+      const { data } = await axios.put('/api/admin/coupon', {
         id,
         name,
       });
-      setCategories(data.categories);
+      setCoupons(data.coupons);
       setOpen(false);
       toast.success(data.message);
     } catch (error) {
@@ -37,8 +38,16 @@ export default function ListItem({ category, setCategories }) {
       <input
         className={open ? styles.open : ''}
         type="text"
-        value={name ? name : category.name}
+        value={name ? name : coupon.coupon}
         onChange={(e) => setName(e.target.value)}
+        disabled={!open}
+        ref={input}
+      />
+      <input
+        className={open ? styles.open : ''}
+        type="text"
+        value={discount ? discount : discount.discount}
+        onChange={(e) => setDiscount(e.target.value)}
         disabled={!open}
         ref={input}
       />
@@ -46,7 +55,7 @@ export default function ListItem({ category, setCategories }) {
         <div className={styles.list__item_expand}>
           <button
             className={styles.btn}
-            onClick={() => handleUpdate(category._id)}
+            onClick={() => handleUpdate(coupon._id)}
           >
             Save
           </button>
@@ -55,6 +64,7 @@ export default function ListItem({ category, setCategories }) {
             onClick={() => {
               setOpen(false);
               setName('');
+              setDiscount('');
             }}
           >
             Cancel
@@ -70,7 +80,7 @@ export default function ListItem({ category, setCategories }) {
             }}
           />
         )}
-        <AiFillDelete onClick={() => handleRemove(category._id)} />
+        <AiFillDelete onClick={() => handleRemove(coupon._id)} />
       </div>
     </li>
   );

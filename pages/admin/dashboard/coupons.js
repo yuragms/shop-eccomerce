@@ -1,7 +1,7 @@
 // import styles from './styles.module.scss';
 
-import Create from '@/components/admin/categories/Create';
-import List from '@/components/admin/categories/List';
+import Create from '@/components/admin/coupons/Create';
+import List from '@/components/admin/coupons/List';
 import Layout from '@/components/admin/layout';
 import Coupon from '@/models/Coupon';
 import db from '@/utils/db';
