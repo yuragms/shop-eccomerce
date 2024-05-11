@@ -20,7 +20,7 @@ router.post(async (req, res) => {
     db.disconnectDb();
     res.json({
       message: `Coupon ${coupon} has been created successfully.`,
-      Coupons: await Coupon.find({}).sort({ updatedAt: -1 }),
+      coupons: await Coupon.find({}).sort({ updatedAt: -1 }),
     });
   } catch (error) {
     db.disconnectDb();
@@ -33,11 +33,11 @@ router.delete(async (req, res) => {
   try {
     const { id } = req.query;
     db.connectDb();
-    await Category.findByIdAndRemove(id);
+    await Coupon.findByIdAndRemove(id);
     db.disconnectDb();
     res.json({
-      message: 'Category has been deleted successfully.',
-      categories: await Category.find({}).sort({ updatedAt: -1 }),
+      message: 'Coupon has been deleted successfully.',
+      coupons: await Coupon.find({}).sort({ updatedAt: -1 }),
     });
   } catch (error) {
     db.disconnectDb();
@@ -47,13 +47,18 @@ router.delete(async (req, res) => {
 
 router.put(async (req, res) => {
   try {
-    const { id, name } = req.body;
+    const { id, coupon, discount, startDate, endDate } = req.body;
     db.connectDb();
-    await Category.findByIdAndUpdate(id, { name });
+    await Coupon.findByIdAndUpdate(id, {
+      coupon,
+      discount,
+      startDate,
+      endDate,
+    });
     db.disconnectDb();
     res.json({
-      message: 'Category has been updated successfully.',
-      categories: await Category.find({}).sort({ createdAt: -1 }),
+      message: 'Coupon has been updated successfully.',
+      coupons: await Coupon.find({}).sort({ createdAt: -1 }),
     });
   } catch (error) {
     db.disconnectDb();

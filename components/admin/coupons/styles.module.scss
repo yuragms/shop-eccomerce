@@ -22,6 +22,7 @@
     }
     input {
       padding: 1rem;
+      margin-right: 10px;
       border: none;
       outline: none;
       color: #fff;
@@ -30,7 +31,7 @@
     &_expand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 1rem;
       button: hover {
         background: $dark-blue-color;
       }
