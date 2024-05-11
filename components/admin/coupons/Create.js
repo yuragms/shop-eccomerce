@@ -36,9 +36,22 @@ export default function Create({ setCoupons }) {
   });
   const submitHandler = async () => {
     try {
-      const { data } = await axios.post('/api/admin/coupon', { name });
+      if (startDate.toString() == endDate.toString()) {
+        return toast.error("You can't pick the same Dates.");
+      } else if (endDate.getDate() - startDate.getTime() > 0) {
+        return toast.error('Start Date cannot be more than the end date.');
+      }
+      const { data } = await axios.post('/api/admin/coupon', {
+        coupon: name,
+        discount,
+        startDate,
+        endDate,
+      });
       setCoupons(data.coupons);
       setName('');
+      setDiscount(0);
+      setStartDate(new Date());
+      setEndDate(tomorrow);
       toast.success(data.message);
       console.log(data.coupons);
     } catch (error) {
