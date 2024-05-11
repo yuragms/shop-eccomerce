@@ -5,6 +5,9 @@ import { Form, Formik } from 'formik';
 import AdminInput from '@/components/inputs/admininput';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+import { TextField } from '@mui/material';
 
 export default function Create({ setCoupons }) {
   const [name, setName] = useState('');
@@ -13,6 +16,13 @@ export default function Create({ setCoupons }) {
   tomorrow.setDate(tomorrow.getDate() + 1);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(tomorrow);
+
+  const handleStartDate = (newValue) => {
+    setStartDate(newValue);
+  };
+  const handleEndDate = (newValue) => {
+    setEndDate(newValue);
+  };
   console.log(startDate, endDate);
   const validate = Yup.object({
     name: Yup.string()
@@ -30,7 +40,7 @@ export default function Create({ setCoupons }) {
       setCoupons(data.coupons);
       setName('');
       toast.success(data.message);
-      console.log(data.categories);
+      console.log(data.coupons);
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -62,6 +72,26 @@ export default function Create({ setCoupons }) {
               placholder="Coupon name"
               onChange={(e) => setDiscount(e.target.value)}
             />
+            <div className={styles.date_picker}>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DesktopDatePicker
+                  label="Start Date"
+                  inputFormat="MM/dd/yyyy"
+                  value={startDate}
+                  onChange={handleStartDate}
+                  renderInput={(params) => <TextField {...params} />}
+                  minDate={new Date()}
+                />
+                <DesktopDatePicker
+                  label="End Date"
+                  inputFormat="MM/dd/yyyy"
+                  value={endDate}
+                  onChange={handleEndDate}
+                  renderInput={(params) => <TextField {...params} />}
+                  minDate={new Date()}
+                />
+              </LocalizationProvider>
+            </div>
             <div className={styles.btnWrap}>
               <button type="submit" className={`${styles.btn} `}>
                 <span>Add Coupon</span>
