@@ -1,7 +1,6 @@
 import { createRouter } from 'next-connect';
 import db from '@/utils/db';
 import auth from '@/middware/auth';
-import slugify from 'slugify';
 import Coupon from '@/models/Coupon';
 
 const router = createRouter().use(auth);

@@ -1,7 +1,7 @@
+import axios from 'axios';
 import { useRef, useState } from 'react';
 import styles from './styles.module.scss';
 import { AiFillDelete, AiTwotoneEdit } from 'react-icons/ai';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
@@ -13,10 +13,15 @@ export default function ListItem({ coupon, setCoupons }) {
   const [discount, setDiscount] = useState('');
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
-  const [startDate, setStartDate] = useState(coupon.startDate);
-  const [endDate, setEndDate] = useState(coupon.endDate);
-  console.log('coupon', coupon);
+  const [startDate, setStartDate] = useState(Date.parse(coupon.startDate));
+  // const [endDate, setEndDate] = useState(coupon.endDate);
+  const [endDate, setEndDate] = useState(Date.parse(coupon.endDate));
 
+  // console.log('coupon', coupon);
+  console.log('new Date()', new Date());
+  console.log('tomorrow', tomorrow);
+  console.log('startDate', startDate);
+  console.log('endDate', endDate);
   const handleStartDate = (newValue) => {
     setStartDate(newValue);
   };
@@ -75,25 +80,28 @@ export default function ListItem({ coupon, setCoupons }) {
             onChange={(e) => setDiscount(e.target.value)}
             disabled={!open}
             ref={input}
-          />
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DesktopDatePicker
-              label="Start Date"
-              inputFormat="MM/dd/yyyy"
-              value={startDate}
-              onChange={handleStartDate}
-              renderInput={(params) => <TextField {...params} />}
-              minDate={new Date()}
-            />
-            <DesktopDatePicker
-              label="End Date"
-              inputFormat="MM/dd/yyyy"
-              value={endDate}
-              onChange={handleEndDate}
-              renderInput={(params) => <TextField {...params} />}
-              minDate={tomorrow}
-            />
-          </LocalizationProvider>
+          />{' '}
+          {endDate && (
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DesktopDatePicker
+                label="Start Date"
+                inputFormat="MM/dd/yyyy"
+                value={startDate}
+                // value={new Date()}
+                onChange={handleStartDate}
+                renderInput={(params) => <TextField {...params} />}
+                minDate={new Date()}
+              />
+              <DesktopDatePicker
+                label="End Date"
+                inputFormat="MM/dd/yyyy"
+                value={endDate}
+                onChange={handleEndDate}
+                renderInput={(params) => <TextField {...params} />}
+                minDate={tomorrow}
+              />
+            </LocalizationProvider>
+          )}
           <button
             className={styles.btn}
             onClick={() => handleUpdate(coupon._id)}
