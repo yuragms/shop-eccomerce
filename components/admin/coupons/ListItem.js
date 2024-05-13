@@ -10,7 +10,7 @@ import { TextField } from '@mui/material';
 export default function ListItem({ coupon, setCoupons }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState('');
-  const [discount, setDiscount] = useState('');
+  const [discount, setDiscount] = useState(coupon.discount);
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const [startDate, setStartDate] = useState(Date.parse(coupon.startDate));
@@ -76,10 +76,10 @@ export default function ListItem({ coupon, setCoupons }) {
           <input
             className={open ? styles.open : ''}
             type="text"
-            value={discount ? discount : coupon.discount}
+            // value={discount ? discount : coupon.discount}
+            value={discount}
             onChange={(e) => setDiscount(e.target.value)}
             disabled={!open}
-            ref={input}
           />{' '}
           {endDate && (
             <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -113,7 +113,7 @@ export default function ListItem({ coupon, setCoupons }) {
             onClick={() => {
               setOpen(false);
               setName('');
-              setDiscount('');
+              setDiscount(coupon.discount);
               setStartDate(new Date());
               setEndDate(tomorrow);
             }}
