@@ -1,8 +1,12 @@
 import styles from './styles.module.scss';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 import { Navigation } from 'swiper';
+import Link from 'next/link';
+import { TbEdit } from 'react-icons/tb';
+import { AiOutlineEye } from 'react-icons/ai';
+import { RiDeleteBin2Line } from 'react-icons/ri';
 
 export default function ProductCard({ product }) {
   return (
@@ -15,6 +19,7 @@ export default function ProductCard({ product }) {
         navigation={true}
         modules={[Navigation]}
         className="products__swiper"
+        style={{ padding: '5px 0 5px 5px' }}
         breakpoints={{
           450: {
             slidesPerView: 2,
@@ -38,6 +43,17 @@ export default function ProductCard({ product }) {
             <div className={styles.product__item}>
               <div className={styles.product__item_img}>
                 <img src={p.images[0].url} alt="" />
+              </div>
+              <div className={styles.product__actions}>
+                <Link href={`/admin/dashboard/product/${product._id}`}>
+                  <TbEdit />
+                </Link>
+                <Link href={`/product/${product.slug}?style=${i}`}>
+                  <AiOutlineEye />
+                </Link>
+                <Link href="">
+                  <RiDeleteBin2Line />
+                </Link>
               </div>
             </div>
           </SwiperSlide>

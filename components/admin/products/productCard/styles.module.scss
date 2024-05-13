@@ -31,18 +31,27 @@
     justify-content: center;
     gap: 1rem;
     padding: 5px;
+    & a:nth-of-type(1) svg {
+      stroke: $blue-color;
+    }
+    & a:nth-of-type(2) svg {
+      fill: $success-color;
+    }
+    & a:nth-of-type(3) svg {
+      fill: $error-color;
+    }
     svg {
       width: 30px;
       height: 30px;
-      &:nth-of-type(1) {
-        stroke: $blue-color;
-      }
-      &:nth-of-type(2) {
-        fill: $success-color;
-      }
-      &:nth-of-type(3) {
-        fill: $error-color;
-      }
+      //   &:nth-of-type(1) {
+      //     stroke: $blue-color;
+      //   }
+      //   &:nth-of-type(2) {
+      //     fill: $success-color;
+      //   }
+      //   &:nth-of-type(3) {
+      //     fill: $error-color;
+      //   }
     }
   }
 }
