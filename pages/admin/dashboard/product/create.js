@@ -5,9 +5,12 @@ import Product from '@/models/Product';
 import Category from '@/models/Category';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
-import category from '@/pages/api/admin/category';
-import subCategories from '../subCategories';
+// import category from '@/pages/api/admin/category';
+// import subCategories from '../subCategories';
+// import Images from '@/components/productPage/infos/reviews/Images';
+import SingularSelect from '@/components/selects/SingularSelect';
 
 const initialState = {
   name: '',
@@ -83,6 +86,12 @@ export default function create({ parents, categories }) {
     }
     getSubs();
   }, [product.category]);
+  const handleChange = (e) => {
+    const { value, name } = e.target;
+    setProduct({ ...product, [name]: value });
+  };
+  const validate = Yup.object({});
+  const createProduct = async () => {};
   return (
     <Layout>
       <div className={styles.header}>Create Product</div>
@@ -101,8 +110,57 @@ export default function create({ parents, categories }) {
           imageInputFile: '',
           styleInout: '',
         }}
+        validationSchema={validate}
+        onSubmit={() => {
+          createProduct();
+        }}
       >
-        {(formik) => <Form></Form>}
+        {(formik) => (
+          <Form>
+            {/* {
+              <Images
+                name="imageInputFile"
+                header="Product Carousel Images"
+                text="Add images"
+                images={images}
+                setImages={setImages}
+                setColorImage={setColorImage}
+              />
+            } */}
+            <div className={styles.flex}>
+              {product.color.image && (
+                <img
+                  src={product.color.image}
+                  className={styles.image_span}
+                  alt=""
+                />
+              )}
+              {product.color.color && (
+                <span
+                  className={styles.color_span}
+                  style={{ background: `${product.color.color}` }}
+                ></span>
+              )}
+              {/* {<Colors
+                name="color"
+                product={product}
+                setProduct={setProduct}
+                colorImage={colorImage} />
+              <Style name="styleInput" product={product}
+                setProduct={setProduct}
+                colorImage={colorImage}/>
+              } */}
+              <SingularSelect
+                name="parent"
+                value={product.parent}
+                label="parent"
+                data={parents}
+                header="Add to an existing product"
+                handleChange={handleChange}
+              />
+            </div>
+          </Form>
+        )}
       </Formik>
     </Layout>
   );
