@@ -56,25 +56,27 @@ export default function create({ parents, categories }) {
   const [images, setImages] = useState('');
   const [description_images, setDescription_images] = useState('');
   const [loading, setLoading] = useState(false);
-  //   useEffect(() => {
-  //     const getParentData = async () => {
-  //       console.log(product.parent);
-  //       const { data } = await axios.post(`/api/product/${product.parent || ''}`);
-  //       if (data) {
-  //         setProduct({
-  //           ...product,
-  //           name: data.name,
-  //           description: data.description,
-  //           brand: data.brand,
-  //           category: data.category,
-  //           subCategories: data.subCategories,
-  //           questions: [],
-  //           details: [],
-  //         });
-  //       }
-  //     };
-  //     getParentData();
-  //   }, [product.parent]);
+  console.log(product);
+  useEffect(() => {
+    const getParentData = async () => {
+      console.log('product.parent:', product.parent);
+      const { data } = await axios.get(`/api/product/${product.parent}`);
+      console.log(data);
+      if (data) {
+        setProduct({
+          ...product,
+          name: data.name,
+          description: data.description,
+          brand: data.brand,
+          category: data.category,
+          subCategories: data.subCategories,
+          questions: [],
+          details: [],
+        });
+      }
+    };
+    getParentData();
+  }, [product.parent]);
   useEffect(() => {
     async function getSubs() {
       const { data } = await axios.get('/api/admin/subCategory', {
