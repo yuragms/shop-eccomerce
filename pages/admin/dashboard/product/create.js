@@ -11,6 +11,8 @@ import { Form, Formik } from 'formik';
 // import subCategories from '../subCategories';
 // import Images from '@/components/productPage/infos/reviews/Images';
 import SingularSelect from '@/components/selects/SingularSelect';
+import MultipleSelect from '@/components/selects/MultipleSelect';
+import AdminInput from '@/components/inputs/admininput';
 
 const initialState = {
   name: '',
@@ -143,7 +145,8 @@ export default function create({ parents, categories }) {
                   style={{ background: `${product.color.color}` }}
                 ></span>
               )}
-              {/* {<Colors
+            </div>
+            {/* {<Colors
                 name="color"
                 product={product}
                 setProduct={setProduct}
@@ -152,15 +155,92 @@ export default function create({ parents, categories }) {
                 setProduct={setProduct}
                 colorImage={colorImage}/>
               } */}
-              <SingularSelect
-                name="parent"
-                value={product.parent}
-                label="parent"
-                data={parents}
-                header="Add to an existing product"
+            <SingularSelect
+              name="parent"
+              value={product.parent}
+              label="parent"
+              data={parents}
+              header="Add to an existing product"
+              handleChange={handleChange}
+            />
+            <SingularSelect
+              name="category"
+              value={product.category}
+              label="Category"
+              data={categories}
+              header="Select a Category"
+              handleChange={handleChange}
+              disabled={product.parent}
+            />
+            {product.category && (
+              <MultipleSelect
+                value={product.subCategories}
+                data={subs}
+                header="Select SubCategories"
+                name="subCategories"
+                disabled={product.parent}
                 handleChange={handleChange}
               />
-            </div>
+            )}
+            <div className={styles.header}>Basic Infos</div>
+            <AdminInput
+              type="text"
+              label="Name"
+              name="name"
+              placholder="Product name"
+              onChange={handleChange}
+            />
+            <AdminInput
+              type="text"
+              label="Description"
+              name="description"
+              placholder="Product description"
+              onChange={handleChange}
+            />
+            <AdminInput
+              type="text"
+              label="Brand"
+              name="brand"
+              placholder="Product brand"
+              onChange={handleChange}
+            />
+            <AdminInput
+              type="text"
+              label="Sku"
+              name="sku"
+              placholder="Product sku/ number"
+              onChange={handleChange}
+            />
+            <AdminInput
+              type="text"
+              label="Discount"
+              name="discount"
+              placholder="Product discount"
+              onChange={handleChange}
+            />
+            {/* {
+              <Images
+                name="imageDescInputFile"
+                header="Product Description Images"
+                text="Add images"
+                images={description_images}
+                setImages={setDescriptionImages}
+                setColorImage={setColorImage}
+              />
+              <Details
+                sizes={product.details}
+                product={product}
+                setProduct={setProduct}
+              />
+                            <Questions
+                sizes={product.questions}
+                product={product}
+                setProduct={setProduct}
+              />
+            } */}
+            <button className={styles.btn} type="submit">
+              Create Product
+            </button>
           </Form>
         )}
       </Formik>
