@@ -1,25 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 // import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { makeStyles, useTheme } from '@material-ui/styles';
-// import Input from '@material-ui/core/Input';
-import Input from '@mui/material/Input';
-// import InputLabel from '@material-ui/core/InputLabel';
-import InputLabel from '@mui/material/InputLabel';
-// import MenuItem from '@material-ui/core/MenuItem';
-import MenuItem from '@mui/material/MenuItem';
-// import FormControl from '@material-ui/core/FormControl';
-import FormControl from '@mui/material/FormControl';
-// import ListItemText from '@material-ui/core/ListItemText';
-import ListItemText from '@mui/material/ListItemText';
-// import Select from '@material-ui/core/Select';
-import Select from '@mui/material/Select';
-// import Checkbox from '@material-ui/core/Checkbox';
-import Checkbox from '@mui/material/Checkbox';
 // import Chip from '@material-ui/core/Chip';
+// import Checkbox from '@material-ui/core/Checkbox';
+// import Select from '@material-ui/core/Select';
+// import ListItemText from '@material-ui/core/ListItemText';
+// import FormControl from '@material-ui/core/FormControl';
+// import MenuItem from '@material-ui/core/MenuItem';
+// import InputLabel from '@material-ui/core/InputLabel';
+// import Input from '@material-ui/core/Input';
+
+import { makeStyles, useTheme } from '@material-ui/styles';
+import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import ListItemText from '@mui/material/ListItemText';
+import Select from '@mui/material/Select';
+import Checkbox from '@mui/material/Checkbox';
 import Chip from '@mui/material/Chip';
 import styles from './styles.module.scss';
 import { useField, Field, ErrorMessage } from 'formik';
+
 // const useStyles = makeStyles((theme) => ({
 //   formControl: {
 //     margin: theme.spacing(1),
@@ -55,6 +57,7 @@ export default function MultipleSelect({
 }) {
   const [subs, setSubs] = useState(data || []);
   const [field, meta] = useField(rest);
+  console.log('rest:', rest);
   useEffect(() => {
     setSubs(data);
   }, [data]);
@@ -62,8 +65,9 @@ export default function MultipleSelect({
     ? data.reduce((obj, cur) => ({ ...obj, [cur._id]: cur.name }), {})
     : {};
 
-  //   const classes = useStyles();
-  //   const theme = useTheme();
+  // const classes = useStyles();
+  // const theme = useTheme();
+
   const [personName, setPersonName] = React.useState([]);
   /*
   const handleChange = (event) => {
@@ -105,7 +109,7 @@ export default function MultipleSelect({
         </span>
       </div>
       <FormControl
-      //   className={classes.formControl}
+      // className={classes.formControl}
       >
         {/*
         <InputLabel id="demo-mutiple-chip-label">Chip</InputLabel> */}
@@ -120,13 +124,13 @@ export default function MultipleSelect({
           input={<Input id="select-multiple-chip" />}
           renderValue={(selected) => (
             <div
-            //   className={classes.chips}
+            // className={classes.chips}
             >
               {selected.map((value) => (
                 <Chip
                   key={value}
                   label={result[value]}
-                  //   className={classes.chip}
+                  // className={classes.chip}
                 />
               ))}
             </div>

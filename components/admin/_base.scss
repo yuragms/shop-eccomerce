@@ -43,3 +43,11 @@
     width: 30px;
   }
 }
+
+.header__error {
+  color: $error-color;
+  border-color: $error-color;
+}
+.error_bg {
+  background: $error-color !important;
+}

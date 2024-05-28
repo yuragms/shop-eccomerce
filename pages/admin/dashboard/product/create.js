@@ -94,7 +94,18 @@ export default function create({ parents, categories }) {
     const { value, name } = e.target;
     setProduct({ ...product, [name]: value });
   };
-  const validate = Yup.object({});
+  const validate = Yup.object({
+    name: Yup.string()
+      .required('Please add a name')
+      .min(10, 'Product name must between 10 and 300 characters.')
+      .max(300, 'Product name must between 10 and 300 characters.'),
+    brand: Yup.string().required('Please add a brand'),
+    category: Yup.string().required('Please add a category'),
+    subCategories: Yup.array().min(1, 'Please select atlest one sub Category.'),
+    sku: Yup.string().required('Please add a sku/number'),
+    color: Yup.string().required('Please add a color'),
+    description: Yup.string().required('Please add a description'),
+  });
   const createProduct = async () => {};
   return (
     <Layout>
@@ -158,7 +169,7 @@ export default function create({ parents, categories }) {
             <SingularSelect
               name="parent"
               value={product.parent}
-              label="parent"
+              placeholder="Parent product"
               data={parents}
               header="Add to an existing product"
               handleChange={handleChange}
@@ -166,7 +177,7 @@ export default function create({ parents, categories }) {
             <SingularSelect
               name="category"
               value={product.category}
-              label="Category"
+              placeholder="Category"
               data={categories}
               header="Select a Category"
               handleChange={handleChange}
