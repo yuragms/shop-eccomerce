@@ -13,6 +13,9 @@ import { Form, Formik } from 'formik';
 import SingularSelect from '@/components/selects/SingularSelect';
 import MultipleSelect from '@/components/selects/MultipleSelect';
 import AdminInput from '@/components/inputs/admininput';
+import DialogModal from '@/components/dialogModal';
+import { useDispatch } from 'react-redux';
+import { showDialog } from '@/store/DialogSlice';
 
 const initialState = {
   name: '',
@@ -58,6 +61,7 @@ export default function create({ parents, categories }) {
   const [images, setImages] = useState('');
   const [description_images, setDescription_images] = useState('');
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   console.log(product);
   useEffect(() => {
     const getParentData = async () => {
@@ -107,9 +111,24 @@ export default function create({ parents, categories }) {
     description: Yup.string().required('Please add a description'),
   });
   const createProduct = async () => {};
+  useEffect(() => {
+    dispatch(
+      showDialog({
+        header: 'MOHAMED HAJJIIp',
+        msg: [
+          {
+            msgs: 'aaaa',
+            type: 'success',
+          },
+        ],
+      })
+    );
+  }, []);
+
   return (
     <Layout>
       <div className={styles.header}>Create Product</div>
+      <DialogModal />
       <Formik
         enableReinitialize
         initialValues={{
