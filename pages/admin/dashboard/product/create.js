@@ -111,24 +111,24 @@ export default function create({ parents, categories }) {
     description: Yup.string().required('Please add a description'),
   });
   const createProduct = async () => {};
-  useEffect(() => {
-    dispatch(
-      showDialog({
-        header: 'MOHAMED HAJJIIp',
-        msg: [
-          {
-            msgs: 'aaaa',
-            type: 'success',
-          },
-        ],
-      })
-    );
-  }, []);
+  // useEffect(() => {
+  //   dispatch(
+  //     showDialog({
+  //       header: 'MOHAMED HAJJIIp',
+  //       msg: [
+  //         {
+  //           msgs: 'aaaa',
+  //           type: 'success',
+  //         },
+  //       ],
+  //     })
+  //   );
+  // }, []);
 
   return (
     <Layout>
       <div className={styles.header}>Create Product</div>
-      <DialogModal />
+      {/* <DialogModal /> */}
       <Formik
         enableReinitialize
         initialValues={{
