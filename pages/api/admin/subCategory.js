@@ -70,10 +70,13 @@ router.get(async (req, res) => {
   try {
     const { category } = req.query;
     console.log(category);
+
     if (!category) {
+      console.log('category do not exist');
       return res.json([]);
     }
     db.connectDb();
+    console.log('db connect');
     const results = await SubCategory.find({ parent: category }).select('name');
     console.log(results);
     db.disconnectDb();

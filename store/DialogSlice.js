@@ -1,18 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// const initialState = {
+//   show: true,
+//   header: 'Error creating product',
+//   msgs: [
+//     {
+//       msg: 'Choose at least 2 images.',
+//       type: 'error',
+//     },
+//     {
+//       msg: 'Choose at least 2 images.',
+//       type: 'success',
+//     },
+//   ],
+//   link: {
+//     link: '',
+//     link_text: '',
+//   },
+// };
 const initialState = {
-  show: true,
-  header: 'Error creating product',
-  msgs: [
-    {
-      msg: 'Choose at least 2 images.',
-      type: 'error',
-    },
-    {
-      msg: 'Choose at least 2 images.',
-      type: 'success',
-    },
-  ],
+  show: false,
+  header: '',
+  msgs: [],
   link: {
     link: '',
     link_text: '',
@@ -44,11 +53,11 @@ export const DialogSlice = createSlice({
       },
     },
     hideDialog: {
-      reducer: (state, action) => {
+      reducer: (state) => {
         state.show = false;
         state.header = '';
         state.msgs = [];
-        state.link = {};
+        state.link = { link: '', link_text: '' };
       },
     },
   },

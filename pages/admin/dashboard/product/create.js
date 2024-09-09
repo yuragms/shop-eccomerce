@@ -66,6 +66,7 @@ export default function create({ parents, categories }) {
   useEffect(() => {
     const getParentData = async () => {
       console.log('product.parent:', product.parent);
+      console.log('2222');
       const { data } = await axios.get(`/api/product/${product.parent}`);
       console.log(data);
       if (data) {
@@ -94,10 +95,12 @@ export default function create({ parents, categories }) {
     }
     getSubs();
   }, [product.category]);
+
   const handleChange = (e) => {
     const { value, name } = e.target;
     setProduct({ ...product, [name]: value });
   };
+
   const validate = Yup.object({
     name: Yup.string()
       .required('Please add a name')
@@ -110,14 +113,16 @@ export default function create({ parents, categories }) {
     color: Yup.string().required('Please add a color'),
     description: Yup.string().required('Please add a description'),
   });
+
   const createProduct = async () => {};
+
   // useEffect(() => {
   //   dispatch(
   //     showDialog({
   //       header: 'MOHAMED HAJJIIp',
-  //       msg: [
+  //       msgs: [
   //         {
-  //           msgs: 'aaaa',
+  //           msg: 'aaaa',
   //           type: 'success',
   //         },
   //       ],
