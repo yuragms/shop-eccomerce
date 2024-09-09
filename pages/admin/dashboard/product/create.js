@@ -16,6 +16,7 @@ import AdminInput from '@/components/inputs/admininput';
 import DialogModal from '@/components/dialogModal';
 import { useDispatch } from 'react-redux';
 import { showDialog } from '@/store/DialogSlice';
+import Images from '@/components/admin/createProduct/images';
 
 const initialState = {
   name: '',
@@ -156,7 +157,7 @@ export default function create({ parents, categories }) {
       >
         {(formik) => (
           <Form>
-            {/* {
+            {
               <Images
                 name="imageInputFile"
                 header="Product Carousel Images"
@@ -165,7 +166,7 @@ export default function create({ parents, categories }) {
                 setImages={setImages}
                 setColorImage={setColorImage}
               />
-            } */}
+            }
             <div className={styles.flex}>
               {product.color.image && (
                 <img
