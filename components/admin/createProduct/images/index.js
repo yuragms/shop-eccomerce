@@ -22,7 +22,7 @@ export default function Images({
   const handleImages = (e) => {
     let files = Array.from(e.target.files);
     files.forEach((img, i) => {
-      if (i == 5 || images.length == 6) {
+      if (images.length == 6) {
         dispatch(
           showDialog({
             header: 'Maximu 6 images are allowed.',
@@ -76,6 +76,9 @@ export default function Images({
       }
     });
   };
+  const handleRemove = (image) => {
+    setImages((images) => images.filter((item) => item !== image));
+  };
   return (
     <div className={styles.images}>
       <div
@@ -127,7 +130,7 @@ export default function Images({
                 <div className={styles.blur}></div>
                 <img src={img} alt="" />
                 <div className={styles.images__main_grid_actions}>
-                  <button>
+                  <button onClick={() => handleRemove(img)}>
                     <RiDeleteBin7Fill />
                   </button>
                   <button>
