@@ -3,6 +3,8 @@ import styles from './styles.module.scss';
 import { ErrorMessage, useField } from 'formik';
 import { useRef } from 'react';
 import { showDialog } from '@/store/DialogSlice';
+import { RiDeleteBin7Fill, RiShape2Line } from 'react-icons/ri';
+import { GiExtractionOrb } from 'react-icons/gi';
 
 export default function Images({
   images,
@@ -15,6 +17,7 @@ export default function Images({
 }) {
   const dispatch = useDispatch();
   const fileInput = useRef(null);
+  // console.log('images', images);
   const [meta, field] = useField(props);
   const handleImages = (e) => {
     let files = Array.from(e.target.files);
@@ -51,6 +54,25 @@ export default function Images({
         );
         files = files.filter((item) => item !== img.name);
         return;
+      } else if (img.size > 1024 * 1024 * 10) {
+        dispatch(
+          showDialog({
+            header: 'Unsopported Format.',
+            msgs: [
+              {
+                msg: `${img.name} size is too large, maximum of 10mb allowed.`,
+                type: 'error',
+              },
+            ],
+          })
+        );
+        return;
+      } else {
+        const reader = new FileReader();
+        reader.readAsDataURL(img);
+        reader.onload = (e) => {
+          setImages((images) => [...images, e.target.result]);
+        };
       }
     });
   };
@@ -81,6 +103,45 @@ export default function Images({
         accept="image/jpeg,image/png,image/webp"
         onChange={handleImages}
       />
+      <div className={styles.images__main}>
+        <div
+          className={`${styles.images__main_grid} ${
+            images.length == 2
+              ? styles.grid__two
+              : images.length == 3
+              ? styles.grid__three
+              : images.length == 4
+              ? styles.grid__foor
+              : images.length == 5
+              ? styles.grid__five
+              : images.length == 6
+              ? styles.grid__six
+              : ''
+          }`}
+        >
+          {!images.length ? (
+            <img src="../../../images/no_image.png" alt="" />
+          ) : (
+            images.map((img, i) => (
+              <div className={styles.images__main_grid_wrap} key={i}>
+                <div className={styles.blur}></div>
+                <img src={img} alt="" />
+                <div className={styles.images__main_grid_actions}>
+                  <button>
+                    <RiDeleteBin7Fill />
+                  </button>
+                  <button>
+                    <GiExtractionOrb />
+                  </button>
+                  <button>
+                    <RiShape2Line />
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
       <button
         type="reset"
         disabled={images.length == 6}

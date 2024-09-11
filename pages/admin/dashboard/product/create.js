@@ -59,7 +59,7 @@ export default function create({ parents, categories }) {
   const [product, setProduct] = useState(initialState);
   const [subs, setSubs] = useState([]);
   const [colorImage, setColorImage] = useState('');
-  const [images, setImages] = useState('');
+  const [images, setImages] = useState([]);
   const [description_images, setDescription_images] = useState('');
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
