@@ -17,6 +17,7 @@ import DialogModal from '@/components/dialogModal';
 import { useDispatch } from 'react-redux';
 import { showDialog } from '@/store/DialogSlice';
 import Images from '@/components/admin/createProduct/images';
+import Colors from '@/components/admin/createProduct/colors';
 
 const initialState = {
   name: '',
@@ -182,15 +183,16 @@ export default function create({ parents, categories }) {
                 ></span>
               )}
             </div>
-            {/* {<Colors
-                name="color"
-                product={product}
+            <Colors
+              name="color"
+              product={product}
+              setProduct={setProduct}
+              colorImage={colorImage}
+            />
+            {/* <Style name="styleInput" product={product}
                 setProduct={setProduct}
-                colorImage={colorImage} />
-              <Style name="styleInput" product={product}
-                setProduct={setProduct}
-                colorImage={colorImage}/>
-              } */}
+                colorImage={colorImage}/> */}
+
             <SingularSelect
               name="parent"
               value={product.parent}

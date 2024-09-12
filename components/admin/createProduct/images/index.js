@@ -133,7 +133,7 @@ export default function Images({
                   <button onClick={() => handleRemove(img)}>
                     <RiDeleteBin7Fill />
                   </button>
-                  <button>
+                  <button onClick={() => setColorImage(img)}>
                     <GiExtractionOrb />
                   </button>
                   <button>
