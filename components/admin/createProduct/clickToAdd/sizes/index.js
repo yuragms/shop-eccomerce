@@ -11,9 +11,11 @@ export default function Sizes({ sizes, product, setProduct }) {
     setProduct({ ...product, sizes: values });
   };
   const handleRemove = (i) => {
-    const values = [...sizes];
-    values.splice(i, 1);
-    setProduct({ ...product, sizes: values });
+    if (sizes.length > 1) {
+      const values = [...sizes];
+      values.splice(i, 1);
+      setProduct({ ...product, sizes: values });
+    }
   };
   console.log('product sizes', product.sizes);
   return (
