@@ -19,8 +19,9 @@ import { showDialog } from '@/store/DialogSlice';
 import Images from '@/components/admin/createProduct/images';
 import Colors from '@/components/admin/createProduct/colors';
 import Style from '@/components/admin/createProduct/style';
-import Sizes from '@/components/admin/createProduct/clickToAdd/sizes';
-import Details from '@/components/admin/createProduct/clickToAdd/details';
+import Sizes from '@/components/admin/createProduct/clickToAdd/Sizes';
+import Details from '@/components/admin/createProduct/clickToAdd/Details';
+import Questions from '@/components/admin/createProduct/clickToAdd/Questions';
 
 const initialState = {
   name: '',
@@ -272,6 +273,11 @@ export default function create({ parents, categories }) {
               product={product}
               setProduct={setProduct}
             />
+            <Questions
+              questions={product.questions}
+              product={product}
+              setProduct={setProduct}
+            />
             {/* {
               <Images
                 name="imageDescInputFile"
@@ -282,11 +288,7 @@ export default function create({ parents, categories }) {
                 setColorImage={setColorImage}
               />
 
-                            <Questions
-                sizes={product.questions}
-                product={product}
-                setProduct={setProduct}
-              />
+                            
             } */}
             <button className={styles.btn} type="submit">
               Create Product
