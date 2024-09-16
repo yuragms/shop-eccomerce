@@ -6,7 +6,7 @@ export const validateEmail = (email) => {
 
 export const validateCreateProduct = (product, images) => {
   let sizes = product.sizes;
-  let dettails = product.dettails;
+  let details = product.details;
   let questions = product.questions;
   const checks = [
     {
@@ -14,14 +14,14 @@ export const validateCreateProduct = (product, images) => {
       type: 'success',
     },
   ];
-  if (images.length < 6) {
+  if (images.length < 3) {
     checks.push({
-      msg: `Choose atleast 6 images (${6 - images.length} remaining).`,
+      msg: `Choose atleast 3 images (${3 - images.length} remaining).`,
       type: 'error',
     });
   } else {
     checks.push({
-      msg: `6 images choosen.`,
+      msg: `${images.length} images choosen.`,
       type: 'success',
     });
   }
@@ -36,5 +36,64 @@ export const validateCreateProduct = (product, images) => {
       type: 'success',
     });
   }
-  return checks;
+  // return checks;
+  if (!product.color.image) {
+    checks.push({
+      msg: `Choose a main product style image.`,
+      type: 'error',
+    });
+  } else {
+    checks.push({
+      msg: `Product style image been choosen`,
+      type: 'success',
+    });
+  }
+  for (var i = 0; i < sizes.length; i++) {
+    if (sizes[i].qty == '' || sizes[i].price == '' || sizes[i].size == '') {
+      checks.push({
+        msg: `Please fill all informations on sizes.`,
+        type: 'error',
+      });
+      break;
+    } else {
+      checks.push({
+        msg: `Atleast one size/qty/price added.`,
+        type: 'success',
+      });
+    }
+  }
+  for (var i = 0; i < details.length; i++) {
+    if ((details[i].name = '' || details[i].value == '')) {
+      checks.push({
+        msg: `Please fill all informations on details.`,
+        type: 'error',
+      });
+      break;
+    } else {
+      checks.push({
+        msg: `Atleast one detail added.`,
+        type: 'success',
+      });
+    }
+  }
+  for (var i = 0; i < questions.length; i++) {
+    if (questions[i].question == '' || questions[i].answer == '') {
+      checks.push({
+        msg: `Please fill all informations on questions.`,
+        type: 'error',
+      });
+      break;
+    } else {
+      checks.push({
+        msg: `Atleast one detail added.`,
+        type: 'success',
+      });
+    }
+  }
+  var s_test = checks.find((c) => c.type == 'error');
+  if (s_test) {
+    return checks;
+  } else {
+    return 'valid';
+  }
 };
