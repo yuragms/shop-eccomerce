@@ -22,6 +22,7 @@ import Style from '@/components/admin/createProduct/style';
 import Sizes from '@/components/admin/createProduct/clickToAdd/Sizes';
 import Details from '@/components/admin/createProduct/clickToAdd/Details';
 import Questions from '@/components/admin/createProduct/clickToAdd/Questions';
+import { validateCreateProduct } from '@/utils/validation';
 
 const initialState = {
   name: '',
@@ -114,13 +115,26 @@ export default function create({ parents, categories }) {
       .max(300, 'Product name must between 10 and 300 characters.'),
     brand: Yup.string().required('Please add a brand'),
     category: Yup.string().required('Please add a category'),
-    subCategories: Yup.array().min(1, 'Please select atlest one sub Category.'),
+    // subCategories: Yup.array().min(1, 'Please select atlest one sub Category.'),
     sku: Yup.string().required('Please add a sku/number'),
     color: Yup.string().required('Please add a color'),
     description: Yup.string().required('Please add a description'),
   });
 
-  const createProduct = async () => {};
+  const createProduct = async () => {
+    let test = validateCreateProduct(product, images);
+    if (test == 'valid') {
+      createProductHandler();
+    } else {
+      dispatch(
+        showDialog({
+          header: 'Please follow our instructions.',
+          msgs: test,
+        })
+      );
+    }
+  };
+  const createProductHandler = async () => {};
 
   // useEffect(() => {
   //   dispatch(
@@ -290,7 +304,10 @@ export default function create({ parents, categories }) {
 
                             
             } */}
-            <button className={styles.btn} type="submit">
+            <button
+              className={`${styles.btn} ${styles.btn__primary} ${styles.submit_btn}`}
+              type="submit"
+            >
               Create Product
             </button>
           </Form>

@@ -21,3 +21,18 @@
   object-fit: cover;
   margin-right: 1rem;
 }
+.submit_btn {
+  width: 200px;
+  height: 60px;
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  transform-origin: center;
+  transition: all 0.2s ease;
+  font-size: 18px;
+  &:hover {
+    width: 250px;
+    height: 80px;
+  }
+}
