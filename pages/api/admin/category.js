@@ -3,8 +3,9 @@ import db from '@/utils/db';
 import auth from '@/middware/auth';
 import slugify from 'slugify';
 import Category from '@/models/Category';
+import admin from '@/middware/admin';
 
-const router = createRouter().use(auth);
+const router = createRouter().use(auth).use(admin);
 
 router.post(async (req, res) => {
   try {
