@@ -7,7 +7,7 @@ export default function users({ users }) {
   console.log('users', users);
   return (
     <Layout>
-      <EnhancedTable />
+      <EnhancedTable rows={users} />
     </Layout>
   );
 }
