@@ -23,6 +23,8 @@ import Sizes from '@/components/admin/createProduct/clickToAdd/Sizes';
 import Details from '@/components/admin/createProduct/clickToAdd/Details';
 import Questions from '@/components/admin/createProduct/clickToAdd/Questions';
 import { validateCreateProduct } from '@/utils/validation';
+import dataURItoBlob from '@/utils/dataURItoBlob';
+import { uploadImages } from '@/requests/upload';
 
 const initialState = {
   name: '',
@@ -134,7 +136,47 @@ export default function create({ parents, categories }) {
       );
     }
   };
-  const createProductHandler = async () => {};
+  let uploaded_images = [];
+  const style_img = '';
+  const createProductHandler = async () => {
+    setLoading(true);
+    if (images) {
+      let temp = images.map((img) => {
+        return dataURItoBlob(img);
+      });
+      const path = 'product images';
+      let formData = new FormData();
+      formData.append('path', path);
+      temp.forEach((image) => {
+        formData.append('file', image);
+      });
+      uploaded_images = await uploadImages(formData);
+      console.log(uploaded_images);
+    }
+    if (product.color.image) {
+      let temp = dataURItoBlob(product.color.image);
+      let path = 'product style images';
+      let formData = new FormData();
+      formData.append('path', path);
+      formData.append('file', file);
+      let cloudinary_style_img = await uploadImages(formData);
+      style_img = cloudinary_style_img[0].url;
+    }
+    try {
+      const { data } = await axios.post('/api/admin/product', {
+        ...product,
+        images: uploaded_images,
+        color: {
+          image: style_img,
+          color: product.color.color,
+        },
+      });
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error.response.data.message);
+    }
+  };
 
   // useEffect(() => {
   //   dispatch(
