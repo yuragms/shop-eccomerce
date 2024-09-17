@@ -25,6 +25,7 @@ import Questions from '@/components/admin/createProduct/clickToAdd/Questions';
 import { validateCreateProduct } from '@/utils/validation';
 import dataURItoBlob from '@/utils/dataURItoBlob';
 import { uploadImages } from '@/requests/upload';
+import { toast } from 'react-toastify';
 
 const initialState = {
   name: '',
@@ -158,7 +159,7 @@ export default function create({ parents, categories }) {
       let path = 'product style images';
       let formData = new FormData();
       formData.append('path', path);
-      formData.append('file', file);
+      formData.append('file', temp);
       let cloudinary_style_img = await uploadImages(formData);
       style_img = cloudinary_style_img[0].url;
     }
@@ -172,9 +173,11 @@ export default function create({ parents, categories }) {
         },
       });
       setLoading(false);
+      toast.success(data.message);
     } catch (error) {
       setLoading(false);
       console.log(error.response.data.message);
+      toast.error(error.response.data.message);
     }
   };
 
