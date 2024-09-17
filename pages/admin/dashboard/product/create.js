@@ -137,7 +137,7 @@ export default function create({ parents, categories }) {
     }
   };
   let uploaded_images = [];
-  const style_img = '';
+  let style_img = '';
   const createProductHandler = async () => {
     setLoading(true);
     if (images) {
