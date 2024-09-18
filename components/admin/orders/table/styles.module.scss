@@ -17,6 +17,12 @@
     object-fit: cover;
     box-shadow: $shadow-1;
   }
+  &__productImg {
+    height: 150px;
+    height: 100px;
+    object-fit: cover;
+    box-shadow: $shadow-1;
+  }
 }
 .ver {
   width: 32px;

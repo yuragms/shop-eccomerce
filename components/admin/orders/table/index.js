@@ -80,6 +80,7 @@ function Row(props) {
           <b>{row.total}$</b>
         </TableCell>
       </TableRow>
+
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
@@ -132,42 +133,48 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                Order for
+                Order items
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
                     <TableCell></TableCell>
-                    <TableCell>Full Name</TableCell>
-                    <TableCell>Email</TableCell>
-                    <TableCell align="right">Shipping Informations</TableCell>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Size</TableCell>
+                    <TableCell>Qty</TableCell>
+                    <TableCell>Price</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {/* {row.history.map((historyRow) => ( */}
-                  <TableRow key={row.user.id}>
-                    <TableCell component="th" scope="row">
-                      <img
-                        src={row.user.image}
-                        className={styles.table__img}
-                        alt=""
-                      />
+                  {row.products.map((p) => (
+                    <TableRow key={p._id}>
+                      <TableCell component="th" scope="row">
+                        <img
+                          src={p.image}
+                          alt=""
+                          className={styles.table__productImg}
+                        />
+                      </TableCell>
+                      <TableCell>{p.name}</TableCell>
+                      <TableCell align="left">{p.size}</TableCell>
+                      <TableCell align="left">x{p.qty}</TableCell>
+                      <TableCell align="left">{p.price}$</TableCell>
+                    </TableRow>
+                  ))}
+                  <TableRow key={row._id}>
+                    <TableCell component="th" scope="row" align="left">
+                      TOTAL
                     </TableCell>
-                    <TableCell>{row.user.name}</TableCell>
-                    <TableCell align="left">{row.user.email}</TableCell>
-                    <TableCell align="right">
-                      {row.shippingAddress.firstName}{' '}
-                      {row.shippingAddress.lastName} <br />
-                      {row.shippingAddress.address1} <br />
-                      {row.shippingAddress.address2} <br />
-                      {row.shippingAddress.state},{row.shippingAddress.city}{' '}
-                      <br />
-                      {row.shippingAddress.country} <br />
-                      {row.shippingAddress.zipCode} <br />
-                      {row.shippingAddress.phoneNumber} <br />
+                    <TableCell></TableCell>
+                    <TableCell align="left"></TableCell>
+                    <TableCell align="left"></TableCell>
+                    <TableCell
+                      align="left"
+                      style={{ padding: '20px 0 20px 18px' }}
+                    >
+                      <b style={{ fontSize: '20px' }}>{row.total}$</b>
                     </TableCell>
                   </TableRow>
-                  {/* ))} */}
                 </TableBody>
               </Table>
             </Box>
@@ -199,6 +206,15 @@ Row.propTypes = {
 export default function CollapsibleTable({ rows }) {
   return (
     <TableContainer component={Paper}>
+      <Typography
+        sx={{ flex: '1 1 100%' }}
+        variant="h6"
+        paddingX="5px"
+        id="tableTitle"
+        component="div"
+      >
+        Orders
+      </Typography>
       <Table aria-label="collapsible table" className={styles.table}>
         <TableHead>
           <TableRow>

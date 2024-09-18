@@ -202,7 +202,7 @@ function EnhancedTableToolbar(props) {
           id="tableTitle"
           component="div"
         >
-          Nutrition
+          Users
         </Typography>
       )}
       {numSelected > 0 ? (
