@@ -32,12 +32,53 @@ function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.name}
+          {row._id}
         </TableCell>
-        <TableCell align="right">{row.calories}</TableCell>
-        <TableCell align="right">{row.fat}</TableCell>
-        <TableCell align="right">{row.carbs}</TableCell>
-        <TableCell align="right">{row.protein}</TableCell>
+        <TableCell align="right">
+          {row.paymentMethod == 'paypal'
+            ? 'Paypal'
+            : row.paymentMethod == 'credit_card'
+            ? 'Credit Card'
+            : 'Cash On Delievery'}
+        </TableCell>
+        <TableCell align="right">
+          {row.isPaid ? (
+            <img
+              src="../../../images/verified.png"
+              alt=""
+              className={styles.ver}
+            />
+          ) : (
+            <img
+              src="../../../images/unverified.png"
+              alt=""
+              className={styles.ver}
+            />
+          )}
+        </TableCell>
+        <TableCell align="right">
+          <span
+            className={
+              row.status == 'Not Processed'
+                ? styles.not_processed
+                : row.status == 'Processing'
+                ? styles.processing
+                : row.status == 'Dispatched'
+                ? styles.dispatched
+                : row.status == 'Cancelled'
+                ? styles.cancelled
+                : row.status == 'Completed'
+                ? styles.completed
+                : ''
+            }
+          >
+            {row.status}
+          </span>
+        </TableCell>
+        <TableCell align="right">{row.couponApplied || '-'}</TableCell>
+        <TableCell align="right">
+          <b>{row.total}$</b>
+        </TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -80,35 +121,35 @@ function Row(props) {
 
 Row.propTypes = {
   row: PropTypes.shape({
-    calories: PropTypes.number.isRequired,
-    carbs: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    history: PropTypes.arrayOf(
+    order: PropTypes.number.isRequired,
+    payment_method: PropTypes.string.isRequired,
+    paid: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+    coupon: PropTypes.string.isRequired,
+    total: PropTypes.number.isRequired,
+    user: PropTypes.arrayOf(
       PropTypes.shape({
-        amount: PropTypes.number.isRequired,
-        customerId: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        email: PropTypes.string.isRequired,
+        shippingAddress: PropTypes.string.isRequired,
       })
     ).isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    protein: PropTypes.number.isRequired,
   }).isRequired,
 };
 
 export default function CollapsibleTable({ rows }) {
   return (
     <TableContainer component={Paper}>
-      <Table aria-label="collapsible table">
+      <Table aria-label="collapsible table" className={styles.table}>
         <TableHead>
           <TableRow>
             <TableCell />
             <TableCell>Order</TableCell>
-            <TableCell align="right">Total</TableCell>
-            <TableCell align="right">Coupon</TableCell>
             <TableCell align="right">Payment Method</TableCell>
             <TableCell align="right">Paid</TableCell>
             <TableCell align="right">Status</TableCell>
+            <TableCell align="right">Total</TableCell>
+            <TableCell align="right">Coupon</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
