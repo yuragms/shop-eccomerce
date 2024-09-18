@@ -85,27 +85,86 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                History
+                Order for
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Customer</TableCell>
-                    <TableCell align="right">Amount</TableCell>
-                    <TableCell align="right">Total price ($)</TableCell>
+                    <TableCell></TableCell>
+                    <TableCell>Full Name</TableCell>
+                    <TableCell>Email</TableCell>
+                    <TableCell align="right">Shipping Informations</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {/* {row.history.map((historyRow) => ( */}
-                  <TableRow key={row.date}>
+                  <TableRow key={row.user.id}>
                     <TableCell component="th" scope="row">
-                      {row.date}
+                      <img
+                        src={row.user.image}
+                        className={styles.table__img}
+                        alt=""
+                      />
                     </TableCell>
-                    <TableCell>{row.customerId}</TableCell>
-                    <TableCell align="right">{row.amount}</TableCell>
+                    <TableCell>{row.user.name}</TableCell>
+                    <TableCell align="left">{row.user.email}</TableCell>
                     <TableCell align="right">
-                      {Math.round(row.amount * row.price * 100) / 100}
+                      {row.shippingAddress.firstName}{' '}
+                      {row.shippingAddress.lastName} <br />
+                      {row.shippingAddress.address1} <br />
+                      {row.shippingAddress.address2} <br />
+                      {row.shippingAddress.state},{row.shippingAddress.city}{' '}
+                      <br />
+                      {row.shippingAddress.country} <br />
+                      {row.shippingAddress.zipCode} <br />
+                      {row.shippingAddress.phoneNumber} <br />
+                    </TableCell>
+                  </TableRow>
+                  {/* ))} */}
+                </TableBody>
+              </Table>
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box sx={{ margin: 1 }}>
+              <Typography variant="h6" gutterBottom component="div">
+                Order for
+              </Typography>
+              <Table size="small" aria-label="purchases">
+                <TableHead>
+                  <TableRow>
+                    <TableCell></TableCell>
+                    <TableCell>Full Name</TableCell>
+                    <TableCell>Email</TableCell>
+                    <TableCell align="right">Shipping Informations</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {/* {row.history.map((historyRow) => ( */}
+                  <TableRow key={row.user.id}>
+                    <TableCell component="th" scope="row">
+                      <img
+                        src={row.user.image}
+                        className={styles.table__img}
+                        alt=""
+                      />
+                    </TableCell>
+                    <TableCell>{row.user.name}</TableCell>
+                    <TableCell align="left">{row.user.email}</TableCell>
+                    <TableCell align="right">
+                      {row.shippingAddress.firstName}{' '}
+                      {row.shippingAddress.lastName} <br />
+                      {row.shippingAddress.address1} <br />
+                      {row.shippingAddress.address2} <br />
+                      {row.shippingAddress.state},{row.shippingAddress.city}{' '}
+                      <br />
+                      {row.shippingAddress.country} <br />
+                      {row.shippingAddress.zipCode} <br />
+                      {row.shippingAddress.phoneNumber} <br />
                     </TableCell>
                   </TableRow>
                   {/* ))} */}
