@@ -8,6 +8,7 @@ import db from '@/utils/db';
 import Head from 'next/head';
 import { useSession } from 'next-auth/react';
 import Dropdown from '@/components/admin/dashboard/dropdown';
+import Notifications from '@/components/admin/dashboard/notifications';
 
 export default function dashboard() {
   const { data: session } = useSession();
@@ -25,6 +26,7 @@ export default function dashboard() {
           </div>
           <div className={styles.header__right}>
             <Dropdown userImage={session?.user?.image} />
+            <Notifications />
           </div>
         </div>
       </Layout>
