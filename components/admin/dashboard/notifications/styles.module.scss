@@ -1,15 +1,13 @@
 .dropdown {
   position: relative;
-  &__toggle {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    overflow: hidden;
-    cursor: pointer;
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+  z-index: 99;
+  &__svg {
+    margin-top: 5px;
+    svg {
+      width: 40px;
+      height: 40px;
+      fill: $blue-color;
+      cursor: pointer;
     }
   }
   &__content {
@@ -17,81 +15,55 @@
     top: calc(100% + 5px);
     right: 10px;
     width: max-content;
-    background: #fff;
+    max-width: 400px;
+    background-color: #fff;
     box-shadow: $shadow-1;
     border-radius: 10px;
     overflow: hidden;
     transform: scale(0);
     transform-origin: top right;
     transition: transform 0.3s ease 0s;
-    &_icons {
-      padding: 20px;
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
-      &_icon {
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        display: grid;
-        place-items: center;
+    max-height: 80vh;
+    overflow-y: auto;
+    &_notifications {
+      &_notification {
+        width: 100%;
+        padding: 17px 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
         cursor: pointer;
-        background: $blue-color;
-        svg {
-          width: 25px;
-          height: 25px;
-          fill: #fff;
-        }
-        &:hover {
-          background: $dark-blue-color;
-          box-shadow: $shadow-1;
-        }
-      }
-    }
-    &_items {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 15px 20px;
-      gap: 10px;
-      cursor: pointer;
-      &_item {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: grid;
-        place-items: center;
-        cursor: pointer;
-        background: $dark-blue-color;
-        svg {
-          width: 25px;
-          height: 25px;
-          fill: #fff;
-        }
+        font-size: 14px;
+        color: #333;
         &:hover {
           background: $blue-color;
-          box-shadow: $shadow-1;
+          color: #fff;
+        }
+        span {
+          font-weight: 600;
+        }
+        img {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          object-fit: cover;
         }
       }
     }
-  }
-  &__logout {
-    padding: 20px;
-    button {
-      background: $blue-color;
-      color: #fff;
-      font-weight: 600;
-      border-radius: 4px;
-      width: 100%;
-      height: 40px;
+    &_footer {
+      padding: 10px 20px;
+      display: flex;
+      justify-content: flex-end;
+      text-decoration: underline;
+      color: $blue-color;
       cursor: pointer;
       &:hover {
-        background: $dark-blue-color;
+        color: $dark-blue-color;
       }
     }
   }
 }
+
 .active {
   transform: scale(1);
   transition: transform 0.5s $cubic-bezier;

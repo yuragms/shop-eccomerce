@@ -16,7 +16,9 @@ export default function Notifications({ userImage }) {
         <IoNotificationsSharp />
       </div>
       <div
-        className={`${styles.dropdown__content} ${show ? styles.active : ''}`}
+        className={`${styles.dropdown__content} ${show ? styles.active : ''} ${
+          styles.scrollbar
+        }`}
       >
         <div className={styles.dropdown__content_notifications}>
           {notificationsData.map((n, i) => (
@@ -38,7 +40,8 @@ export default function Notifications({ userImage }) {
                   }
                   key={i}
                 >
-                  {' '}
+                  <img src={n.image} alt="" />
+                  <span>{n.user}</span> new Account created.
                 </div>
               )}
             </>
