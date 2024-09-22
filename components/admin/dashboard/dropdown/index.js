@@ -13,7 +13,7 @@ import { VscHome } from 'react-icons/vsc';
 import { signIn, signOut } from 'next-auth/react';
 
 export default function Dropdown({ userImage }) {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   return (
     <div
       className={styles.dropdown}

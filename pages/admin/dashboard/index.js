@@ -66,15 +66,14 @@ export default function dashboard({ users, orders, products }) {
               <GiTakeMyMoney />
             </div>
             <div className={styles.card__infos}>
-              <h4>+{(orders.reduce((a, val) => a + val.total), 0)}$</h4>
+              <h4>
+                +{orders.reduce((a, val) => a + val.total, 0).toFixed(2)}$
+              </h4>
               <h5>
-                +
-                {
-                  (orders
-                    .filter((o) => !o.isPaid)
-                    .reduce((a, val) => a + val.total),
-                  0)
-                }
+                -
+                {orders
+                  .filter((o) => !o.isPaid)
+                  .reduce((a, val) => a + val.total, 0)}
                 $
               </h5>
               <span>Total Earings</span>
