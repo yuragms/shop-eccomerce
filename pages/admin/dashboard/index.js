@@ -10,9 +10,10 @@ import { useSession } from 'next-auth/react';
 import Dropdown from '@/components/admin/dashboard/dropdown';
 import Notifications from '@/components/admin/dashboard/notifications';
 import { TbUsers } from 'react-icons/tb';
-import { SlHandbag } from 'react-icons/sl';
+import { SlEye, SlHandbag } from 'react-icons/sl';
 import { SiProducthunt } from 'react-icons/si';
 import { GiTakeMyMoney } from 'react-icons/gi';
+import Link from 'next/link';
 
 export default function dashboard({ users, orders, products }) {
   const { data: session } = useSession();
@@ -77,6 +78,87 @@ export default function dashboard({ users, orders, products }) {
                 $
               </h5>
               <span>Total Earings</span>
+            </div>
+          </div>
+        </div>
+        <div className={styles.data}>
+          <div className={styles.orders}>
+            <div className={styles.heading}>
+              <h2>Recent Orders</h2>
+              <Link href="/admin/dashboard/orders">View All</Link>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <td>Name</td>
+                  <td>Total</td>
+                  <td>Payment</td>
+                  <td>Status</td>
+                  <td>View</td>
+                </tr>
+              </thead>
+              <tbody>
+                {orders.map((order) => (
+                  <tr>
+                    <td>{order.user.name}</td>
+                    <td>{order.total} $</td>
+                    <td>
+                      {order.isPaid ? (
+                        <img src="../../../images/verified.webp" alt="" />
+                      ) : (
+                        <img src="../../../images/unverified1.png" alt="" />
+                      )}
+                    </td>
+                    <td>
+                      <div
+                        className={`${styles.status} ${
+                          order.status == 'Not Processed'
+                            ? styles.not_processed
+                            : order.status == 'Processing'
+                            ? styles.processing
+                            : order.status == 'Dispatched'
+                            ? styles.dispatched
+                            : order.status == 'Cancelled'
+                            ? styles.cancelled
+                            : order.status == 'Completed'
+                            ? styles.completed
+                            : ''
+                        }`}
+                      >
+                        {order.status}
+                      </div>
+                    </td>
+                    <td>
+                      <SlEye />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className={styles.users}>
+            <div className={styles.users}>
+              <div className={styles.heading}>
+                <h2>Recent Orders</h2>
+                <Link href="/admin/dashboard/users">View All</Link>
+              </div>
+              <table>
+                <tbody>
+                  {users.map((user) => (
+                    <tr>
+                      <td className={styles.user}>
+                        <div className={styles.user__img}>
+                          <img src={user.image} alt="" />
+                        </div>
+                      </td>
+                      <td>
+                        <h4>{user.name}</h4>
+                        <span>{user.email}</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
