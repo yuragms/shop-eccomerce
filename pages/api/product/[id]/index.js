@@ -2,7 +2,7 @@
 import { createRouter } from 'next-connect';
 import db from '@/utils/db';
 import Product from '@/models/Product';
-import category from '../admin/category';
+import category from '../../admin/category';
 
 // const handler = nc();
 const router = createRouter();
