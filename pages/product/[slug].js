@@ -9,7 +9,7 @@ import Header from '@/components/header';
 import MainSwiper from '@/components/productPage/mainSwiper';
 import { useState } from 'react';
 import Infos from '@/components/productPage/infos';
-import Reviews from '@/components/productPage/infos/reviews';
+import Reviews from '@/components/productPage/reviews';
 
 export default function product({ product }) {
   console.log('reviews', product.reviews);
@@ -122,6 +122,7 @@ export async function getServerSideProps(context) {
       { percentage: 4 },
       { percentage: 0 },
     ],
+    reviews: product.reviews.reverse(),
     allSizes: product.subProducts
       .map((p) => {
         return p.sizes;

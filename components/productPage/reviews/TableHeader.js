@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import styles from './styles.module.scss';
 import TableSelect from './TableSelect';
-
 export default function TableHeader({ reviews, allSizes, colors }) {
   const [rating, setRating] = useState();
   const [size, setSize] = useState();
@@ -9,7 +8,6 @@ export default function TableHeader({ reviews, allSizes, colors }) {
   const [order, setOrder] = useState();
   return (
     <div className={styles.table__header}>
-      {' '}
       <TableSelect
         property={rating}
         text="Rating"
@@ -31,7 +29,7 @@ export default function TableHeader({ reviews, allSizes, colors }) {
       <TableSelect
         property={order}
         text="Order"
-        data={orderOptions.filter((x) => x !== order)}
+        data={orderOptions.filter((x) => x.value !== order)}
         handleChange={setOrder}
       />
     </div>
@@ -51,8 +49,8 @@ const ratings = [
     value: 4,
   },
   {
-    text: '3 star',
-    value: 3,
+    text: '2 star',
+    value: 2,
   },
   {
     text: '2 star',

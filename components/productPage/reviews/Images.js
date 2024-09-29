@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react';
-import styles from './styles.module.scss';
+import { useState } from 'react';
+import { useRef } from 'react';
 import { MdOutlineRemoveCircle } from 'react-icons/md';
+import styles from './styles.module.scss';
 
 export default function Images({ images, setImages }) {
   const [error, setError] = useState('');
@@ -37,7 +38,6 @@ export default function Images({ images, setImages }) {
       }
     });
   };
-
   const removeImage = (image) => {
     setImages((images) => images.filter((img) => img !== image));
     if (images.length <= 3) {
@@ -51,8 +51,8 @@ export default function Images({ images, setImages }) {
         ref={inputRef}
         hidden
         onChange={handleImages}
-        miltiple
-        accept="image/png, image/jpeg, image/webp"
+        multiple
+        accept="image/png,image/jpeg,image/webp"
       />
       <button
         className={styles.login_btn}

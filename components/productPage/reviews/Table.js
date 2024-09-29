@@ -1,8 +1,8 @@
+import { Pagination } from '@mui/material';
 import { useState } from 'react';
 import usePagination from './Pagination';
-import styles from './styles.module.scss';
-import { Pagination } from '@mui/material';
 import Review from './Review';
+import styles from './styles.module.scss';
 import TableHeader from './TableHeader';
 
 export default function Table({ reviews, allSizes, colors }) {
@@ -14,7 +14,6 @@ export default function Table({ reviews, allSizes, colors }) {
     setPage(p);
     _DATA.jump(p);
   };
-
   return (
     <div className={styles.table}>
       <TableHeader

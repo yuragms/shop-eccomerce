@@ -1,4 +1,5 @@
-import { Rating } from '@mui/material';
+// import { Rating } from '@mui/material';
+import Rating from '@mui/material/Rating';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Images from './Images';
@@ -22,7 +23,7 @@ export default function AddReview({ product, setReviews }) {
   const [style, setStyle] = useState('');
   const [fit, setFit] = useState('');
   const [review, setReview] = useState('');
-  const [rating, setRating] = useState();
+  const [rating, setRating] = useState('');
   const [images, setImages] = useState([]);
   let uploaded_images = [];
   const handleSubmit = async () => {
@@ -135,6 +136,7 @@ export default function AddReview({ product, setReviews }) {
           precision={0.5}
           style={{ color: '#facf19', fontSize: '3rem' }}
         />
+
         <button
           className={`${styles.login_btn} ${loading ? styles.disabled : ''}`}
           onClick={() => handleSubmit()}

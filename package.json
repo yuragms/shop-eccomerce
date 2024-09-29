@@ -9,11 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.3",
-    "@emotion/styled": "^11.11.0",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@material-ui/styles": "^4.11.5",
     "@mui/icons-material": "^6.1.0",
-    "@mui/material": "^5.15.4",
+    "@mui/material": "^6.1.1",
     "@mui/styled-engine-sc": "^6.0.0-alpha.12",
     "@mui/x-date-pickers": "^7.3.2",
     "@next-auth/mongodb-adapter": "^1.1.3",

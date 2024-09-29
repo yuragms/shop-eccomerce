@@ -1,9 +1,7 @@
 import { Rating } from '@mui/material';
 import styles from './styles.module.scss';
 import { AiOutlineLike } from 'react-icons/ai';
-
 export default function Review({ review }) {
-  console.log(review);
   const { name, image } = review.reviewBy;
   return (
     <div className={styles.review}>
@@ -17,7 +15,8 @@ export default function Review({ review }) {
         <div className={styles.review__review}>
           <Rating
             name="half-rating-read"
-            defaultValue={review.rating}
+            value={review.rating}
+            precision={0.5}
             readOnly
             style={{ color: '#facf19' }}
           />
@@ -42,9 +41,7 @@ export default function Review({ review }) {
       <div className={styles.flex}>
         <div className={styles.review__images}>
           {review.images.length > 0 &&
-            review.images.map((img, i) => (
-              <img key={i} src={img?.url} alt="" />
-            ))}
+            review.images.map((img) => <img src={img?.url} alt="" />)}
         </div>
         <div className={styles.review__extra}>
           <div className={styles.review__extra_likes}>
@@ -52,7 +49,7 @@ export default function Review({ review }) {
             <AiOutlineLike />
           </div>
           <div className={styles.review__extra_date}>
-            {review.updatedAt.slice(0, 10)}
+            {review?.updatedAt?.slice(0, 10)}
           </div>
         </div>
       </div>
