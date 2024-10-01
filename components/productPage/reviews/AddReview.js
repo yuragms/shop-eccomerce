@@ -23,7 +23,7 @@ export default function AddReview({ product, setReviews }) {
   const [style, setStyle] = useState('');
   const [fit, setFit] = useState('');
   const [review, setReview] = useState('');
-  const [rating, setRating] = useState('');
+  const [rating, setRating] = useState(0);
   const [images, setImages] = useState([]);
   let uploaded_images = [];
   const handleSubmit = async () => {

@@ -5,6 +5,7 @@ import AddReview from './AddReview';
 import Select from './Select';
 import styles from './styles.module.scss';
 import Table from './Table';
+
 export default function Reviews({ product }) {
   const { data: session } = useSession();
   const [rating, setRating] = useState('');
@@ -29,7 +30,7 @@ export default function Reviews({ product }) {
           </div>
           <div className={styles.reviews__stats_reviews}>
             {product.ratings.map((rating, i) => (
-              <div className={styles.reviews__stats_reviews_review}>
+              <div className={styles.reviews__stats_reviews_review} key={i}>
                 <Rating
                   name="half-rating-read"
                   defaultValue={5 - i}

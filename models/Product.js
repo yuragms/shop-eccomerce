@@ -13,11 +13,11 @@ const reviewSchema = new mongoose.Schema({
     default: 0,
   },
   review: {
-    type: Number,
+    type: String,
     required: true,
   },
   size: {
-    type: Number,
+    type: String,
   },
   style: {
     color: String,

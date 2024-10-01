@@ -1,10 +1,10 @@
 import { Rating } from '@mui/material';
 import styles from './styles.module.scss';
 import { AiOutlineLike } from 'react-icons/ai';
-export default function Review({ review }) {
+export default function Review({ review, i }) {
   const { name, image } = review.reviewBy;
   return (
-    <div className={styles.review}>
+    <div className={styles.review} key={i}>
       <div className={styles.flex}>
         <div className={styles.review__user}>
           <h4>
@@ -14,6 +14,7 @@ export default function Review({ review }) {
         </div>
         <div className={styles.review__review}>
           <Rating
+            key={i}
             name="half-rating-read"
             value={review.rating}
             precision={0.5}
@@ -28,20 +29,22 @@ export default function Review({ review }) {
             <span>Size:</span>
             {review.size}
             &nbsp;&nbsp;
-            <div className={styles.flex}>
-              <img
-                src={review.style.image}
-                alt=""
-                className={styles.review__img}
-              />
-            </div>
           </p>
+          <div className={styles.flex}>
+            <img
+              src={review.style.image}
+              alt=""
+              className={styles.review__img}
+            />
+          </div>
         </div>
       </div>
       <div className={styles.flex}>
-        <div className={styles.review__images}>
+        <div className={styles.review__images} key={i}>
           {review.images.length > 0 &&
-            review.images.map((img) => <img src={img?.url} alt="" />)}
+            review.images.map((img, i) => (
+              <img src={img?.url} alt="" key={i} />
+            ))}
         </div>
         <div className={styles.review__extra}>
           <div className={styles.review__extra_likes}>

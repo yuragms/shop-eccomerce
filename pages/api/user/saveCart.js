@@ -5,7 +5,6 @@ import Product from '@/models/Product';
 import User from '@/models/User';
 import Cart from '@/models/Cart';
 import auth from '@/middware/auth';
-// import auth from '../../../middleware/auth';
 
 // const handler = nc();
 // const router = createRouter().use(auth);

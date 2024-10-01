@@ -11,14 +11,19 @@ import SimillarSwiper from './SimillarSwiper';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, updateCart } from '@/store/cartSlice';
+import DialogModal from '@/components/dialogModal';
+import { showDialog } from '@/store/DialogSlice';
+import { signIn, useSession } from 'next-auth/react';
 
 export default function Infos({ product, setActiveImg }) {
   console.log(product);
   const dispatch = useDispatch();
+  const { data: session } = useSession();
   const router = useRouter();
   const [size, setSize] = useState(router.query.size);
   const [qty, setQty] = useState(1);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const { cart } = useSelector((state) => ({ ...state }));
 
   console.log('cart', cart);
@@ -72,11 +77,46 @@ export default function Infos({ product, setActiveImg }) {
       }
     }
   };
+  const handleWishlist = async () => {
+    try {
+      if (!session) {
+        return signIn();
+      }
+      const { data } = await axios.put('/api/user/wishlist', {
+        product_id: product._id,
+        style: product.style,
+      });
+      dispatch(
+        showDialog({
+          header: 'Product Added to Whishlist Successfully',
+          msgs: [
+            {
+              msg: data.message,
+              type: 'success',
+            },
+          ],
+        })
+      );
+    } catch (error) {
+      dispatch(
+        showDialog({
+          header: 'Whishlist Error',
+          msgs: [
+            {
+              msg: error.response.data.message,
+              type: 'error',
+            },
+          ],
+        })
+      );
+    }
+  };
   return (
     <div className={styles.infos}>
+      <DialogModal />
       <div className={styles.infos__container}>
         <h1 className={styles.infos__name}>{product.name}</h1>
-        <h2 className={styles.infos__sku}>{product._id}</h2>
+        <h2 className={styles.infos__sku}>{product.sku}</h2>
         <div className={styles.infos__rating}>
           <Rating
             name="half-rating-read"
@@ -167,12 +207,13 @@ export default function Infos({ product, setActiveImg }) {
             <BsHandbagFill />
             <b>ADD TO CART</b>
           </button>
-          <button>
+          <button onClick={() => handleWishlist()}>
             <BsHeart />
             WISHLIST
           </button>
         </div>
         {error && <span className={styles.error}>{error}</span>}
+        {success && <span className={styles.success}>{success}</span>}
         <Share />
         <Accordian details={[product.description, ...product.details]} />
         <SimillarSwiper />

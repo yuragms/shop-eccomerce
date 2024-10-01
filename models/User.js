@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+const { ObjectId } = mongoose.Schema;
 
 const userSchema = new mongoose.Schema(
   {
@@ -10,11 +11,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: 'Please enter your email address.',
       trim: true,
-      uniq: true,
+      unique: true,
     },
     password: {
       type: String,
-      required: 'Please enter a password.',
+      required: '"Please enter a password.',
     },
     role: {
       type: String,
@@ -68,12 +69,22 @@ const userSchema = new mongoose.Schema(
         },
       },
     ],
+    wishlist: [
+      {
+        product: {
+          type: ObjectId,
+          ref: 'Product',
+        },
+        style: {
+          type: String,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
   }
 );
-
 const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 export default User;
