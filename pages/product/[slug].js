@@ -116,11 +116,16 @@ export async function getServerSideProps(context) {
     priceBefore: subProduct.sizes[size].price,
     quantity: subProduct.sizes[size].qty,
     ratings: [
-      { percentage: 76 },
-      { percentage: 14 },
-      { percentage: 6 },
-      { percentage: 4 },
-      { percentage: 0 },
+      // { percentage: 76 },
+      // { percentage: 14 },
+      // { percentage: 6 },
+      // { percentage: 4 },
+      // { percentage: 0 },
+      { percentage: calculatePercentage('5') },
+      { percentage: calculatePercentage('4') },
+      { percentage: calculatePercentage('3') },
+      { percentage: calculatePercentage('2') },
+      { percentage: calculatePercentage('1') },
     ],
     reviews: product.reviews.reverse(),
     allSizes: product.subProducts
@@ -139,6 +144,18 @@ export async function getServerSideProps(context) {
 
   //--------
   console.log('new product', newProduct);
+  function calculatePercentage(num) {
+    return (
+      (product.reviews.reduce((a, review) => {
+        return (
+          a +
+          (review.rating == Number(num) || review.rating == Number(num) + 0.5)
+        );
+      }, 0) *
+        100) /
+      product.reviews.length
+    ).toFixed(1);
+  }
   db.disconnectDb();
 
   return {
