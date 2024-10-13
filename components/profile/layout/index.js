@@ -13,8 +13,7 @@ export default function Layout({ session, tab, children }) {
       <div className={styles.layout__container}>
         <Sidebar
           data={{
-            image: session?.user?.image,
-            name: session?.user?.name,
+            ...session,
             tab,
           }}
         />
