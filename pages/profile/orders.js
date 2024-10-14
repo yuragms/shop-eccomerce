@@ -1,17 +1,80 @@
 import { getSession } from 'next-auth/react';
-// import styles from './styles.module.scss';
+import styles from '../../styles/profile.module.scss';
 import Layout from '@/components/profile/layout';
 import Order from '@/models/Order';
+import Head from 'next/head';
+import { ordersLinks } from '@/data/profileSidebar';
+import Link from 'next/link';
+import { GrView } from 'react-icons/gr';
 
 export default function index({ user, tab, orders }) {
   return (
     <Layout session={user.user} tab={tab}>
-      {orders.map((o) => (
+      <Head>
+        <title>Orders</title>
+      </Head>
+      <div className={styles.orders}>
+        <nav>
+          <ul>
+            {ordersLinks.map((link, i) => (
+              <li key={i}>
+                <Link href="">{link.name}</Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <table>
+          <thead>
+            <tr>
+              <td>Order id</td>
+              <td>Products</td>
+              <td>Payment Method</td>
+              <td>Total</td>
+              <td>Paid</td>
+              <td>Status</td>
+              <td>view</td>
+            </tr>
+          </thead>
+
+          <tbody>
+            {orders.map((order) => (
+              <tr>
+                <td>{order._id}</td>
+                <td>
+                  {order.products.map((p) => (
+                    <img src={p.image} key={p._id} alt="" />
+                  ))}
+                </td>
+                <td>
+                  {order.paymentMethod == 'paypal'
+                    ? 'Paypal'
+                    : order.paymentMethod == 'credit_card'
+                    ? 'Credit Card'
+                    : 'COD'}
+                </td>
+                <td>{order.total}$</td>
+                <td>
+                  {order.isPaid ? (
+                    <img src="../../../images/verified.png" alt="" />
+                  ) : (
+                    <img src="../../../images/unverified.png" alt="" />
+                  )}
+                </td>
+                <td>{order.status}</td>
+                <td>
+                  <GrView />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {/* {orders.map((o) => (
         <span>
           {' '}
           {o._id} <br />
         </span>
-      ))}
+      ))} */}
     </Layout>
   );
 }
