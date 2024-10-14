@@ -14,7 +14,7 @@ export default function Sidebar({ data }) {
               key={i}
               item={item}
               visible={data.tab == i.toString()}
-              index={i.toString}
+              index={i.toString()}
             />
           ))}
         </ul>
