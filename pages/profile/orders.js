@@ -6,7 +6,6 @@ import Head from 'next/head';
 import { ordersLinks } from '@/data/profileSidebar';
 import Link from 'next/link';
 import { FiExternalLink } from 'react-icons/fi';
-import { IoEyeSharp } from 'react-icons/io5';
 import slugify from 'slugify';
 import { useRouter } from 'next/router';
 
