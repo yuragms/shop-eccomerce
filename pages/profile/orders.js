@@ -5,20 +5,41 @@ import Order from '@/models/Order';
 import Head from 'next/head';
 import { ordersLinks } from '@/data/profileSidebar';
 import Link from 'next/link';
-import { GrView } from 'react-icons/gr';
+import { FiExternalLink } from 'react-icons/fi';
+import { IoEyeSharp } from 'react-icons/io5';
+import slugify from 'slugify';
+import { useRouter } from 'next/router';
 
 export default function index({ user, tab, orders }) {
+  const router = useRouter();
   return (
     <Layout session={user.user} tab={tab}>
       <Head>
         <title>Orders</title>
       </Head>
       <div className={styles.orders}>
+        <div className={styles.header}>
+          <h1>MY ORDERS</h1>
+        </div>
         <nav>
           <ul>
             {ordersLinks.map((link, i) => (
-              <li key={i}>
-                <Link href="">{link.name}</Link>
+              <li
+                key={i}
+                className={
+                  slugify(link.name, { lower: true }) ==
+                  router.query.q.split('__')[0]
+                    ? styles.active
+                    : ''
+                }
+              >
+                <Link
+                  href={`/profile/orders?${tab}&q=${slugify(link.name, {
+                    lower: true,
+                  })}__${link.filter}`}
+                >
+                  {link.name}
+                </Link>
               </li>
             ))}
           </ul>
@@ -40,7 +61,7 @@ export default function index({ user, tab, orders }) {
             {orders.map((order) => (
               <tr>
                 <td>{order._id}</td>
-                <td>
+                <td className={styles.orders__images}>
                   {order.products.map((p) => (
                     <img src={p.image} key={p._id} alt="" />
                   ))}
@@ -53,7 +74,7 @@ export default function index({ user, tab, orders }) {
                     : 'COD'}
                 </td>
                 <td>{order.total}$</td>
-                <td>
+                <td className={styles.orders__paid}>
                   {order.isPaid ? (
                     <img src="../../../images/verified.png" alt="" />
                   ) : (
@@ -62,7 +83,10 @@ export default function index({ user, tab, orders }) {
                 </td>
                 <td>{order.status}</td>
                 <td>
-                  <GrView />
+                  <Link href={`/order/${order._id}`}>
+                    {' '}
+                    <FiExternalLink />
+                  </Link>
                 </td>
               </tr>
             ))}
