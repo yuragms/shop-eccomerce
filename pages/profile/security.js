@@ -7,6 +7,7 @@ import { useState } from 'react';
 import CircledIconBtn from '@/components/buttons/circledIconBtn';
 import styles from '../../styles/profile.module.scss';
 import LoginInput from '@/components/inputs/loginInput';
+import axios from 'axios';
 
 export default function index({ user, tab }) {
   const [current_password, setCurrent_password] = useState('');
@@ -31,7 +32,19 @@ export default function index({ user, tab }) {
       .required('Confirm your password.')
       .oneOf([Yup.ref('password')], 'Passwords must match.'),
   });
-  const changePasswordHandler = async () => {};
+  const changePasswordHandler = async () => {
+    try {
+      const { data } = await axios.put('/api/user/changePassword', {
+        current_password,
+        password,
+      });
+      setError('');
+      setSuccess(data.message);
+    } catch (error) {
+      setSuccess('');
+      setError(error.response.data.message);
+    }
+  };
   return (
     <Layout session={user.user} tab={tab}>
       <Head>
@@ -74,6 +87,7 @@ export default function index({ user, tab }) {
             />
 
             <CircledIconBtn type="submit" text="Change" />
+            <br />
             {error && <span className={styles.error}>{error}</span>}
             {success && <span className={styles.success}>{success}</span>}
           </Form>
