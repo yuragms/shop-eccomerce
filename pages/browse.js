@@ -8,9 +8,8 @@ import Header from '@/components/header';
 import Link from 'next/link';
 import ProductCard from '@/components/productCard';
 import CategoryFilter from '@/components/browse/categoryFilter';
-// import ProductCard from '@/components/admin/products/productCard';
 
-export default function browse({ categories, products, subCategories }) {
+export default function browse({ products, categories, subCategories }) {
   return (
     <div className={styles.browse}>
       <Header />
@@ -69,8 +68,8 @@ export async function getServerSideProps(ctx) {
   await db.disconnectDb();
   return {
     props: {
-      subCategories: JSON.parse(JSON.stringify(subCategories)),
       categories: JSON.parse(JSON.stringify(categories)),
+      subCategories: JSON.parse(JSON.stringify(subCategories)),
       products: JSON.parse(JSON.stringify(products)),
     },
   };

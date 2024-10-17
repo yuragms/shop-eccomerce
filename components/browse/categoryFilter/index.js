@@ -2,7 +2,6 @@ import { useState } from 'react';
 import styles from './styles.module.scss';
 import { FaMinus } from 'react-icons/fa';
 import { BsPlusLg } from 'react-icons/bs';
-import category from '@/pages/api/admin/category';
 import Card from './Card';
 
 export default function CategoryFilter({ categories, subCategories }) {
