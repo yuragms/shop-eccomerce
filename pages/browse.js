@@ -7,9 +7,10 @@ import { filterArray, randomize, removeDuplicates } from '@/utils/arrays_utils';
 import Header from '@/components/header';
 import Link from 'next/link';
 import ProductCard from '@/components/productCard';
+import CategoryFilter from '@/components/browse/categoryFilter';
 // import ProductCard from '@/components/admin/products/productCard';
 
-export default function browse({ categories, products }) {
+export default function browse({ categories, products, subCategories }) {
   return (
     <div className={styles.browse}>
       <Header />
@@ -27,6 +28,10 @@ export default function browse({ categories, products }) {
             className={`${styles.browse__store_filters} ${styles.scrollbar}`}
           >
             <button className={styles.browse__clearBtn}>Clear All (3)</button>
+            <CategoryFilter
+              categories={categories}
+              subCategories={subCategories}
+            />
           </div>
           <div className={styles.browse__store_products}>
             {products.map((product) => (
@@ -64,6 +69,7 @@ export async function getServerSideProps(ctx) {
   await db.disconnectDb();
   return {
     props: {
+      subCategories: JSON.parse(JSON.stringify(subCategories)),
       categories: JSON.parse(JSON.stringify(categories)),
       products: JSON.parse(JSON.stringify(products)),
     },
