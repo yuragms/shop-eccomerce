@@ -10,6 +10,7 @@ import ProductCard from '@/components/productCard';
 import CategoryFilter from '@/components/browse/categoryFilter';
 import SizesFilter from '@/components/browse/sizesFilter';
 import ColorsFilter from '@/components/browse/colorsFilter';
+import BrandsFilter from '@/components/browse/brandsFilter';
 
 export default function browse({
   products,
@@ -17,6 +18,7 @@ export default function browse({
   subCategories,
   sizes,
   colors,
+  brands,
 }) {
   return (
     <div className={styles.browse}>
@@ -41,6 +43,7 @@ export default function browse({
             />
             <SizesFilter sizes={sizes} />
             <ColorsFilter colors={colors} />
+            <BrandsFilter brands={brands} />
           </div>
           <div className={styles.browse__store_products}>
             {products.map((product) => (
@@ -74,6 +77,7 @@ export async function getServerSideProps(ctx) {
   let styles = removeDuplicates(stylesDB);
   let patterns = removeDuplicates(patternsDb);
   let materials = removeDuplicates(materialsDb);
+  let brands = removeDuplicates(brandsDb);
   console.log(randomize(styles));
   await db.disconnectDb();
   return {
@@ -83,6 +87,7 @@ export async function getServerSideProps(ctx) {
       products: JSON.parse(JSON.stringify(products)),
       sizes,
       colors,
+      brands,
     },
   };
 }

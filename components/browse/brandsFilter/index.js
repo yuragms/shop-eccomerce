@@ -4,7 +4,7 @@ import { FaMinus } from 'react-icons/fa';
 import { BsPlusLg } from 'react-icons/bs';
 import Size from './Size';
 
-export default function SizwsFilter({ sizes }) {
+export default function BrandsFilter({ brands }) {
   const [show, setShow] = useState(true);
   return (
     <div className={styles.filter}>
@@ -13,8 +13,10 @@ export default function SizwsFilter({ sizes }) {
       </h3>
       {show && (
         <div className={styles.filter__sizes}>
-          {sizes.map((size, i) => (
-            <Size key={i} size={size} />
+          {brands.map((brand, i) => (
+            <button className={styles.filter__brands}>
+              <img src="" alt="" />
+            </button>
           ))}
         </div>
       )}
