@@ -8,8 +8,16 @@ import Header from '@/components/header';
 import Link from 'next/link';
 import ProductCard from '@/components/productCard';
 import CategoryFilter from '@/components/browse/categoryFilter';
+import SizesFilter from '@/components/browse/sizesFilter';
+import ColorsFilter from '@/components/browse/colorsFilter';
 
-export default function browse({ products, categories, subCategories }) {
+export default function browse({
+  products,
+  categories,
+  subCategories,
+  sizes,
+  colors,
+}) {
   return (
     <div className={styles.browse}>
       <Header />
@@ -31,6 +39,8 @@ export default function browse({ products, categories, subCategories }) {
               categories={categories}
               subCategories={subCategories}
             />
+            <SizesFilter sizes={sizes} />
+            <ColorsFilter colors={colors} />
           </div>
           <div className={styles.browse__store_products}>
             {products.map((product) => (
@@ -71,6 +81,8 @@ export async function getServerSideProps(ctx) {
       categories: JSON.parse(JSON.stringify(categories)),
       subCategories: JSON.parse(JSON.stringify(subCategories)),
       products: JSON.parse(JSON.stringify(products)),
+      sizes,
+      colors,
     },
   };
 }

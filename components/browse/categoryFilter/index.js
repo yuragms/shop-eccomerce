@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styles from './styles.module.scss';
+import styles from '../styles.module.scss';
 import { FaMinus } from 'react-icons/fa';
 import { BsPlusLg } from 'react-icons/bs';
 import Card from './Card';
