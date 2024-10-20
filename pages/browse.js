@@ -11,6 +11,10 @@ import CategoryFilter from '@/components/browse/categoryFilter';
 import SizesFilter from '@/components/browse/sizesFilter';
 import ColorsFilter from '@/components/browse/colorsFilter';
 import BrandsFilter from '@/components/browse/brandsFilter';
+import StylesFilter from '@/components/browse/stylesFilter';
+import PatternsFilter from '@/components/browse/patternsFilter';
+import MaterialsFilter from '@/components/browse/materialsFilter';
+import GenderFilter from '@/components/browse/genderFilter';
 
 export default function browse({
   products,
@@ -19,6 +23,9 @@ export default function browse({
   sizes,
   colors,
   brands,
+  stylesData,
+  patterns,
+  materials,
 }) {
   return (
     <div className={styles.browse}>
@@ -44,6 +51,10 @@ export default function browse({
             <SizesFilter sizes={sizes} />
             <ColorsFilter colors={colors} />
             <BrandsFilter brands={brands} />
+            <StylesFilter data={stylesData} />
+            <PatternsFilter patterns={patterns} />
+            <MaterialsFilter materials={materials} />
+            <GenderFilter />
           </div>
           <div className={styles.browse__store_products}>
             {products.map((product) => (
@@ -88,6 +99,9 @@ export async function getServerSideProps(ctx) {
       sizes,
       colors,
       brands,
+      stylesData: styles,
+      patterns,
+      materials,
     },
   };
 }
