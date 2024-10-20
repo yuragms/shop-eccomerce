@@ -15,6 +15,7 @@ import StylesFilter from '@/components/browse/stylesFilter';
 import PatternsFilter from '@/components/browse/patternsFilter';
 import MaterialsFilter from '@/components/browse/materialsFilter';
 import GenderFilter from '@/components/browse/genderFilter';
+import HeadingFilters from '@/components/browse/headingFilters';
 
 export default function browse({
   products,
@@ -56,10 +57,13 @@ export default function browse({
             <MaterialsFilter materials={materials} />
             <GenderFilter />
           </div>
-          <div className={styles.browse__store_products}>
-            {products.map((product) => (
-              <ProductCard product={product} key={product._id} />
-            ))}
+          <div className={styles.browse__store_products_wrap}>
+            <HeadingFilters />
+            <div className={styles.browse__store_products}>
+              {products.map((product) => (
+                <ProductCard product={product} key={product._id} />
+              ))}
+            </div>
           </div>
         </div>
       </div>
