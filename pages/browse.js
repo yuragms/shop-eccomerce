@@ -72,8 +72,30 @@ export default function browse({
 }
 
 export async function getServerSideProps(ctx) {
+  const { query } = ctx;
+  //---------------------------------------------
+  const searchQuery = query.search || '';
+  //---------------------------------------------
+  const search =
+    searchQuery && searchQuery !== ''
+      ? {
+          name: {
+            $regex: searchQuery,
+            $options: 'i',
+          },
+        }
+      : {};
+  //---------------------------------------------
   await db.connectDb();
-  let productsDb = await Product.find({}).sort({ createdAt: -1 }).lean();
+  // let productsDb = await Product.find({
+  //   name: {
+  //     $regex: searchQuery,
+  //     $options: 'i',
+  //   },
+  // })
+  let productsDb = await Product.find({ ...search })
+    .sort({ createdAt: -1 })
+    .lean();
   let products = randomize(productsDb);
   let categories = await Category.find().lean();
   let subCategories = await SubCategory.find()
