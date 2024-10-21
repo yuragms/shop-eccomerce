@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { BsCheckLg } from 'react-icons/bs';
 
 export default function HeadingFilters() {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   return (
     <div className={styles.filters}>
       <div className={styles.filters__price}>
@@ -15,13 +15,13 @@ export default function HeadingFilters() {
         <input type="number" placeholder="min" min="0>" />
         <input type="number" placeholder="max" min="0>" />
       </div>
-      <div className="stylesfilters__priceBtns">
+      <div className="styles.filters__priceBtns">
         <Tooltip
           title={<h2>Check out products under 10$</h2>}
           placement="top"
           arrow
         >
-          <button>
+          <button className={styles.tooltip_btn}>
             <span style={{ height: '10%' }}></span>
           </button>
         </Tooltip>
@@ -30,8 +30,8 @@ export default function HeadingFilters() {
           placement="top"
           arrow
         >
-          <button>
-            <span></span>
+          <button className={styles.tooltip_btn}>
+            <span style={{ height: '25%' }}></span>
           </button>
         </Tooltip>
         <Tooltip
@@ -39,7 +39,7 @@ export default function HeadingFilters() {
           placement="top"
           arrow
         >
-          <button>
+          <button className={styles.tooltip_btn}>
             <span style={{ height: '50%' }}></span>
           </button>
         </Tooltip>
@@ -48,7 +48,7 @@ export default function HeadingFilters() {
           placement="top"
           arrow
         >
-          <button>
+          <button className={styles.tooltip_btn}>
             <span style={{ height: '75%' }}></span>
           </button>
         </Tooltip>
@@ -57,7 +57,7 @@ export default function HeadingFilters() {
           placement="top"
           arrow
         >
-          <button>
+          <button className={styles.tooltip_btn}>
             <span style={{ height: '100%' }}></span>
           </button>
         </Tooltip>
@@ -82,7 +82,7 @@ export default function HeadingFilters() {
             onMouseOver={() => setShow(true)}
             onMouseLeave={() => setShow(false)}
           >
-            Recomeend
+            Recomend
             <div
               style={{ transform: `${show ? 'rotate(180deg)' : 'rotate(0'}` }}
             >
@@ -114,9 +114,7 @@ export default function HeadingFilters() {
               <Link href="">Price (low to high)</Link>
             </li>
             <li>
-              <Link href="">
-                <b>Price (low to low)</b>
-              </Link>
+              <Link href="">Price (low to low)</Link>
             </li>
           </ul>
         </div>
