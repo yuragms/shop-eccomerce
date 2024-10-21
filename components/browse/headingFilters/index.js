@@ -4,6 +4,7 @@ import { AiTwotoneStar } from 'react-icons/ai';
 import { useState } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
 import Link from 'next/link';
+import { BsCheckLg } from 'react-icons/bs';
 
 export default function HeadingFilters() {
   const [show, setShow] = useState(true);
@@ -95,12 +96,26 @@ export default function HeadingFilters() {
           >
             <li>
               <Link href="">
-                <b>Recommend</b>
+                <b>
+                  Recommend <BsCheckLg />
+                </b>
               </Link>
             </li>
             <li>
+              <Link href="">Most Popular</Link>
+            </li>
+            <li>
+              <Link href="">New Arrivals</Link>
+            </li>
+            <li>
+              <Link href="">Top Reviewed</Link>
+            </li>
+            <li>
+              <Link href="">Price (low to high)</Link>
+            </li>
+            <li>
               <Link href="">
-                <b>Recommend</b>
+                <b>Price (low to low)</b>
               </Link>
             </li>
           </ul>
