@@ -6,14 +6,18 @@ import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
-export default function Main() {
+export default function Main({ searchHandler }) {
   const router = useRouter();
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(router.query.search || '');
   // const { cart } = useSelector((state) => ({ ...state }));
   const handleSearch = (e) => {
     e.preventDefault();
-    if (query.length > 1) {
-      router.push(`/browse?search=${query}`);
+    if (router.pathname !== '/browse') {
+      if (query.length > 1) {
+        router.push(`/browse?search=${query}`);
+      }
+    } else {
+      searchHandler(query);
     }
   };
   return (
@@ -26,6 +30,7 @@ export default function Main() {
           <input
             type="text"
             placeholder="Search..."
+            value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
           <button type="submit" className={styles.search_icon}>

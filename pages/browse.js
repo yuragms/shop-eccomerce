@@ -42,9 +42,16 @@ export default function browse({
       query: query,
     });
   };
+  const searchHandler = (search) => {
+    if (search == '') {
+      filter({ search: {} });
+    } else {
+      filter({ search });
+    }
+  };
   return (
     <div className={styles.browse}>
-      <Header />
+      <Header searchHandler={searchHandler} />
       <div className={styles.browse__container}>
         <div className={styles.browse__path}>Home / Browse</div>
         <div className={styles.browse__tags}>
