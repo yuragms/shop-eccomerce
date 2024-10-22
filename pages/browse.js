@@ -16,6 +16,7 @@ import PatternsFilter from '@/components/browse/patternsFilter';
 import MaterialsFilter from '@/components/browse/materialsFilter';
 import GenderFilter from '@/components/browse/genderFilter';
 import HeadingFilters from '@/components/browse/headingFilters';
+import { useRouter } from 'next/router';
 
 export default function browse({
   products,
@@ -28,6 +29,19 @@ export default function browse({
   patterns,
   materials,
 }) {
+  const router = useRouter();
+  const filter = ({ search, category, brand, style }) => {
+    const path = router.pathname;
+    const { query } = router;
+    if (search) query.search = search;
+    if (category) query.category = category;
+    if (brand) query.brand = brand;
+    if (style) query.style = style;
+    router.push({
+      pathname: path,
+      query: query,
+    });
+  };
   return (
     <div className={styles.browse}>
       <Header />
@@ -115,7 +129,7 @@ export async function getServerSideProps(ctx) {
   let patterns = removeDuplicates(patternsDb);
   let materials = removeDuplicates(materialsDb);
   let brands = removeDuplicates(brandsDb);
-  console.log(randomize(styles));
+  // console.log(randomize(styles));
   await db.disconnectDb();
   return {
     props: {
