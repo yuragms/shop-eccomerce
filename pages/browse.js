@@ -49,6 +49,10 @@ export default function browse({
       filter({ search });
     }
   };
+
+  const categoryHandler = (category) => {
+    filter({ category });
+  };
   return (
     <div className={styles.browse}>
       <Header searchHandler={searchHandler} />
@@ -69,6 +73,7 @@ export default function browse({
             <CategoryFilter
               categories={categories}
               subCategories={subCategories}
+              categoryHandler={categoryHandler}
             />
             <SizesFilter sizes={sizes} />
             <ColorsFilter colors={colors} />
@@ -96,6 +101,7 @@ export async function getServerSideProps(ctx) {
   const { query } = ctx;
   //---------------------------------------------
   const searchQuery = query.search || '';
+  const categoryQuery = query.category || '';
   //---------------------------------------------
   const search =
     searchQuery && searchQuery !== ''
@@ -106,6 +112,9 @@ export async function getServerSideProps(ctx) {
           },
         }
       : {};
+
+  const category =
+    categoryQuery && categoryQuery !== '' ? { category: categoryQuery } : {};
   //---------------------------------------------
   await db.connectDb();
   // let productsDb = await Product.find({
@@ -114,7 +123,7 @@ export async function getServerSideProps(ctx) {
   //     $options: 'i',
   //   },
   // })
-  let productsDb = await Product.find({ ...search })
+  let productsDb = await Product.find({ ...search, ...category })
     .sort({ createdAt: -1 })
     .lean();
   let products = randomize(productsDb);
