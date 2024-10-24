@@ -2,8 +2,11 @@ import { useState } from 'react';
 import styles from '../styles.module.scss';
 import { FaMinus } from 'react-icons/fa';
 import { BsPlusLg } from 'react-icons/bs';
+import { useRouter } from 'next/router';
 
-export default function ColorsFilter({ colors }) {
+export default function ColorsFilter({ colors, colorHandler }) {
+  const router = useRouter();
+  const existedColor = router.query.color || '';
   const [show, setShow] = useState(true);
   return (
     <div className={styles.filter}>
@@ -13,7 +16,15 @@ export default function ColorsFilter({ colors }) {
       {show && (
         <div className={styles.filter__colors}>
           {colors.map((color, i) => (
-            <button style={{ background: `${color}` }}></button>
+            <button
+              onClick={() =>
+                colorHandler(
+                  `${existedColor ? `${existedColor}_${color}` : color}`
+                  // style
+                )
+              }
+              style={{ background: `${color}` }}
+            ></button>
           ))}
         </div>
       )}
