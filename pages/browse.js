@@ -116,6 +116,7 @@ export async function getServerSideProps(ctx) {
   //---------------------------------------------
   const searchQuery = query.search || '';
   const categoryQuery = query.category || '';
+  const genderQuery = query.gender || '';
   // const brandQuery = query.brand || '';
   //----------
   const brandQuery = query.brand?.split('_') || '';
@@ -125,6 +126,14 @@ export async function getServerSideProps(ctx) {
   const styleQuery = query.style?.split('_') || '';
   const styleRegex = `^${styleQuery[0]}`;
   const styleSearchRegex = createRegex(styleQuery, styleRegex);
+  //----------
+  const patternQuery = query.pattern?.split('_') || '';
+  const patternRegex = `^${patternQuery[0]}`;
+  const patternSearchRegex = createRegex(patternQuery, patternRegex);
+  //----------
+  const materialQuery = query.material?.split('_') || '';
+  const materialRegex = `^${materialQuery[0]}`;
+  const materialSearchRegex = createRegex(materialQuery, materialRegex);
   //----------
   const sizeQuery = query.size?.split('_') || '';
   const sizeRegex = `^${sizeQuery[0]}`;
@@ -183,6 +192,33 @@ export async function getServerSideProps(ctx) {
           },
         }
       : {};
+  const pattern =
+    patternQuery && patternQuery !== ''
+      ? {
+          'details.value': {
+            $regex: patternSearchRegex,
+            $options: 'i',
+          },
+        }
+      : {};
+  const material =
+    materialQuery && materialQuery !== ''
+      ? {
+          material: {
+            $regex: materialSearchRegex,
+            $options: 'i',
+          },
+        }
+      : {};
+  const gender =
+    genderQuery && genderQuery !== ''
+      ? {
+          'details.value': {
+            $regex: genderSearchRegex,
+            $options: 'i',
+          },
+        }
+      : {};
   //---------------------------------------------
   function createRegex(data, styleRegex) {
     if (data.length > 1) {
@@ -206,6 +242,9 @@ export async function getServerSideProps(ctx) {
     ...style,
     ...size,
     ...color,
+    ...pattern,
+    ...material,
+    ...gender,
   })
     .sort({ createdAt: -1 })
     .lean();
