@@ -53,6 +53,12 @@ export default function browse({
   const categoryHandler = (category) => {
     filter({ category });
   };
+  const brandHandler = (brand) => {
+    filter({ brand });
+  };
+  const styleHandler = (style) => {
+    filter({ style });
+  };
   return (
     <div className={styles.browse}>
       <Header searchHandler={searchHandler} />
@@ -77,8 +83,8 @@ export default function browse({
             />
             <SizesFilter sizes={sizes} />
             <ColorsFilter colors={colors} />
-            <BrandsFilter brands={brands} />
-            <StylesFilter data={stylesData} />
+            <BrandsFilter brands={brands} brandHandler={brandHandler} />
+            <StylesFilter data={stylesData} styleHandler={styleHandler} />
             <PatternsFilter patterns={patterns} />
             <MaterialsFilter materials={materials} />
             <GenderFilter />
@@ -102,6 +108,10 @@ export async function getServerSideProps(ctx) {
   //---------------------------------------------
   const searchQuery = query.search || '';
   const categoryQuery = query.category || '';
+  const brandQuery = query.brand || '';
+  const styleQuery = query.style?.split('_') || '';
+  const styleRegex = `^${styleQuery[0]}`;
+  const styleSearchRegex = createRegex(styleQuery, styleRegex);
   //---------------------------------------------
   const search =
     searchQuery && searchQuery !== ''
@@ -115,7 +125,25 @@ export async function getServerSideProps(ctx) {
 
   const category =
     categoryQuery && categoryQuery !== '' ? { category: categoryQuery } : {};
+  const brand = brandQuery && brandQuery !== '' ? { brand: brandQuery } : {};
+  const style =
+    styleQuery && styleQuery !== ''
+      ? {
+          'details.value': {
+            $regex: styleSearchRegex,
+            $options: 'i',
+          },
+        }
+      : {};
   //---------------------------------------------
+  function createRegex(data, styleRegex) {
+    if (data.length > 1) {
+      for (var i = 1; i < data.length; i++) {
+        styleRegex += `|^${data[i]}`;
+      }
+    }
+    return styleRegex;
+  }
   await db.connectDb();
   // let productsDb = await Product.find({
   //   name: {
@@ -123,7 +151,12 @@ export async function getServerSideProps(ctx) {
   //     $options: 'i',
   //   },
   // })
-  let productsDb = await Product.find({ ...search, ...category })
+  let productsDb = await Product.find({
+    ...search,
+    ...category,
+    ...brand,
+    ...style,
+  })
     .sort({ createdAt: -1 })
     .lean();
   let products = randomize(productsDb);
@@ -134,10 +167,14 @@ export async function getServerSideProps(ctx) {
       model: Category,
     })
     .lean();
-  let colors = await Product.find().distinct('subProducts.color.color');
-  let brandsDb = await Product.find().distinct('brand');
-  let sizes = await Product.find().distinct('subProducts.sizes.size');
-  let details = await Product.find().distinct('details');
+  let colors = await Product.find({ ...category }).distinct(
+    'subProducts.color.color'
+  );
+  let brandsDb = await Product.find({ ...category }).distinct('brand');
+  let sizes = await Product.find({ ...category }).distinct(
+    'subProducts.sizes.size'
+  );
+  let details = await Product.find({ ...category }).distinct('details');
   let stylesDB = filterArray(details, 'Style');
   let patternsDb = filterArray(details, 'Pattern Type');
   let materialsDb = filterArray(details, 'Material');

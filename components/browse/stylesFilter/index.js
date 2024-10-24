@@ -2,8 +2,11 @@ import { useState } from 'react';
 import styles from '../styles.module.scss';
 import { FaMinus } from 'react-icons/fa';
 import { BsPlusLg } from 'react-icons/bs';
+import { useRouter } from 'next/router';
 
-export default function StyleFilter({ data }) {
+export default function StyleFilter({ data, styleHandler }) {
+  const router = useRouter();
+  const existedStyles = router.query.style || '';
   const [show, setShow] = useState(true);
   return (
     <div className={styles.filter}>
@@ -13,7 +16,15 @@ export default function StyleFilter({ data }) {
       {show && (
         <div className={styles.filter__sizes}>
           {data.map((style, i) => (
-            <div className={styles.filter__sizes_size}>
+            <div
+              className={styles.filter__sizes_size}
+              onClick={() =>
+                styleHandler(
+                  `${existedStyles ? `${existedStyles}_${style}` : style}`
+                  // style
+                )
+              }
+            >
               <input type="checkbox" name="style" id={style} />
               <label htmlFor={style}>{style}</label>
             </div>
