@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 
 export default function StyleFilter({ data, styleHandler }) {
   const router = useRouter();
-  const existedStyles = router.query.style || '';
+  const existedStyle = router.query.style || '';
   const [show, setShow] = useState(true);
   return (
     <div className={styles.filter}>
@@ -20,7 +20,7 @@ export default function StyleFilter({ data, styleHandler }) {
               className={styles.filter__sizes_size}
               onClick={() =>
                 styleHandler(
-                  `${existedStyles ? `${existedStyles}_${style}` : style}`
+                  `${existedStyle ? `${existedStyle}_${style}` : style}`
                   // style
                 )
               }

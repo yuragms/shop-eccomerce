@@ -30,7 +30,17 @@ export default function browse({
   materials,
 }) {
   const router = useRouter();
-  const filter = ({ search, category, brand, style, size, color }) => {
+  const filter = ({
+    search,
+    category,
+    brand,
+    style,
+    size,
+    color,
+    pattern,
+    material,
+    gender,
+  }) => {
     const path = router.pathname;
     const { query } = router;
     if (search) query.search = search;
@@ -39,6 +49,9 @@ export default function browse({
     if (style) query.style = style;
     if (size) query.size = size;
     if (color) query.color = color;
+    if (pattern) query.pattern = pattern;
+    if (material) query.material = material;
+    if (gender) query.gender = gender;
     router.push({
       pathname: path,
       query: query,
@@ -67,6 +80,19 @@ export default function browse({
   const colorHandler = (color) => {
     filter({ color });
   };
+  const patternHandler = (pattern) => {
+    filter({ pattern });
+  };
+  const materialHandler = (material) => {
+    filter({ material });
+  };
+  const genderHandler = (gender) => {
+    if (gender == 'Unisex') {
+      filter({ gender: {} });
+    } else {
+      filter({ gender });
+    }
+  };
   return (
     <div className={styles.browse}>
       <Header searchHandler={searchHandler} />
@@ -93,9 +119,15 @@ export default function browse({
             <ColorsFilter colors={colors} colorHandler={colorHandler} />
             <BrandsFilter brands={brands} brandHandler={brandHandler} />
             <StylesFilter data={stylesData} styleHandler={styleHandler} />
-            <PatternsFilter patterns={patterns} />
-            <MaterialsFilter materials={materials} />
-            <GenderFilter />
+            <PatternsFilter
+              patterns={patterns}
+              patternHandler={patternHandler}
+            />
+            <MaterialsFilter
+              materials={materials}
+              materialHandler={materialHandler}
+            />
+            <GenderFilter genderHandler={genderHandler} />
           </div>
           <div className={styles.browse__store_products_wrap}>
             <HeadingFilters />
@@ -204,7 +236,7 @@ export async function getServerSideProps(ctx) {
   const material =
     materialQuery && materialQuery !== ''
       ? {
-          material: {
+          'details.value': {
             $regex: materialSearchRegex,
             $options: 'i',
           },
@@ -214,7 +246,7 @@ export async function getServerSideProps(ctx) {
     genderQuery && genderQuery !== ''
       ? {
           'details.value': {
-            $regex: genderSearchRegex,
+            $regex: genderQuery,
             $options: 'i',
           },
         }
