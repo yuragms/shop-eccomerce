@@ -149,6 +149,7 @@ export async function getServerSideProps(ctx) {
   const searchQuery = query.search || '';
   const categoryQuery = query.category || '';
   const genderQuery = query.gender || '';
+  const priceQuery = query.price?.split(_) || '';
   // const brandQuery = query.brand || '';
   //----------
   const brandQuery = query.brand?.split('_') || '';
@@ -248,6 +249,15 @@ export async function getServerSideProps(ctx) {
           'details.value': {
             $regex: genderQuery,
             $options: 'i',
+          },
+        }
+      : {};
+  const price =
+    priceQuery && priceQuery !== ''
+      ? {
+          'subProducts.sizes.price': {
+            $gte: Number(priceQuery[0]),
+            $lte: Number(priceQuery[1]),
           },
         }
       : {};
