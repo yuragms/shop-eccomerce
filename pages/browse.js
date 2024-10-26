@@ -40,6 +40,7 @@ export default function browse({
     pattern,
     material,
     gender,
+    price,
   }) => {
     const path = router.pathname;
     const { query } = router;
@@ -52,6 +53,7 @@ export default function browse({
     if (pattern) query.pattern = pattern;
     if (material) query.material = material;
     if (gender) query.gender = gender;
+    if (price) query.price = price;
     router.push({
       pathname: path,
       query: query,
@@ -93,6 +95,21 @@ export default function browse({
       filter({ gender });
     }
   };
+  const priceHandler = (price, type) => {
+    let priceQuery = router.query.price?.split('_') || '';
+    let min = priceQuery[0] || '';
+    let max = priceQuery[1] || '';
+    let newPrice = '';
+    if (type == 'min') {
+      newPrice = `${price}_${max}`;
+    } else {
+      newPrice = `${min}_${price}`;
+    }
+    filter({ price: newPrice });
+  };
+  const multiPriceHandler = (min, max) => {
+    filter({ price: `${min}_${max}` });
+  };
   return (
     <div className={styles.browse}>
       <Header searchHandler={searchHandler} />
@@ -130,7 +147,10 @@ export default function browse({
             <GenderFilter genderHandler={genderHandler} />
           </div>
           <div className={styles.browse__store_products_wrap}>
-            <HeadingFilters />
+            <HeadingFilters
+              priceHandler={priceHandler}
+              multiPriceHandler={multiPriceHandler}
+            />
             <div className={styles.browse__store_products}>
               {products.map((product) => (
                 <ProductCard product={product} key={product._id} />
@@ -149,7 +169,7 @@ export async function getServerSideProps(ctx) {
   const searchQuery = query.search || '';
   const categoryQuery = query.category || '';
   const genderQuery = query.gender || '';
-  const priceQuery = query.price?.split(_) || '';
+  const priceQuery = query.price?.split('_') || '';
   // const brandQuery = query.brand || '';
   //----------
   const brandQuery = query.brand?.split('_') || '';
@@ -256,8 +276,8 @@ export async function getServerSideProps(ctx) {
     priceQuery && priceQuery !== ''
       ? {
           'subProducts.sizes.price': {
-            $gte: Number(priceQuery[0]),
-            $lte: Number(priceQuery[1]),
+            $gte: Number(priceQuery[0]) || 0,
+            $lte: Number(priceQuery[1]) || Infinity,
           },
         }
       : {};
@@ -287,6 +307,7 @@ export async function getServerSideProps(ctx) {
     ...pattern,
     ...material,
     ...gender,
+    ...price,
   })
     .sort({ createdAt: -1 })
     .lean();
