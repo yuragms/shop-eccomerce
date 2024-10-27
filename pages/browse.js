@@ -110,6 +110,40 @@ export default function browse({
   const multiPriceHandler = (min, max) => {
     filter({ price: `${min}_${max}` });
   };
+  //-----------------------------------------
+  function checkChecked(queryName, value) {
+    if (router.query[queryName]?.search(value) !== -1) {
+      return true;
+    }
+    return false;
+  }
+  function replaceQuery(queryName, value) {
+    const existedQuery = router.query[queryName];
+    const valueCheck = existedQuery?.search(value);
+    const _check = existedQuery?.search('_') == existedQuery?.length - 1;
+    let result = '';
+    if (existedQuery) {
+      if (valueCheck !== -1) {
+        if (_check) {
+          existedQuery?.replace(existedQuery.length, '');
+        }
+        result = existedQuery?.replace(value, '');
+      } else {
+        if (_check) {
+          result = `${existedQuery}${value}`;
+        } else {
+          result = `${existedQuery}_${value}`;
+        }
+      }
+    } else {
+      result = value;
+    }
+    return {
+      result,
+      active: valueCheck !== -1 ? true : false,
+    };
+  }
+
   return (
     <div className={styles.browse}>
       <Header searchHandler={searchHandler} />
@@ -131,10 +165,16 @@ export default function browse({
               categories={categories}
               subCategories={subCategories}
               categoryHandler={categoryHandler}
+              checkChecked={checkChecked}
             />
             <SizesFilter sizes={sizes} sizeHandler={sizeHandler} />
             <ColorsFilter colors={colors} colorHandler={colorHandler} />
-            <BrandsFilter brands={brands} brandHandler={brandHandler} />
+            <BrandsFilter
+              brands={brands}
+              brandHandler={brandHandler}
+              checkChecked={checkChecked}
+              replaceQuery={replaceQuery}
+            />
             <StylesFilter data={stylesData} styleHandler={styleHandler} />
             <PatternsFilter
               patterns={patterns}
@@ -290,6 +330,7 @@ export async function getServerSideProps(ctx) {
     }
     return styleRegex;
   }
+
   await db.connectDb();
   // let productsDb = await Product.find({
   //   name: {

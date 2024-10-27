@@ -3,13 +3,14 @@ import { FaMinus } from 'react-icons/fa';
 import { BsPlusLg } from 'react-icons/bs';
 import { useState } from 'react';
 
-export default function Card({ category, categoryHandler }) {
+export default function Card({ category, categoryHandler, checkChecked }) {
   const [show, setShow] = useState(false);
+  const check = checkChecked('category', category._id);
   return (
     <>
       <section>
-        <li onClick={() => categoryHandler(category._id)}>
-          <input type="radio" name="filter" id={category._id} />
+        <li onClick={() => categoryHandler(check ? {} : category._id)}>
+          <input type="radio" name="filter" id={category._id} checked={check} />
           <label htmlFor={category._id}>
             <a>{category.name}</a>
           </label>

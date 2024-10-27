@@ -8,6 +8,7 @@ export default function CategoryFilter({
   categories,
   subCategories,
   categoryHandler,
+  checkChecked,
 }) {
   const [show, setShow] = useState(true);
   return (
@@ -22,6 +23,7 @@ export default function CategoryFilter({
             subCategories={subCategories}
             category={category}
             categoryHandler={categoryHandler}
+            checkChecked={checkChecked}
           />
         ))}
     </div>

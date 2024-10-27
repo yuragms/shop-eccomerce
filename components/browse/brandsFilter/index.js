@@ -4,9 +4,14 @@ import { FaMinus } from 'react-icons/fa';
 import { BsPlusLg } from 'react-icons/bs';
 import { useRouter } from 'next/router';
 
-export default function BrandsFilter({ brands, brandHandler }) {
+export default function BrandsFilter({
+  brands,
+  brandHandler,
+  checkChecked,
+  replaceQuery,
+}) {
   const router = useRouter();
-  const existedBrand = router.query.brand || '';
+  // const existedBrand = router.query.brand || '';
   const [show, setShow] = useState(true);
 
   return (
@@ -16,20 +21,24 @@ export default function BrandsFilter({ brands, brandHandler }) {
       </h3>
       {show && (
         <div className={styles.filter__sizes}>
-          {brands.map((brand, i) => (
-            <button
-              className={styles.filter__brand}
-              // onClick={() => brandHandler(brand)}
-              onClick={() =>
-                brandHandler(
-                  `${existedBrand ? `${existedBrand}_${brand}` : brand}`
-                  // style
-                )
-              }
-            >
-              <img src={`../../../images/brands/${brand.trim()}.png`} alt="" />
-            </button>
-          ))}
+          {brands.map((brand, i) => {
+            // const check = checkChecked('brand', brand);
+            const check = replaceQuery('brand', brand);
+            return (
+              <button
+                className={`${styles.filter__brand} ${
+                  check.active ? styles.activeFilter : ''
+                }`}
+                // onClick={() => brandHandler(brand)}
+                onClick={() => brandHandler(check.result)}
+              >
+                <img
+                  src={`../../../images/brands/${brand.trim()}.png`}
+                  alt=""
+                />
+              </button>
+            );
+          })}
         </div>
       )}
     </div>
