@@ -117,20 +117,48 @@ export default function browse({
     }
     return false;
   }
+  // function replaceQuery(queryName, value) {
+  //   const existedQuery = router.query[queryName];
+  //   const valueCheck = existedQuery?.search(value);
+  //   const _check = existedQuery?.search(`_$(value)`);
+  //   let result = '';
+  //   if (existedQuery) {
+  //     if (valueCheck !== -1) {
+  //       if (_check !== -1) {
+  //         existedQuery?.replace(`_${value}`, '');
+  //       } else if (valueCheck == 0) {
+  //         existedQuery?.replace(`${value}_`, '');
+  //       } else {
+  //         result = existedQuery?.replace(value, '');
+  //       }
+  //     } else {
+  //       result = `${existedQuery}_${value}`;
+  //     }
+  //   } else {
+  //     result = value;
+  //   }
+  //   return {
+  //     result,
+  //     active: valueCheck && valueCheck !== -1 ? true : false,
+  //   };
+  // }
   function replaceQuery(queryName, value) {
     const existedQuery = router.query[queryName];
     const valueCheck = existedQuery?.search(value);
-    const _check = existedQuery?.search('_') == existedQuery?.length - 1;
+    const _check = existedQuery?.search(`_${value}`);
     let result = '';
     if (existedQuery) {
-      if (valueCheck !== -1) {
-        if (_check) {
-          existedQuery?.replace(existedQuery.length, '');
-        }
-        result = existedQuery?.replace(value, '');
+      if (existedQuery == value) {
+        result = {};
       } else {
-        if (_check) {
-          result = `${existedQuery}${value}`;
+        if (valueCheck !== -1) {
+          if (_check !== -1) {
+            result = existedQuery?.replace(`_${value}`, '');
+          } else if (valueCheck == 0) {
+            result = existedQuery?.replace(`${value}_`, '');
+          } else {
+            result = existedQuery?.replace(value, '');
+          }
         } else {
           result = `${existedQuery}_${value}`;
         }
@@ -140,7 +168,7 @@ export default function browse({
     }
     return {
       result,
-      active: valueCheck !== -1 ? true : false,
+      active: existedQuery && valueCheck !== -1 ? true : false,
     };
   }
 
