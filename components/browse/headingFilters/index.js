@@ -141,26 +141,26 @@ export default function HeadingFilters({
             }}
           >
             <li>
-              <Link href="">
+              <a>
                 <b>
                   Recommend <BsCheckLg />
                 </b>
-              </Link>
+              </a>
             </li>
             <li>
-              <Link href="">Most Popular</Link>
+              <a>Most Popular</a>
             </li>
             <li>
-              <Link href="">New Arrivals</Link>
+              <a>New Arrivals</a>
             </li>
             <li>
-              <Link href="">Top Reviewed</Link>
+              <a>Top Selling</a>
             </li>
             <li>
-              <Link href="">Price (low to high)</Link>
+              <a>Price (low to high)</a>
             </li>
             <li>
-              <Link href="">Price (low to low)</Link>
+              <a>Price (low to low)</a>
             </li>
           </ul>
         </div>

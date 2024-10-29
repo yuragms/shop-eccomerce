@@ -43,6 +43,7 @@ export default function browse({
     price,
     shipping,
     rating,
+    sort,
   }) => {
     const path = router.pathname;
     const { query } = router;
@@ -58,6 +59,7 @@ export default function browse({
     if (price) query.price = price;
     if (shipping) query.shipping = shipping;
     if (rating) query.rating = rating;
+    if (sort) query.sort = sort;
 
     router.push({
       pathname: path,
@@ -120,6 +122,9 @@ export default function browse({
   };
   const ratingHandler = (rating) => {
     filter({ rating });
+  };
+  const sortHandler = (sort) => {
+    filter({ sort });
   };
   //-----------------------------------------
   function checkChecked(queryName, value) {
@@ -268,6 +273,7 @@ export async function getServerSideProps(ctx) {
   const priceQuery = query.price?.split('_') || '';
   const shippingQuery = query.shipping || 0;
   const ratingQuery = query.rating || 0;
+  const sortQuery = query.sort || '';
   // const brandQuery = query.brand || '';
   //----------
   const brandQuery = query.brand?.split('_') || '';
@@ -384,9 +390,25 @@ export async function getServerSideProps(ctx) {
     ratingQuery && ratingQuery !== ''
       ? {
           rating: {
-            $gte: ratingQuery,
+            $gte: Number(ratingQuery),
           },
         }
+      : {};
+  const sort =
+    sortQuery == ''
+      ? {}
+      : sortQuery == 'popular'
+      ? { 'subProducts.sold': -1, rating: -1 }
+      : sortQuery == 'newest'
+      ? { createdAt: -1 }
+      : sortQuery == 'topSelling'
+      ? { 'subProducts.sold': -1 }
+      : sortQuery == 'topReviewed'
+      ? { rating: -1 }
+      : sortQuery == 'priceHighToLow'
+      ? { 'subProducts.sizes.price': -1 }
+      : sortQuery == 'priceLowToHigh'
+      ? { 'subProducts.sizes.price': 1 }
       : {};
   //---------------------------------------------
   function createRegex(data, styleRegex) {
@@ -419,9 +441,12 @@ export async function getServerSideProps(ctx) {
     ...shipping,
     ...rating,
   })
-    .sort({ createdAt: -1 })
+    // .sort({ createdAt: -1 })
+    .sort(sort)
     .lean();
-  let products = randomize(productsDb);
+  // let products = randomize(productsDb);
+  let products =
+    sortQuery && sortQuery !== '' ? productsDb : randomize(productsDb);
   let categories = await Category.find().lean();
   let subCategories = await SubCategory.find()
     .populate({
