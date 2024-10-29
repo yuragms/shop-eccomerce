@@ -7,9 +7,20 @@ import Link from 'next/link';
 import { BsCheckLg } from 'react-icons/bs';
 import { useRouter } from 'next/router';
 
-export default function HeadingFilters({ priceHandler, multiPriceHandler }) {
+export default function HeadingFilters({
+  priceHandler,
+  multiPriceHandler,
+  shippingHandler,
+  replaceQuery,
+  ratingHandler,
+}) {
   const router = useRouter();
   const [show, setShow] = useState(false);
+  const check = replaceQuery(
+    'shipping',
+    router.query.shipping == '0' ? false : '0'
+  );
+  const checkRating = replaceQuery('rating', '4');
   return (
     <div className={styles.filters}>
       <div className={styles.filters__price}>
@@ -81,12 +92,28 @@ export default function HeadingFilters({ priceHandler, multiPriceHandler }) {
           </button>
         </Tooltip>
       </div>
-      <div className={styles.filters__shipping}>
-        <input type="checkbox" name="shipping" id="shipping" />
+      <div
+        className={styles.filters__shipping}
+        onClick={() => shippingHandler(check.result)}
+      >
+        <input
+          type="checkbox"
+          name="shipping"
+          id="shipping"
+          checked={router.query.shipping == '0'}
+        />
         <label htmlFor="shipping">Free Shipping</label>
       </div>
-      <div className={styles.filters__rating}>
-        <input type="checkbox" name="rating" id="rating" />
+      <div
+        className={styles.filters__rating}
+        onClick={() => ratingHandler(checkRating.result)}
+      >
+        <input
+          type="checkbox"
+          name="rating"
+          id="rating"
+          checked={router.query.rating == '4'}
+        />
         <label htmlFor="rating">
           <AiTwotoneStar />
           <AiTwotoneStar />

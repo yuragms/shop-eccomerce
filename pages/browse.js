@@ -41,6 +41,8 @@ export default function browse({
     material,
     gender,
     price,
+    shipping,
+    rating,
   }) => {
     const path = router.pathname;
     const { query } = router;
@@ -54,6 +56,9 @@ export default function browse({
     if (material) query.material = material;
     if (gender) query.gender = gender;
     if (price) query.price = price;
+    if (shipping) query.shipping = shipping;
+    if (rating) query.rating = rating;
+
     router.push({
       pathname: path,
       query: query,
@@ -109,6 +114,12 @@ export default function browse({
   };
   const multiPriceHandler = (min, max) => {
     filter({ price: `${min}_${max}` });
+  };
+  const shippingHandler = (shipping) => {
+    filter({ shipping });
+  };
+  const ratingHandler = (rating) => {
+    filter({ rating });
   };
   //-----------------------------------------
   function checkChecked(queryName, value) {
@@ -232,6 +243,9 @@ export default function browse({
             <HeadingFilters
               priceHandler={priceHandler}
               multiPriceHandler={multiPriceHandler}
+              shippingHandler={shippingHandler}
+              replaceQuery={replaceQuery}
+              ratingHandler={ratingHandler}
             />
             <div className={styles.browse__store_products}>
               {products.map((product) => (
@@ -252,6 +266,8 @@ export async function getServerSideProps(ctx) {
   const categoryQuery = query.category || '';
   const genderQuery = query.gender || '';
   const priceQuery = query.price?.split('_') || '';
+  const shippingQuery = query.shipping || 0;
+  const ratingQuery = query.rating || 0;
   // const brandQuery = query.brand || '';
   //----------
   const brandQuery = query.brand?.split('_') || '';
@@ -363,6 +379,15 @@ export async function getServerSideProps(ctx) {
           },
         }
       : {};
+  const shipping = shippingQuery && shippingQuery == '0' ? { shipping: 0 } : {};
+  const rating =
+    ratingQuery && ratingQuery !== ''
+      ? {
+          rating: {
+            $gte: ratingQuery,
+          },
+        }
+      : {};
   //---------------------------------------------
   function createRegex(data, styleRegex) {
     if (data.length > 1) {
@@ -391,6 +416,8 @@ export async function getServerSideProps(ctx) {
     ...material,
     ...gender,
     ...price,
+    ...shipping,
+    ...rating,
   })
     .sort({ createdAt: -1 })
     .lean();
