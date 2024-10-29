@@ -8,7 +8,8 @@ export default function CategoryFilter({
   categories,
   subCategories,
   categoryHandler,
-  checkChecked,
+  replaceQuery,
+  // checkChecked,
 }) {
   const [show, setShow] = useState(true);
   return (
@@ -23,7 +24,8 @@ export default function CategoryFilter({
             subCategories={subCategories}
             category={category}
             categoryHandler={categoryHandler}
-            checkChecked={checkChecked}
+            replaceQuery={replaceQuery}
+            // checkChecked={checkChecked}
           />
         ))}
     </div>

@@ -4,9 +4,9 @@ import { FaMinus } from 'react-icons/fa';
 import { BsPlusLg } from 'react-icons/bs';
 import { useRouter } from 'next/router';
 
-export default function ColorsFilter({ colors, colorHandler }) {
-  const router = useRouter();
-  const existedColor = router.query.color || '';
+export default function ColorsFilter({ colors, colorHandler, replaceQuery }) {
+  // const router = useRouter();
+  // const existedColor = router.query.color || '';
   const [show, setShow] = useState(true);
   return (
     <div className={styles.filter}>
@@ -15,17 +15,16 @@ export default function ColorsFilter({ colors, colorHandler }) {
       </h3>
       {show && (
         <div className={styles.filter__colors}>
-          {colors.map((color, i) => (
-            <button
-              onClick={() =>
-                colorHandler(
-                  `${existedColor ? `${existedColor}_${color}` : color}`
-                  // style
-                )
-              }
-              style={{ background: `${color}` }}
-            ></button>
-          ))}
+          {colors.map((color, i) => {
+            const check = replaceQuery('color', color);
+            return (
+              <button
+                onClick={() => colorHandler(check.result)}
+                className={check.active ? styles.activeFilterColor : ''}
+                style={{ background: `${color}` }}
+              ></button>
+            );
+          })}
         </div>
       )}
     </div>

@@ -193,26 +193,40 @@ export default function browse({
               categories={categories}
               subCategories={subCategories}
               categoryHandler={categoryHandler}
-              checkChecked={checkChecked}
+              // checkChecked={checkChecked}
+              replaceQuery={replaceQuery}
             />
             <SizesFilter sizes={sizes} sizeHandler={sizeHandler} />
-            <ColorsFilter colors={colors} colorHandler={colorHandler} />
+            <ColorsFilter
+              colors={colors}
+              colorHandler={colorHandler}
+              replaceQuery={replaceQuery}
+            />
             <BrandsFilter
               brands={brands}
               brandHandler={brandHandler}
               checkChecked={checkChecked}
               replaceQuery={replaceQuery}
             />
-            <StylesFilter data={stylesData} styleHandler={styleHandler} />
+            <StylesFilter
+              data={stylesData}
+              styleHandler={styleHandler}
+              replaceQuery={replaceQuery}
+            />
             <PatternsFilter
               patterns={patterns}
               patternHandler={patternHandler}
+              replaceQuery={replaceQuery}
             />
             <MaterialsFilter
               materials={materials}
               materialHandler={materialHandler}
+              replaceQuery={replaceQuery}
             />
-            <GenderFilter genderHandler={genderHandler} />
+            <GenderFilter
+              genderHandler={genderHandler}
+              replaceQuery={replaceQuery}
+            />
           </div>
           <div className={styles.browse__store_products_wrap}>
             <HeadingFilters
