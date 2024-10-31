@@ -18,6 +18,7 @@ import GenderFilter from '@/components/browse/genderFilter';
 import HeadingFilters from '@/components/browse/headingFilters';
 import { useRouter } from 'next/router';
 import { Pagination } from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
 
 export default function browse({
   products,
@@ -198,24 +199,55 @@ export default function browse({
       active: existedQuery && valueCheck !== -1 ? true : false,
     };
   }
-
+  //-----------------------
+  const [scrollY, setScrollY] = useState(0);
+  const [height, setHeight] = useState(0);
+  const headerRef = useRef(null);
+  const el = useRef(null);
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll);
+    setHeight(headerRef.current?.offsetHeight + el.current?.offsetHeight);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+  //-----------------------
   return (
     <div className={styles.browse}>
-      <Header searchHandler={searchHandler} />
+      <div ref={headerRef}>
+        <Header searchHandler={searchHandler} />
+      </div>
+
       <div className={styles.browse__container}>
-        <div className={styles.browse__path}>Home / Browse</div>
-        <div className={styles.browse__tags}>
-          {categories.map((c) => (
-            <Link href="" key={c._id}>
-              {c.name}
-            </Link>
-          ))}
+        <div ref={el}>
+          <div className={styles.browse__path}>Home / Browse</div>
+          <div className={styles.browse__tags}>
+            {categories.map((c) => (
+              <Link href="" key={c._id}>
+                {c.name}
+              </Link>
+            ))}
+          </div>
         </div>
-        <div className={styles.browse__store}>
+
+        <div
+          className={`${styles.browse__store} ${
+            scrollY >= height ? styles.fixed : ''
+          }`}
+        >
           <div
             className={`${styles.browse__store_filters} ${styles.scrollbar}`}
           >
-            <button className={styles.browse__clearBtn}>Clear All (3)</button>
+            <button
+              className={styles.browse__clearBtn}
+              onClick={() => router.push('/browse')}
+            >
+              Clear All ({Object.keys(router.query).length})
+            </button>
             <CategoryFilter
               categories={categories}
               subCategories={subCategories}
