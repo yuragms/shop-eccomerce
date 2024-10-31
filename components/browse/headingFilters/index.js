@@ -13,6 +13,7 @@ export default function HeadingFilters({
   shippingHandler,
   replaceQuery,
   ratingHandler,
+  sortHandler,
 }) {
   const router = useRouter();
   const [show, setShow] = useState(false);
@@ -21,6 +22,7 @@ export default function HeadingFilters({
     router.query.shipping == '0' ? false : '0'
   );
   const checkRating = replaceQuery('rating', '4');
+  const sortQuery = router.query.sort || '';
   return (
     <div className={styles.filters}>
       <div className={styles.filters__price}>
@@ -124,47 +126,106 @@ export default function HeadingFilters({
       <div className={styles.filters__sort}>
         <span>Sort by</span>
         <div className={styles.filters__sort_list}>
-          <button
+          <div
             onMouseOver={() => setShow(true)}
             onMouseLeave={() => setShow(false)}
           >
-            Recomend
-            <div
-              style={{ transform: `${show ? 'rotate(180deg)' : 'rotate(0'}` }}
+            ,
+            <button>
+              {sortQuery == ''
+                ? 'Recommend'
+                : sortingOptions.find((x) => x.value == sortQuery).name}
+              <div
+                style={{ transform: `${show ? 'rotate(180deg)' : 'rotate(0'}` }}
+              >
+                <IoIosArrowDown />
+              </div>
+            </button>
+            <ul
+              // onMouseLeave={() => setShow(false)}
+              style={{
+                transform: `${show ? 'scale3d(1,1,1)' : 'scale3d(1,0,1)'}`,
+              }}
             >
-              <IoIosArrowDown />
-            </div>
-          </button>
-          <ul
-            style={{
-              transform: `${show ? 'scale3d(1,1,1)' : 'scale3d(1,0,1)'}`,
-            }}
-          >
-            <li>
-              <a>
-                <b>
-                  Recommend <BsCheckLg />
-                </b>
-              </a>
-            </li>
-            <li>
-              <a>Most Popular</a>
-            </li>
-            <li>
-              <a>New Arrivals</a>
-            </li>
-            <li>
-              <a>Top Selling</a>
-            </li>
-            <li>
-              <a>Price (low to high)</a>
-            </li>
-            <li>
-              <a>Price (low to low)</a>
-            </li>
-          </ul>
+              {sortingOptions.map((option, i) => (
+                <li key={i} onClick={() => sortHandler(option.value)}>
+                  <a>
+                    {sortQuery == option.value ? (
+                      <b>{option.name}</b>
+                    ) : (
+                      option.name
+                    )}{' '}
+                    {sortQuery == option.value ? <BsCheckLg /> : ''}
+                    {sortQuery !== option.value ? (
+                      <div className={styles.check}>
+                        <BsCheckLg />
+                      </div>
+                    ) : (
+                      ''
+                    )}
+                  </a>
+                </li>
+              ))}
+              {/* <li onClick={() => sortHandler('')}>
+                <a>
+                  <b>
+                    Recommend <BsCheckLg />
+                  </b>
+                </a>
+              </li>
+              <li onClick={() => sortHandler('popular')}>
+                <a>Most Popular</a>
+              </li>
+              <li onClick={() => sortHandler('newest')}>
+                <a>New Arrivals</a>
+              </li>
+              <li onClick={() => sortHandler('topSelling')}>
+                <a>Top Selling</a>
+              </li>
+              <li onClick={() => sortHandler('topReviewed')}>
+                <a>Top Selling</a>
+              </li>
+              <li onClick={() => sortHandler('priceLowToHigh')}>
+                <a>Price (low to high)</a>
+              </li>
+              <li onClick={() => sortHandler('priceHighToLow')}>
+                <a>Price (high to low)</a>
+              </li> */}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   );
 }
+
+const sortingOptions = [
+  {
+    name: 'Recommend',
+    value: '',
+  },
+  {
+    name: 'Most Popular',
+    value: 'popular',
+  },
+  {
+    name: 'New Arrivals',
+    value: 'newest',
+  },
+  {
+    name: 'Top Selling',
+    value: 'topSelling',
+  },
+  {
+    name: 'Top Reviewed',
+    value: 'topReviewed',
+  },
+  {
+    name: 'Price (low to high)',
+    value: 'priceLowToHight',
+  },
+  {
+    name: 'Price (high to low)',
+    value: 'priceHighToLow',
+  },
+];

@@ -27,7 +27,7 @@
       align-items: center;
       button {
         height: 40px;
-        width: 170px;
+        width: 180px;
         display: flex;
         align-items: center;
         justify-content: space-around;
@@ -60,13 +60,19 @@
           svg {
             margin-top: 2px;
           }
-          b {
+          a {
             display: flex;
             align-items: center;
             justify-content: space-between;
           }
+          .check {
+            display: none;
+          }
           &:hover {
             font-weight: 600;
+            .check {
+              display: block;
+            }
           }
         }
       }

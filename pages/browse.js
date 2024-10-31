@@ -124,7 +124,11 @@ export default function browse({
     filter({ rating });
   };
   const sortHandler = (sort) => {
-    filter({ sort });
+    if (sort == '') {
+      filter({ sort: {} });
+    } else {
+      filter({ sort });
+    }
   };
   //-----------------------------------------
   function checkChecked(queryName, value) {
@@ -251,6 +255,7 @@ export default function browse({
               shippingHandler={shippingHandler}
               replaceQuery={replaceQuery}
               ratingHandler={ratingHandler}
+              sortHandler={sortHandler}
             />
             <div className={styles.browse__store_products}>
               {products.map((product) => (
@@ -398,7 +403,7 @@ export async function getServerSideProps(ctx) {
     sortQuery == ''
       ? {}
       : sortQuery == 'popular'
-      ? { 'subProducts.sold': -1, rating: -1 }
+      ? { rating: -1, 'subProducts.sold': -1 }
       : sortQuery == 'newest'
       ? { createdAt: -1 }
       : sortQuery == 'topSelling'
