@@ -17,6 +17,7 @@ import MaterialsFilter from '@/components/browse/materialsFilter';
 import GenderFilter from '@/components/browse/genderFilter';
 import HeadingFilters from '@/components/browse/headingFilters';
 import { useRouter } from 'next/router';
+import { Pagination } from '@mui/material';
 
 export default function browse({
   products,
@@ -28,6 +29,7 @@ export default function browse({
   stylesData,
   patterns,
   materials,
+  paginationCount,
 }) {
   const router = useRouter();
   const filter = ({
@@ -44,6 +46,7 @@ export default function browse({
     shipping,
     rating,
     sort,
+    page,
   }) => {
     const path = router.pathname;
     const { query } = router;
@@ -60,6 +63,7 @@ export default function browse({
     if (shipping) query.shipping = shipping;
     if (rating) query.rating = rating;
     if (sort) query.sort = sort;
+    if (page) query.page = page;
 
     router.push({
       pathname: path,
@@ -129,6 +133,9 @@ export default function browse({
     } else {
       filter({ sort });
     }
+  };
+  const pageHandler = (e, page) => {
+    filter({ page });
   };
   //-----------------------------------------
   function checkChecked(queryName, value) {
@@ -262,6 +269,15 @@ export default function browse({
                 <ProductCard product={product} key={product._id} />
               ))}
             </div>
+            <div className={styles.pagination}>
+              <Pagination
+                count={paginationCount}
+                defaultPage={Number(router.query.page) || 1}
+                onChange={pageHandler}
+                variant="outlined"
+                color="primary"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -279,6 +295,8 @@ export async function getServerSideProps(ctx) {
   const shippingQuery = query.shipping || 0;
   const ratingQuery = query.rating || 0;
   const sortQuery = query.sort || '';
+  const pageSize = 3;
+  const page = query.page || 1;
   // const brandQuery = query.brand || '';
   //----------
   const brandQuery = query.brand?.split('_') || '';
@@ -447,6 +465,8 @@ export async function getServerSideProps(ctx) {
     ...rating,
   })
     // .sort({ createdAt: -1 })
+    .skip(pageSize * (page - 1))
+    .limit(pageSize)
     .sort(sort)
     .lean();
   // let products = randomize(productsDb);
@@ -474,6 +494,20 @@ export async function getServerSideProps(ctx) {
   let patterns = removeDuplicates(patternsDb);
   let materials = removeDuplicates(materialsDb);
   let brands = removeDuplicates(brandsDb);
+  let totalProducts = await Product.countDocuments({
+    ...search,
+    ...category,
+    ...brand,
+    ...style,
+    ...size,
+    ...color,
+    ...pattern,
+    ...material,
+    ...gender,
+    ...price,
+    ...shipping,
+    ...rating,
+  });
   // console.log(randomize(styles));
   await db.disconnectDb();
   return {
@@ -487,6 +521,7 @@ export async function getServerSideProps(ctx) {
       stylesData: styles,
       patterns,
       materials,
+      paginationCount: Math.ceil(totalProducts / pageSize),
     },
   };
 }
